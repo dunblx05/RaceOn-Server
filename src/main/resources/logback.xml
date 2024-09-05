@@ -1,0 +1,11 @@
+<configuration>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <Pattern>%d - [%level] - [%X{request_id}] - [%logger{5}] - %msg%n</Pattern>
+    </layout>
+  </appender>
+  <root level="${root-level:-INFO}">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+</configuration>
+

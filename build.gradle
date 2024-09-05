@@ -1,0 +1,105 @@
+buildscript {
+	ext {
+		restdocsVersion = '0.19.2'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.2'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+}
+
+group = 'com.723poil'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	asciidoctorExt
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('snippetsDir', file("build/generated-snippets"))
+}
+
+dependencies {
+	// default
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// DB
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// sprint security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// LOG
+	implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+	// restDocs
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	// QueryDsl
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+}
+
+tasks.named('test') {
+	outputs.dir snippetsDir
+//	useJUnitPlatform()
+}
+
+tasks.named('asciidoctor') {
+	configurations 'asciidoctorExt'
+	baseDirFollowsSourceFile()
+	inputs.dir snippetsDir
+	dependsOn test
+}
+
+asciidoctor.doFirst { // asciidoctor Task 수행될 때 가장 먼저 수행
+	delete file('src/main/resources/static/docs')
+}
+
+tasks.register('copyDocument', Copy) { // 생성된 html 파일을 옮긴다
+	dependsOn asciidoctor // Gradle asciidoctor Task 이후 수행
+	from file("${asciidoctor.outputDir}")
+	into file("src/main/resources/static/docs")
+}
+
+build {
+	dependsOn copyDocument // build 이후 html 파일 복사
+}
+
+bootJar {
+	dependsOn asciidoctor
+	from("${asciidoctor.outputDir}") {
+		into 'static/docs'
+	}
+}
+
