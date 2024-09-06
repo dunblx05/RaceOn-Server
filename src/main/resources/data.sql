@@ -1,2 +1,2 @@
-INSERT INTO member(member_email, member_password, member_name)
-VALUES ("leetkdguq73@naver.com", "test", "723poil");
+INSERT INTO member(member_id, nickname, gender, birth_date, profile_image_url, phone_number, role, member_status, created_at, updated_at, deleted_at)
+VALUES (1, "test", "MALE", "1998-11-25", "http://dippin.com/image/url", "01012341234", "NORMAL", "ACTIVE", "2024-09-07 23:13:12", null, null);

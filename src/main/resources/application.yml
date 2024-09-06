@@ -3,11 +3,11 @@ server:
 
 spring:
   application:
-    name: template
+    name: dippin
 
   # MySQL
   datasource:
-    url: jdbc:mysql://localhost:3306/template
+    url: jdbc:mysql://localhost:3306/dippin
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
