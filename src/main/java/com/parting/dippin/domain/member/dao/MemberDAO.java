@@ -1,7 +1,7 @@
 package com.parting.dippin.domain.member.dao;
 
 import com.parting.dippin.domain.member.dto.MemberDto;
-import com.parting.dippin.domain.member.repository.MemberRepository;
+import com.parting.dippin.entity.member.repository.MemberRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

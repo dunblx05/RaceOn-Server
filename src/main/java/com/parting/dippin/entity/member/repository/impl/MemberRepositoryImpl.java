@@ -1,10 +1,10 @@
-package com.parting.dippin.domain.member.repository.impl;
+package com.parting.dippin.entity.member.repository.impl;
 
 
 import static com.parting.dippin.entity.member.QMember.member;
 
 import com.parting.dippin.domain.member.dto.MemberDto;
-import com.parting.dippin.domain.member.repository.QMemberRepository;
+import com.parting.dippin.entity.member.repository.QMemberRepository;
 import com.parting.dippin.entity.member.QMember;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;

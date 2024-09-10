@@ -27,9 +27,9 @@ import lombok.NoArgsConstructor;
 public class Member {
 
     @Id
-    @Column(name = "member_id", columnDefinition = "int(11) unsigned")
+    @Column(name = "member_id", columnDefinition = "int(11)")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int memberId;
+    private Integer memberId;
 
     @Column(name = "nickname", columnDefinition = "varchar(20)", unique = true)
     private String nickname;

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class MemberDto {
-    int memberId;
+    Integer memberId;
 
     public MemberDto(Member member) {
         this.memberId = member.getMemberId();
