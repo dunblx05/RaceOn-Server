@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface IMemberDAO {
 
-    public List<MemberDto> find();
+    public List<MemberDto> getList();
 }

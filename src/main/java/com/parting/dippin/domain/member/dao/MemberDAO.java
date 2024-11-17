@@ -13,7 +13,7 @@ public class MemberDAO implements IMemberDAO {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<MemberDto> find() {
+    public List<MemberDto> getList() {
         return this.memberRepository.findMemberList();
     }
 }

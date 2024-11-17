@@ -1,4 +1,4 @@
-package com.parting.dippin.entity.member.term;
+package com.parting.dippin.entity.friends;
 
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
@@ -9,14 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
 @Embeddable
-public class MemberTermId implements Serializable {
-
+public class FriendsId implements Serializable {
     private Integer memberId;
 
-    private Integer termId;
+    private Integer friendId;
 
-    public MemberTermId(Integer memberId, Integer termId) {
+    public FriendsId(Integer memberId, Integer friendId) {
         this.memberId = memberId;
-        this.termId = termId;
+        this.friendId = friendId;
     }
 }

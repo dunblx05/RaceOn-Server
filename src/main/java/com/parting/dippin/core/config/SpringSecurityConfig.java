@@ -43,8 +43,10 @@ public class SpringSecurityConfig {
 
         // AUTHORIZE POLICY
         http.authorizeHttpRequests(
-            request -> request.requestMatchers("/docs/*").permitAll()
-                .requestMatchers("/*").permitAll()
+            request -> request
+                .requestMatchers("/docs/**").permitAll()
+                .requestMatchers("/**").permitAll()
+                .requestMatchers("/friend/**").permitAll()
                 .anyRequest().authenticated());
 
         // SESSION POLICY

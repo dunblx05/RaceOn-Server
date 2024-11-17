@@ -1,7 +1,6 @@
-package com.parting.dippin.entity.member.term;
+package com.parting.dippin.entity.game.geo;
 
 import jakarta.persistence.Embeddable;
-import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -9,14 +8,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
 @Embeddable
-public class MemberTermId implements Serializable {
+public class GeoCoordinatesId {
+
+    private Integer gameId;
 
     private Integer memberId;
 
-    private Integer termId;
+    private String time;
 
-    public MemberTermId(Integer memberId, Integer termId) {
+    public GeoCoordinatesId(Integer gameId, Integer memberId, String time) {
+        this.gameId = gameId;
         this.memberId = memberId;
-        this.termId = termId;
+        this.time = time;
     }
 }

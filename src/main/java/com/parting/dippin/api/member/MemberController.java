@@ -16,7 +16,7 @@ public class MemberController {
     private final IMemberDAO memberDAO;
 
     @GetMapping()
-    public List<MemberDto> find() {
-        return this.memberDAO.find();
+    public List<MemberDto> getMemberList() {
+        return this.memberDAO.getList();
     }
 }

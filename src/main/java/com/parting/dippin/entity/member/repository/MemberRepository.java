@@ -1,8 +1,8 @@
 package com.parting.dippin.entity.member.repository;
 
-import com.parting.dippin.entity.member.Member;
+import com.parting.dippin.entity.member.MemberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends JpaRepository<Member, Integer>, QMemberRepository {
+public interface MemberRepository extends JpaRepository<MemberEntity, Integer>, QMemberRepository {
 
 }
