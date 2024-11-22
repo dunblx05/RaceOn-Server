@@ -16,4 +16,8 @@ public class BaseResponse<T> {
 
         return new BaseResponse<T>().setData(data);
     }
+
+    public static BaseResponse success() {
+        return new BaseResponse();
+    }
 }

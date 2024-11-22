@@ -6,4 +6,6 @@ import java.util.List;
 public interface QFriendsRepository {
 
     public List<FriendDto> findByMemberId(Integer memberId);
+
+    public boolean existsFriendsByMyMemberIdAndMemberId(int myMemberId, int memberId);
 }

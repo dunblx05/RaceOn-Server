@@ -13,7 +13,7 @@ public class MemberDAO implements IMemberDAO {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<MemberDto> getList() {
-        return this.memberRepository.findMemberList();
+    public List<MemberDto> getMembers(String nickname, int myMemberId) {
+        return this.memberRepository.findMemberAndIsFriendByNicknameAndMemberId(nickname, myMemberId);
     }
 }

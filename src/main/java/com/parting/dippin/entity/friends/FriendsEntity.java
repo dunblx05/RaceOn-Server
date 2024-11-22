@@ -1,6 +1,7 @@
 package com.parting.dippin.entity.friends;
 
 import com.parting.dippin.core.base.BaseEntity;
+import com.parting.dippin.domain.friend.Friend;
 import com.parting.dippin.entity.member.MemberEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -12,6 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,4 +43,21 @@ public class FriendsEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "friend_id")
     private MemberEntity friend;
+
+    public static List<FriendsEntity> from(Friend friend) {
+         List<FriendsEntity> entities = new ArrayList<>();
+
+         FriendsEntity entity1 = new FriendsEntity();
+         entity1.friendId = friend.getFriendId();
+         entity1.memberId = friend.getMemberId();
+
+        FriendsEntity entity2 = new FriendsEntity();
+        entity2.friendId = friend.getMemberId();
+        entity2.memberId = friend.getFriendId();
+
+        entities.add(entity1);
+        entities.add(entity2);
+
+        return entities;
+    }
 }

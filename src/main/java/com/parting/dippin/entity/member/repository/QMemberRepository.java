@@ -5,5 +5,6 @@ import java.util.List;
 
 public interface QMemberRepository {
 
-    public List<MemberDto> findMemberList();
+    public List<MemberDto> findMemberAndIsFriendByNicknameAndMemberId(String nickname,
+        int myMemberId);
 }

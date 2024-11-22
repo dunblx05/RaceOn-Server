@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface IMemberDAO {
 
-    public List<MemberDto> getList();
+    public List<MemberDto> getMembers(String nickname, int myMemberId);
 }

@@ -13,7 +13,7 @@ public class FriendDAO implements IFriendDAO {
     private final FriendsRepository friendsRepository;
 
     @Override
-    public List<FriendDto> getFriendList(Integer memberId) {
+    public List<FriendDto> getFriends(int memberId) {
         return this.friendsRepository.findByMemberId(memberId);
     }
 }

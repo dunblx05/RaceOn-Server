@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface IFriendDAO {
 
-    public List<FriendDto> getFriendList(Integer memberId);
+    public List<FriendDto> getFriends(int memberId);
 }

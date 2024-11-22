@@ -2,21 +2,14 @@ package com.parting.dippin.friend;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseBody;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.parting.dippin.api.friend.FriendController;
-import com.parting.dippin.domain.friend.dao.IFriendDAO;
+import com.parting.dippin.api.friend.service.FriendReader;
+import com.parting.dippin.api.friend.service.FriendService;
 import com.parting.dippin.domain.friend.dto.FriendDto;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,27 +33,33 @@ class FriendControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IFriendDAO friendDAO;
+    private FriendReader friendReader;
+
+    @MockBean
+    private FriendService friendService;
 
     @DisplayName("친구 목록 조회")
     @Test
-    void getFriendList() throws Exception {
+    void getFriends() throws Exception {
         // given
-        List<FriendDto> friendDtoList = new ArrayList<>();
-        friendDtoList.add(new FriendDto(2, "test2"));
-        friendDtoList.add(new FriendDto(3, "test3"));
+        List<FriendDto> friends = new ArrayList<>();
+        friends.add(new FriendDto(2, "test2"));
+        friends.add(new FriendDto(3, "test3"));
 
-        given(friendDAO.getFriendList(1)).willReturn(friendDtoList);
+        given(friendReader.getFriends(1)).willReturn(friends);
 
         // when & then
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/friend/{memberId}", 1))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/friends"))
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("get-friends",
-                pathParameters(parameterWithName("memberId").description("회원 ID")),
-                responseFields(fieldWithPath("data").type(JsonFieldType.ARRAY).description("친구 목록 데이터"),
-                    fieldWithPath("data[].friendId").type(JsonFieldType.NUMBER).description("-- 친구 ID"),
-                    fieldWithPath("data[].friendNickname").type(JsonFieldType.STRING).description("-- 친구 닉네임")
+                responseFields(
+                    fieldWithPath("data").type(JsonFieldType.OBJECT).description("데이터"),
+                    fieldWithPath("data.friends").type(JsonFieldType.ARRAY).description("+ 친구 목록 데이터"),
+                    fieldWithPath("data.friends[].friendId").type(JsonFieldType.NUMBER)
+                        .description("++ 친구 ID"),
+                    fieldWithPath("data.friends[].friendNickname").type(JsonFieldType.STRING)
+                        .description("++ 친구 닉네임")
                 )));
     }
 }
