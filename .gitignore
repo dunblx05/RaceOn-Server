@@ -2,3 +2,5 @@
 build
 .idea
 src/main/resources/static/docs
+
+out
