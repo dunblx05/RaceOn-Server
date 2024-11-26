@@ -2,5 +2,6 @@
 build
 .idea
 src/main/resources/static/docs
+.env
 
 out

@@ -24,7 +24,7 @@ public class FriendsRepositoryImpl extends QuerydslRepositorySupport
     }
 
     @Override
-    public List<FriendDto> findByMemberId(Integer memberId) {
+    public List<FriendDto> findByMemberId(int memberId) {
         return jpaQueryFactory
             .select(Projections.constructor(FriendDto.class, memberEntity, friendsEntity))
             .from(friendsEntity)

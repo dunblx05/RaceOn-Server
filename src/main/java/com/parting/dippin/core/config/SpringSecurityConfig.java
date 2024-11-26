@@ -1,6 +1,10 @@
 package com.parting.dippin.core.config;
 
+import com.parting.dippin.core.common.auth.JwtAccessDeniedHandler;
+import com.parting.dippin.core.common.auth.JwtAuthenticationEntryPoint;
+import com.parting.dippin.core.common.auth.TokenProvider;
 import java.util.Collections;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -16,10 +20,15 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SpringSecurityConfig {
 
+    private final TokenProvider tokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
     CorsConfigurationSource corsConfigurationSource() {
-        return ruquest -> {
+        return request -> {
             CorsConfiguration config = new CorsConfiguration();
             config.setAllowedHeaders(Collections.singletonList("*"));
             config.setAllowedMethods(Collections.singletonList("*"));
@@ -35,7 +44,7 @@ public class SpringSecurityConfig {
         // HTTP BASIC POLICY
         http.httpBasic(HttpBasicConfigurer::disable);
 
-        // CRSF POLICY
+        // CSRF POLICY
         http.csrf(AbstractHttpConfigurer::disable);
 
         // CORS POLICY
@@ -43,17 +52,23 @@ public class SpringSecurityConfig {
 
         // AUTHORIZE POLICY
         http.authorizeHttpRequests(
-            request -> request
-                .requestMatchers("/docs/**").permitAll()
-                .requestMatchers("/**").permitAll()
-                .requestMatchers("/friend/**").permitAll()
-                .anyRequest().authenticated());
+                request -> request
+                        .requestMatchers("/docs/**").permitAll()
+                        .requestMatchers("/hello").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
+                        .anyRequest().authenticated());
 
         // SESSION POLICY
         http.sessionManagement(
-            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        // TODO - JWT FILTER POLICY
+        // JWT POLICY
+        http.with(new JwtSecurityConfig(tokenProvider), customizer -> {});
+
+        // EXCEPTION HANDLING POLICY
+        http.exceptionHandling(handler -> handler
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler));
 
         return http.build();
     }

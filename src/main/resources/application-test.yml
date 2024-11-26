@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: running
+
+  # MySQL
+  datasource:
+    url: jdbc:mysql://localhost:3306/running-game
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+jwt:
+  secret:
+    key: 27a6feefa7406109d07dab3e68c0ef716c9c3532669c170e9ba1c4fc03deb262de5a3e8010b381b969878cdc4b91eb7a2f50ed2a86be17ddccc352d3238b52002ced990a5321d1a308b4af4a847652e9e50ba4208822ccde44b5af72b9e71750843a447b2ad40848a05a19cd87de4b4b5fa55cf2cbf52790beda38e453b525d444671e846c8cc469364dd1a80e48f4db98039b3f5a946a4076c65488764b6d4473a542835bbafb4d1d14d70452728e933df41892b0abdad415c0b1dcbe4add753709aedce7fab3d30aaecd05b5a70bcb913f73b698225982529e9c34229440b010b5c451264930122f7b6f9d09689cc20c22e6ac4d7a1014760c73c7c1686e2d

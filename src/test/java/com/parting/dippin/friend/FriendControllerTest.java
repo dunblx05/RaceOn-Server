@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs
 @WebMvcTest(controllers = FriendController.class)
-@WithMockUser
+@WithMockUser(username = "1")
 class FriendControllerTest {
 
     @Autowired
@@ -54,6 +54,8 @@ class FriendControllerTest {
             .andExpect(status().isOk())
             .andDo(document("get-friends",
                 responseFields(
+                    fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
+                    fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
                     fieldWithPath("data").type(JsonFieldType.OBJECT).description("데이터"),
                     fieldWithPath("data.friends").type(JsonFieldType.ARRAY).description("+ 친구 목록 데이터"),
                     fieldWithPath("data.friends[].friendId").type(JsonFieldType.NUMBER)

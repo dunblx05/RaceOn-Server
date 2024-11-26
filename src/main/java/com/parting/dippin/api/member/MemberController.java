@@ -3,6 +3,7 @@ package com.parting.dippin.api.member;
 import com.parting.dippin.api.member.dto.GetMembersResDto;
 import com.parting.dippin.api.member.service.MemberReader;
 import com.parting.dippin.core.base.BaseResponse;
+import com.parting.dippin.core.common.annotation.LoggedInMemberId;
 import com.parting.dippin.domain.member.dto.MemberDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,10 @@ public class MemberController {
 
     @GetMapping()
     public BaseResponse<GetMembersResDto> getMembers(
-        @RequestParam String nickname) {
-
-        List<MemberDto> members = this.memberReader.getMembers(nickname, 1);
+            @LoggedInMemberId Integer memberId,
+            @RequestParam String nickname
+    ) {
+        List<MemberDto> members = this.memberReader.getMembers(nickname, memberId);
         GetMembersResDto resDto = new GetMembersResDto(members);
 
         return BaseResponse.success(resDto);
