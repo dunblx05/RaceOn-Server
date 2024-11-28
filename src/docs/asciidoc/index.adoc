@@ -1,0 +1,6 @@
+= API DOCS
+
+최종 업데이트: {docdate} {doctime}
+
+== xref:hello.adoc[HELLO]
+== xref:friend.adoc[Friend]

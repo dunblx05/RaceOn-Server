@@ -1,0 +1,16 @@
+== Friend(Friend)
+
+=== Friend 조회
+include::{snippets}/get-friends/http-request.adoc[]
+
+==== Request
+include::{snippets}/get-friends/request-body.adoc[]
+
+==== Response
+
+include::{snippets}/get-friends/response-body.adoc[]
+
+include::{snippets}/get-friends/response-fields.adoc[]
+
+include::{snippets}/get-friends/http-response.adoc[]
+...

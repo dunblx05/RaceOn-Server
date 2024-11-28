@@ -53,6 +53,7 @@ public class SpringSecurityConfig {
         // AUTHORIZE POLICY
         http.authorizeHttpRequests(
                 request -> request
+                        .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/docs/**").permitAll()
                         .requestMatchers("/hello").permitAll()
                         .requestMatchers("/auth/login").permitAll()
