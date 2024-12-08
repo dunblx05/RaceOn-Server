@@ -25,6 +25,11 @@ spring:
   sql:
     init:
       mode: always
+aws:
+  credentials:
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+  region: ap-northeast-2
 
 jwt:
   secret:

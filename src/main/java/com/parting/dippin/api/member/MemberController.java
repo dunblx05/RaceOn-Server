@@ -1,13 +1,17 @@
 package com.parting.dippin.api.member;
 
 import com.parting.dippin.api.member.dto.GetMembersResDto;
+import com.parting.dippin.api.member.dto.PatchProfileImageResDto;
+import com.parting.dippin.api.member.dto.PatchUpdateProfileReqDto;
 import com.parting.dippin.api.member.service.MemberReader;
+import com.parting.dippin.domain.member.service.ProfileUpdateService;
 import com.parting.dippin.core.base.BaseResponse;
 import com.parting.dippin.core.common.annotation.LoggedInMemberId;
 import com.parting.dippin.domain.member.dto.MemberDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberReader memberReader;
+    private final ProfileUpdateService profileUpdateService;
 
     @GetMapping()
     public BaseResponse<GetMembersResDto> getMembers(
@@ -28,5 +33,22 @@ public class MemberController {
         GetMembersResDto resDto = new GetMembersResDto(members);
 
         return BaseResponse.success(resDto);
+    }
+
+    @PatchMapping("{memberId}/profile-image")
+    public BaseResponse<PatchProfileImageResDto> updateProfileImage() {
+        PatchProfileImageResDto patchProfileImageResDto = profileUpdateService.updateProfileImage();
+
+        return BaseResponse.success(patchProfileImageResDto);
+    }
+
+    @PatchMapping("{memberId}")
+    public BaseResponse<Void> updateProfile(
+            @LoggedInMemberId Integer memberId,
+            PatchUpdateProfileReqDto dto
+    ) {
+        profileUpdateService.updateProfile(memberId, dto.getNewProfileUrl(), dto.getUsername());
+
+        return BaseResponse.success();
     }
 }

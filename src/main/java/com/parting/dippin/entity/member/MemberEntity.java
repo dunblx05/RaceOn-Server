@@ -5,6 +5,7 @@ import com.parting.dippin.entity.friends.FriendsEntity;
 import com.parting.dippin.entity.game.player.GamePlayerEntity;
 import com.parting.dippin.entity.member.enums.MemberStatus;
 import com.parting.dippin.entity.token.FcmTokenEntity;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,6 +20,7 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,10 +35,10 @@ public class MemberEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer memberId;
 
-    @Column(name = "nickname", columnDefinition = "varchar(20)", unique = true)
+    @Column(name = "nickname", columnDefinition = "varchar(20)", unique = true, nullable = false)
     private String nickname;
 
-    @Column(name = "profile_image_url", columnDefinition = "text")
+    @Column(name = "profile_image_url", columnDefinition = "text", nullable = false)
     private String profileImageUrl;
 
     @Enumerated(EnumType.STRING)
@@ -54,4 +56,33 @@ public class MemberEntity extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private List<FriendsEntity> friendsEntities = new ArrayList<>();
+
+    @Builder
+    private MemberEntity(
+            Integer memberId,
+            String nickname,
+            String profileImageUrl,
+            MemberStatus memberStatus,
+            List<FcmTokenEntity> fcmTokenEntities,
+            List<GamePlayerEntity> gamePlayerEntities,
+            List<FriendsEntity> friendsEntities
+    ) {
+        this.memberId = memberId;
+        this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
+        this.memberStatus = memberStatus;
+        this.fcmTokenEntities = fcmTokenEntities;
+        this.gamePlayerEntities = gamePlayerEntities;
+        this.friendsEntities = friendsEntities;
+    }
+
+    public void updateProfile(String newProfileUrl, String newNickname) {
+        if (StringUtils.isNotBlank(newProfileUrl)) {
+            this.profileImageUrl = newProfileUrl;
+        }
+
+        if (StringUtils.isNotBlank(newNickname)) {
+            this.nickname = newNickname;
+        }
+    }
 }
