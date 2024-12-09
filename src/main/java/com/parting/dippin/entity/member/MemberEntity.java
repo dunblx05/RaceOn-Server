@@ -1,9 +1,11 @@
 package com.parting.dippin.entity.member;
 
 import com.parting.dippin.core.base.BaseEntity;
+import com.parting.dippin.domain.member.MemberRegister;
 import com.parting.dippin.entity.friends.FriendsEntity;
 import com.parting.dippin.entity.game.player.GamePlayerEntity;
 import com.parting.dippin.entity.member.enums.MemberStatus;
+import com.parting.dippin.entity.member.enums.SocialProvider;
 import com.parting.dippin.entity.token.FcmTokenEntity;
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
@@ -35,7 +37,7 @@ public class MemberEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer memberId;
 
-    @Column(name = "nickname", columnDefinition = "varchar(20)", unique = true, nullable = false)
+    @Column(name = "nickname", columnDefinition = "varchar(20)", nullable = false)
     private String nickname;
 
     @Column(name = "profile_image_url", columnDefinition = "text", nullable = false)
@@ -44,6 +46,16 @@ public class MemberEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "member_status", columnDefinition = "char(30) default 'ACTIVE'", nullable = false)
     private MemberStatus memberStatus;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "social_provider", columnDefinition = "varchar(10)", nullable = false)
+    private SocialProvider socialProvider;
+
+    @Column(name = "social_id", columnDefinition = "varchar(50)", nullable = false)
+    private String socialId;
+
+    @Column(name = "member_code", columnDefinition = "varchar(6)", nullable = false, unique = true)
+    private String memberCode;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -56,7 +68,7 @@ public class MemberEntity extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private List<FriendsEntity> friendsEntities = new ArrayList<>();
-
+  
     @Builder
     private MemberEntity(
             Integer memberId,
@@ -84,5 +96,22 @@ public class MemberEntity extends BaseEntity {
         if (StringUtils.isNotBlank(newNickname)) {
             this.nickname = newNickname;
         }
+    }
+  
+    public static MemberEntity from(MemberRegister memberRegister) {
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.nickname = memberRegister.getNickname();
+        memberEntity.socialProvider = memberRegister.getSocialProvider();
+        memberEntity.socialId = memberRegister.getSocialId();
+        memberEntity.memberCode = memberRegister.getMemberCode();
+
+        return memberEntity;
+    }
+
+    public static MemberEntity from(int memberId) {
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.memberId = memberId;
+
+        return memberEntity;
     }
 }

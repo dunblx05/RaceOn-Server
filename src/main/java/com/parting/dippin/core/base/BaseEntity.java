@@ -7,7 +7,6 @@ import jakarta.persistence.PreUpdate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @MappedSuperclass

@@ -1,6 +1,7 @@
 package com.parting.dippin.api.friend;
 
 import com.parting.dippin.api.friend.dto.GetFriendsResDto;
+import com.parting.dippin.api.friend.dto.PostFriendsReqDto;
 import com.parting.dippin.api.friend.service.FriendReader;
 import com.parting.dippin.api.friend.service.FriendService;
 import com.parting.dippin.core.base.BaseResponse;
@@ -26,7 +27,7 @@ public class FriendController {
 
     @GetMapping(value = "")
     public BaseResponse<GetFriendsResDto> getFriends(
-            @LoggedInMemberId Integer memberId
+        @LoggedInMemberId Integer memberId
     ) {
         List<FriendDto> friends = friendReader.getFriends(memberId);
         GetFriendsResDto resDto = new GetFriendsResDto(friends);
@@ -36,10 +37,10 @@ public class FriendController {
 
     @PostMapping()
     public BaseResponse<Void> addFriend(
-            @LoggedInMemberId Integer memberId,
-            @RequestBody int friendId
+        @LoggedInMemberId Integer memberId,
+        @RequestBody PostFriendsReqDto postFriendsReqDto
     ) {
-        friendService.addFriend(memberId, friendId);
+        friendService.addFriend(memberId, postFriendsReqDto.getFriendId());
 
         return BaseResponse.success();
     }
