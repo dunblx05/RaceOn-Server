@@ -88,10 +88,10 @@ class FriendControllerTest {
     @Test
     void addFriend() throws Exception {
         // given
-        willDoNothing().given(friendService).addFriend(1, 4);
+        willDoNothing().given(friendService).addFriend(1, "J13D6e");
 
         PostFriendsReqDto postFriendsReqDto = new PostFriendsReqDto();
-        postFriendsReqDto.setFriendId(4);
+        postFriendsReqDto.setFriendCode("J13D6E");
 
         // when
         ResultActions result = this.mockMvc.perform(
@@ -109,10 +109,14 @@ class FriendControllerTest {
             .andDo(
                 document("post-friends",
                     requestFields(
-                        fieldWithPath("friendId").type(JsonFieldType.NUMBER)
-                            .description("친구 추가할 멤버 ID")
+                        fieldWithPath("friendCode").type(JsonFieldType.STRING)
+                            .description("친구 추가할 멤버코드")
+                    ),
+                    responseFields(
+                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
+                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                        fieldWithPath("data").type(JsonFieldType.NULL).description("데이터")
                     )
-
                 )
             );
     }

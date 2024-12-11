@@ -1,6 +1,21 @@
 = API DOCS
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: APIs
+:source-highlighter: prettify
 
 최종 업데이트: {docdate} {doctime}
 
-== xref:hello.adoc[HELLO]
-== xref:friend.adoc[Friend]
+== Auth
+include::./auth/auth.adoc[]
+
+== Member
+include::./members/get-member-code.adoc[]
+'''
+
+== Friend
+include::./friends/get-friends.adoc[]
+'''
+include::./friends/add-friends.adoc[]
+'''

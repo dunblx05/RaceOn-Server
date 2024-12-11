@@ -1,6 +1,4 @@
-== 로그인 API
-
-=== 로그인 요청
+=== 로그인 요청 (임시)
 include::{snippets}/auth-login/http-request.adoc[]
 
 ==== Request
@@ -10,6 +8,6 @@ include::{snippets}/auth-login/query-parameters.adoc[]
 ==== Response
 
 include::{snippets}/auth-login/response-body.adoc[]
+include::{snippets}/auth-login/response-fields.adoc[]
 
 include::{snippets}/auth-login/http-response.adoc[]
-...

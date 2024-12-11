@@ -1,8 +1,9 @@
 package com.parting.dippin.api.friend.service;
 
-import com.parting.dippin.domain.friend.Friend;
+import com.parting.dippin.domain.friend.FriendAdder;
 import com.parting.dippin.domain.friend.service.FriendAddingService;
 import com.parting.dippin.domain.friend.service.FriendValidationService;
+import com.parting.dippin.domain.member.service.MemberCodeCheckerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +11,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class FriendService {
 
+    private final MemberCodeCheckerService memberCodeCheckerService;
     private final FriendAddingService friendAddingService;
     private final FriendValidationService friendValidationService;
 
-    public void addFriend(int memberId, int friendId) {
-        Friend friend = new Friend(memberId, friendId);
-        friend.addFriend(friendValidationService, friendAddingService);
+    public void addFriend(int memberId, String friendCode) {
+        int friendId = this.memberCodeCheckerService.invoke(friendCode);
+
+        FriendAdder friendAdder = new FriendAdder(memberId, friendId);
+        friendAdder.addFriend(friendValidationService, friendAddingService);
     }
 }

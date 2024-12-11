@@ -1,7 +1,7 @@
 package com.parting.dippin.entity.friends;
 
 import com.parting.dippin.core.base.BaseEntity;
-import com.parting.dippin.domain.friend.Friend;
+import com.parting.dippin.domain.friend.FriendAdder;
 import com.parting.dippin.entity.member.MemberEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,18 +43,18 @@ public class FriendsEntity extends BaseEntity {
     @JoinColumn(name = "friend_id")
     private MemberEntity friend;
 
-    public static List<FriendsEntity> from(Friend friend) {
+    public static List<FriendsEntity> from(FriendAdder friendAdder) {
         List<FriendsEntity> entities = new ArrayList<>();
 
         FriendsEntity entity1 = new FriendsEntity();
-        entity1.friendId = friend.getFriendId();
-        entity1.memberId = friend.getMemberId();
+        entity1.friendId = friendAdder.getFriendId();
+        entity1.memberId = friendAdder.getMemberId();
         entity1.member = MemberEntity.from(entity1.memberId);
         entity1.friend = MemberEntity.from(entity1.friendId);
 
         FriendsEntity entity2 = new FriendsEntity();
-        entity2.friendId = friend.getMemberId();
-        entity2.memberId = friend.getFriendId();
+        entity2.friendId = friendAdder.getMemberId();
+        entity2.memberId = friendAdder.getFriendId();
         entity2.member = MemberEntity.from(entity1.friendId);
         entity2.friend = MemberEntity.from(entity1.memberId);
 

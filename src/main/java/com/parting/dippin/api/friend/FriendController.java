@@ -40,7 +40,7 @@ public class FriendController {
         @LoggedInMemberId Integer memberId,
         @RequestBody PostFriendsReqDto postFriendsReqDto
     ) {
-        friendService.addFriend(memberId, postFriendsReqDto.getFriendId());
+        friendService.addFriend(memberId, postFriendsReqDto.getFriendCode());
 
         return BaseResponse.success();
     }

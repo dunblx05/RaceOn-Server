@@ -1,8 +1,11 @@
 package com.parting.dippin.api.member.service;
 
+import com.parting.dippin.core.exception.UserNotFoundException;
 import com.parting.dippin.domain.member.dto.MemberDto;
+import com.parting.dippin.entity.member.MemberEntity;
 import com.parting.dippin.entity.member.repository.MemberRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +18,15 @@ public class MemberReader {
     public List<MemberDto> getMembers(String nickname, int myMemberId) {
         return this.memberRepository.findMemberAndIsFriendByNicknameAndMemberId(nickname,
             myMemberId);
+    }
+
+    public String getMemberCode(int memberId) {
+        Optional<MemberEntity> member = this.memberRepository.findMemberEntityByMemberId(memberId);
+
+        if (member.isEmpty()) {
+            throw new UserNotFoundException("사용자 정보가 존재하지 않아요.");
+        }
+
+        return member.get().getMemberCode();
     }
 }

@@ -75,6 +75,9 @@ public class MemberEntity extends BaseEntity {
             String nickname,
             String profileImageUrl,
             MemberStatus memberStatus,
+            SocialProvider socialProvider,
+            String socialId,
+            String memberCode,
             List<FcmTokenEntity> fcmTokenEntities,
             List<GamePlayerEntity> gamePlayerEntities,
             List<FriendsEntity> friendsEntities
@@ -83,6 +86,9 @@ public class MemberEntity extends BaseEntity {
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
         this.memberStatus = memberStatus;
+        this.socialProvider = socialProvider;
+        this.socialId = socialId;
+        this.memberCode = memberCode;
         this.fcmTokenEntities = fcmTokenEntities;
         this.gamePlayerEntities = gamePlayerEntities;
         this.friendsEntities = friendsEntities;

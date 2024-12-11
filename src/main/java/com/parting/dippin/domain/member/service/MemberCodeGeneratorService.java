@@ -11,14 +11,14 @@ public class MemberCodeGeneratorService {
 
     private final MemberRepository memberRepository;
 
-    private static final String CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final String CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final int CODE_LENGTH = 6;
     private final SecureRandom random = new SecureRandom();
 
     public String generate() {
         String code = this.generateCode();
 
-        while(this.memberRepository.existsByMemberCode(code)) {
+        while (this.memberRepository.existsByMemberCode(code)) {
             code = this.generateCode();
         }
 
@@ -33,6 +33,4 @@ public class MemberCodeGeneratorService {
         }
         return code.toString();
     }
-
-
 }

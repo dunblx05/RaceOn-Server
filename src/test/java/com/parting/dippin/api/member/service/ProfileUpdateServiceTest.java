@@ -7,6 +7,7 @@ import com.parting.dippin.core.exception.UserNotFoundException;
 import com.parting.dippin.domain.member.service.ProfileUpdateService;
 import com.parting.dippin.entity.member.MemberEntity;
 import com.parting.dippin.entity.member.enums.MemberStatus;
+import com.parting.dippin.entity.member.enums.SocialProvider;
 import com.parting.dippin.entity.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,7 @@ class ProfileUpdateServiceTest {
 
         // then
         MemberEntity retrievedMember = memberRepository.findById(save.getMemberId())
-                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자입니다."));
+            .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자입니다."));
 
         assertThat(retrievedMember.getNickname()).isEqualTo(newNickname);
         assertThat(retrievedMember.getProfileImageUrl()).isEqualTo(newProfileUrl);
@@ -63,7 +64,7 @@ class ProfileUpdateServiceTest {
 
         // then
         MemberEntity retrievedMember = memberRepository.findById(save.getMemberId())
-                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자입니다."));
+            .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자입니다."));
 
         assertThat(retrievedMember.getNickname()).isEqualTo(newNickname);
         assertThat(retrievedMember.getProfileImageUrl()).isEqualTo(currentProfileImageUrl);
@@ -86,7 +87,7 @@ class ProfileUpdateServiceTest {
 
         // then
         MemberEntity retrievedMember = memberRepository.findById(save.getMemberId())
-                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자입니다."));
+            .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자입니다."));
 
         assertThat(retrievedMember.getNickname()).isEqualTo(currentNickname);
         assertThat(retrievedMember.getProfileImageUrl()).isEqualTo(newProfileImageUrl);
@@ -94,9 +95,12 @@ class ProfileUpdateServiceTest {
 
     private static MemberEntity newMemberEntity(String nickname, String profileImage) {
         return MemberEntity.builder()
-                .nickname(nickname)
-                .profileImageUrl(profileImage)
-                .memberStatus(MemberStatus.ACTIVE)
-                .build();
+            .nickname(nickname)
+            .profileImageUrl(profileImage)
+            .memberStatus(MemberStatus.ACTIVE)
+            .socialProvider(SocialProvider.KAKAO)
+            .socialId("1234test")
+            .memberCode("test12")
+            .build();
     }
 }

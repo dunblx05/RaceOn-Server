@@ -1,0 +1,13 @@
+=== 친구 추가
+include::{snippets}/post-friends/http-request.adoc[]
+
+==== Request
+include::{snippets}/post-friends/request-body.adoc[]
+
+==== Response
+
+include::{snippets}/post-friends/response-body.adoc[]
+
+include::{snippets}/post-friends/response-fields.adoc[]
+
+include::{snippets}/post-friends/http-response.adoc[]
