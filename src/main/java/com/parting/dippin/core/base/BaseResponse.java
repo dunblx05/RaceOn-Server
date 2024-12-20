@@ -1,5 +1,6 @@
 package com.parting.dippin.core.base;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ public class BaseResponse<T> {
 
     boolean isSuccess;
     int code;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     T data;
 
     private BaseResponse(boolean isSuccess, int code, T data) {

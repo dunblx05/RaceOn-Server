@@ -14,6 +14,7 @@ import com.parting.dippin.api.friend.dto.PostFriendsReqDto;
 import com.parting.dippin.api.friend.service.FriendReader;
 import com.parting.dippin.api.friend.service.FriendService;
 import com.parting.dippin.domain.friend.dto.FriendDto;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -53,35 +54,39 @@ class FriendControllerTest {
     void getFriends() throws Exception {
         // given
         List<FriendDto> friends = new ArrayList<>();
-        friends.add(new FriendDto(2, "test2"));
-        friends.add(new FriendDto(3, "test3"));
+        friends.add(new FriendDto(2, "test2", LocalDateTime.now()));
+        friends.add(new FriendDto(3, "test3", LocalDateTime.now()));
 
         given(friendReader.getFriends(1)).willReturn(friends);
 
         // when
         ResultActions result = this.mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/friends")
+                RestDocumentationRequestBuilders.get("/friends")
         );
 
         // then
         result
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andDo(
-                document("get-friends",
-                    responseFields(
-                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
-                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("데이터"),
-                        fieldWithPath("data.friends").type(JsonFieldType.ARRAY)
-                            .description("+ 친구 목록 데이터"),
-                        fieldWithPath("data.friends[].friendId").type(JsonFieldType.NUMBER)
-                            .description("++ 친구 ID"),
-                        fieldWithPath("data.friends[].friendNickname").type(JsonFieldType.STRING)
-                            .description("++ 친구 닉네임")
-                    )
-                )
-            );
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(
+                        document("get-friends",
+                                responseFields(
+                                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
+                                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("데이터"),
+                                        fieldWithPath("data.friends").type(JsonFieldType.ARRAY)
+                                                .description("+ 친구 목록 데이터"),
+                                        fieldWithPath("data.friends[].friendId").type(JsonFieldType.NUMBER)
+                                                .description("++ 친구 ID"),
+                                        fieldWithPath("data.friends[].friendNickname").type(JsonFieldType.STRING)
+                                                .description("++ 친구 닉네임"),
+                                        fieldWithPath("data.friends[].lastActiveAt").type(JsonFieldType.STRING)
+                                                .description("++ 최근 접속 시각"),
+                                        fieldWithPath("data.friends[].playing").type(JsonFieldType.BOOLEAN)
+                                                .description("++ 게임중 여부")
+                                )
+                        )
+                );
     }
 
     @DisplayName("친구 추가")
@@ -95,11 +100,11 @@ class FriendControllerTest {
 
         // when
         ResultActions result = this.mockMvc.perform(
-            RestDocumentationRequestBuilders
-                .post("/friends")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(postFriendsReqDto))
+                RestDocumentationRequestBuilders
+                        .post("/friends")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(postFriendsReqDto))
         );
 
         // then

@@ -9,6 +9,7 @@ import com.parting.dippin.entity.member.MemberEntity;
 import com.parting.dippin.entity.member.enums.MemberStatus;
 import com.parting.dippin.entity.member.enums.SocialProvider;
 import com.parting.dippin.entity.member.repository.MemberRepository;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,12 +96,13 @@ class ProfileUpdateServiceTest {
 
     private static MemberEntity newMemberEntity(String nickname, String profileImage) {
         return MemberEntity.builder()
-            .nickname(nickname)
-            .profileImageUrl(profileImage)
-            .memberStatus(MemberStatus.ACTIVE)
-            .socialProvider(SocialProvider.KAKAO)
-            .socialId("1234test")
-            .memberCode("test12")
-            .build();
+                .nickname(nickname)
+                .profileImageUrl(profileImage)
+                .memberCode("AAAAAA")
+                .socialProvider(SocialProvider.KAKAO)
+                .socialId("KAKAO1")
+                .memberStatus(MemberStatus.ACTIVE)
+                .lastActiveAt(LocalDateTime.now())
+                .build();
     }
 }

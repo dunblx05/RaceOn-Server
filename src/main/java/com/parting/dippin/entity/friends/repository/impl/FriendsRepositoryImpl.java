@@ -5,9 +5,9 @@ import static com.parting.dippin.entity.member.QMemberEntity.memberEntity;
 import static com.querydsl.core.types.ExpressionUtils.and;
 import static com.querydsl.core.types.ExpressionUtils.or;
 
-import com.parting.dippin.domain.friend.dto.FriendDto;
 import com.parting.dippin.entity.friends.QFriendsEntity;
 import com.parting.dippin.entity.friends.repository.QFriendsRepository;
+import com.parting.dippin.entity.member.MemberEntity;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -24,9 +24,9 @@ public class FriendsRepositoryImpl extends QuerydslRepositorySupport
     }
 
     @Override
-    public List<FriendDto> findByMemberId(int memberId) {
+    public List<MemberEntity> findByMemberId(int memberId) {
         return jpaQueryFactory
-            .select(Projections.constructor(FriendDto.class, memberEntity, friendsEntity))
+            .select(Projections.constructor(MemberEntity.class, memberEntity))
             .from(friendsEntity)
             .innerJoin(memberEntity).on(friendsEntity.friendId.eq(memberEntity.memberId))
             .where(friendsEntity.memberId.eq(memberId))

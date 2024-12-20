@@ -19,6 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -68,9 +69,12 @@ public class MemberEntity extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private List<FriendsEntity> friendsEntities = new ArrayList<>();
-  
+
+    @Column(name = "last_active_at", columnDefinition = "datetime", nullable = false)
+    private LocalDateTime lastActiveAt;
+
     @Builder
-    private MemberEntity(
+    public MemberEntity(
             Integer memberId,
             String nickname,
             String profileImageUrl,
@@ -80,7 +84,8 @@ public class MemberEntity extends BaseEntity {
             String memberCode,
             List<FcmTokenEntity> fcmTokenEntities,
             List<GamePlayerEntity> gamePlayerEntities,
-            List<FriendsEntity> friendsEntities
+            List<FriendsEntity> friendsEntities,
+            LocalDateTime lastActiveAt
     ) {
         this.memberId = memberId;
         this.nickname = nickname;
@@ -92,6 +97,18 @@ public class MemberEntity extends BaseEntity {
         this.fcmTokenEntities = fcmTokenEntities;
         this.gamePlayerEntities = gamePlayerEntities;
         this.friendsEntities = friendsEntities;
+        this.lastActiveAt = lastActiveAt;
+    }
+
+    public MemberEntity(MemberEntity memberEntity) {
+        this.memberId = memberEntity.getMemberId();
+        this.nickname = memberEntity.getNickname();
+        this.profileImageUrl = memberEntity.getProfileImageUrl();
+        this.memberStatus = memberEntity.getMemberStatus();
+        this.socialProvider = memberEntity.getSocialProvider();
+        this.socialId = memberEntity.getSocialId();
+        this.memberCode = memberEntity.getMemberCode();
+        this.lastActiveAt = memberEntity.getLastActiveAt();
     }
 
     public void updateProfile(String newProfileUrl, String newNickname) {
@@ -119,5 +136,9 @@ public class MemberEntity extends BaseEntity {
         memberEntity.memberId = memberId;
 
         return memberEntity;
+    }
+
+    public void updateLastActiveAt(LocalDateTime lastActiveAt) {
+        this.lastActiveAt = lastActiveAt;
     }
 }

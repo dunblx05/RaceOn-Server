@@ -1,7 +1,8 @@
 package com.parting.dippin.domain.friend.dto;
 
-import com.parting.dippin.entity.friends.FriendsEntity;
+import com.parting.dippin.entity.connection.ConnectionStatusEntity;
 import com.parting.dippin.entity.member.MemberEntity;
+import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
@@ -9,14 +10,34 @@ public class FriendDto {
 
     Integer friendId;
     String friendNickname;
+    LocalDateTime lastActiveAt;
+    boolean isPlaying;
 
-    public FriendDto(Integer friendId, String friendNickname) {
+    public FriendDto(Integer friendId, String friendNickname, LocalDateTime lastActiveAt) {
         this.friendId = friendId;
         this.friendNickname = friendNickname;
+        this.lastActiveAt = lastActiveAt;
     }
 
-    public FriendDto(MemberEntity memberEntity, FriendsEntity friendsEntity) {
-        this.friendId = friendsEntity.getFriendId();
+    private FriendDto(MemberEntity memberEntity, ConnectionStatusEntity connectionStatus) {
+        this.friendId = memberEntity.getMemberId();
         this.friendNickname = memberEntity.getNickname();
+        this.lastActiveAt = connectionStatus.getLastActiveAt();
+        this.isPlaying = connectionStatus.isPlaying();
+    }
+
+    private FriendDto(MemberEntity memberEntity) {
+        this.friendId = memberEntity.getMemberId();
+        this.friendNickname = memberEntity.getNickname();
+        this.lastActiveAt = memberEntity.getLastActiveAt();
+        this.isPlaying = false;
+    }
+
+    public static FriendDto of(MemberEntity memberEntity, ConnectionStatusEntity connectionStatus) {
+        if (connectionStatus == null) {
+            return new FriendDto(memberEntity);
+        }else{
+            return new FriendDto(memberEntity, connectionStatus);
+        }
     }
 }
