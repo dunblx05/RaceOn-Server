@@ -3,6 +3,7 @@ include::{snippets}/post-friends/http-request.adoc[]
 
 ==== Request
 include::{snippets}/post-friends/request-body.adoc[]
+include::{snippets}/post-friends/request-fields.adoc[]
 
 ==== Response
 

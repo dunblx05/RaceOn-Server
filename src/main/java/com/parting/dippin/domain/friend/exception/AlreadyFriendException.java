@@ -1,4 +1,4 @@
-package com.parting.dippin.api.friend.exception;
+package com.parting.dippin.domain.friend.exception;
 
 /**
  * statusCode - 409

@@ -3,6 +3,9 @@ package com.parting.dippin.api.friend;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -93,7 +96,7 @@ class FriendControllerTest {
     @Test
     void addFriend() throws Exception {
         // given
-        willDoNothing().given(friendService).addFriend(1, "J13D6e");
+        willDoNothing().given(friendService).addFriend(1, "J13D6E");
 
         PostFriendsReqDto postFriendsReqDto = new PostFriendsReqDto();
         postFriendsReqDto.setFriendCode("J13D6E");
@@ -113,6 +116,8 @@ class FriendControllerTest {
             .andExpect(status().isOk())
             .andDo(
                 document("post-friends",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
                     requestFields(
                         fieldWithPath("friendCode").type(JsonFieldType.STRING)
                             .description("친구 추가할 멤버코드")

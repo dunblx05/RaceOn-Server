@@ -2,6 +2,7 @@ package com.parting.dippin.entity.game.player;
 
 import com.parting.dippin.core.base.BaseEntity;
 import com.parting.dippin.entity.game.GameEntity;
+import com.parting.dippin.entity.game.enums.PlayerStatus;
 import com.parting.dippin.entity.game.geo.GeoCoordinatesEntity;
 import com.parting.dippin.entity.game.player.enums.ResultStatus;
 import com.parting.dippin.entity.member.MemberEntity;
@@ -55,10 +56,14 @@ public class GamePlayerEntity extends BaseEntity {
     @Column(name = "result_status", columnDefinition = "char(30) default 'UNDECIDED'", nullable = false)
     private ResultStatus resultStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "player_status", columnDefinition = "char(30) default 'WAITING_TO_PARTICIPATE'", nullable = false)
+    private PlayerStatus playerStatus;
+
     @MapsId("memberId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private MemberEntity memberEntity;
+    private MemberEntity member;
 
     @MapsId("gameId")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,4 +76,19 @@ public class GamePlayerEntity extends BaseEntity {
         @JoinColumn(name = "member_id", referencedColumnName = "member_id")
     })
     private List<GeoCoordinatesEntity> geoCoordinatesEntities = new ArrayList<>();
+
+    public static GamePlayerEntity from(int gameId, int memberId, PlayerStatus playerStatus) {
+        GamePlayerEntity gamePlayerEntity = new GamePlayerEntity();
+        gamePlayerEntity.gameId = gameId;
+        gamePlayerEntity.memberId = memberId;
+        gamePlayerEntity.playerStatus = playerStatus;
+        gamePlayerEntity.distance = 0.0;
+        gamePlayerEntity.avgSpeed = 0.0;
+        gamePlayerEntity.maxSpeed = 0.0;
+        gamePlayerEntity.member = MemberEntity.from(memberId);
+        gamePlayerEntity.game = GameEntity.from(gameId);
+        gamePlayerEntity.resultStatus = ResultStatus.UNDECIDED;
+
+        return gamePlayerEntity;
+    }
 }

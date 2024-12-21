@@ -3,6 +3,7 @@ package com.parting.dippin.api.member.service;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.parting.dippin.common.DatabaseTest;
+import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.entity.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class MemberReaderTest {
     void getMemberCode() {
         // given
         int memberId = 1;
-        String memberCode = "J13D3e";
+        String memberCode = "J13D3E";
 
         // when
         String result = memberReader.getMemberCode(memberId);

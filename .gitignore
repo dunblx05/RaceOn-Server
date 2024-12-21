@@ -3,5 +3,6 @@ build
 .idea
 src/main/resources/static/docs
 src/main/resources/.env
+src/main/resources/*.json
 
 out

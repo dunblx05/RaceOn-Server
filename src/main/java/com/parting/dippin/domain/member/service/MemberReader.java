@@ -1,11 +1,10 @@
-package com.parting.dippin.api.member.service;
+package com.parting.dippin.domain.member.service;
 
 import com.parting.dippin.core.exception.UserNotFoundException;
 import com.parting.dippin.domain.member.dto.MemberDto;
 import com.parting.dippin.entity.member.MemberEntity;
 import com.parting.dippin.entity.member.repository.MemberRepository;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +20,16 @@ public class MemberReader {
     }
 
     public String getMemberCode(int memberId) {
-        Optional<MemberEntity> member = this.memberRepository.findMemberEntityByMemberId(memberId);
+        MemberEntity member = this.memberRepository.findMemberEntityByMemberId(memberId)
+            .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않아요."));
 
-        if (member.isEmpty()) {
-            throw new UserNotFoundException("사용자 정보가 존재하지 않아요.");
-        }
+        return member.getMemberCode();
+    }
 
-        return member.get().getMemberCode();
+    public String getNickname(int memberId) {
+        MemberEntity member = this.memberRepository.findMemberEntityByMemberId(memberId)
+            .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않아요."));
+
+        return member.getNickname();
     }
 }

@@ -19,3 +19,7 @@ include::./friends/get-friends.adoc[]
 '''
 include::./friends/add-friends.adoc[]
 '''
+
+== Game
+include::./games/post-games.adoc[]
+'''

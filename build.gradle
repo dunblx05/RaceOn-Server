@@ -88,6 +88,9 @@ dependencies {
 
 	// S3
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.11.238'
+
+	// Firebase
+	implementation 'com.google.firebase:firebase-admin:7.3.0'
 }
 
 tasks.named('test') {

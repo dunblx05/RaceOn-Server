@@ -2,13 +2,16 @@ package com.parting.dippin.api.member;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parting.dippin.api.member.service.MemberReader;
+import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.domain.member.service.ProfileUpdateService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,6 +63,8 @@ class MemberControllerTest {
             .andExpect(status().isOk())
             .andDo(
                 document("get-memberCode",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),

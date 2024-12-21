@@ -4,7 +4,7 @@ import com.parting.dippin.api.member.dto.GetMemberCodeResDto;
 import com.parting.dippin.api.member.dto.GetMembersResDto;
 import com.parting.dippin.api.member.dto.PatchProfileImageResDto;
 import com.parting.dippin.api.member.dto.PatchUpdateProfileReqDto;
-import com.parting.dippin.api.member.service.MemberReader;
+import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.core.base.BaseResponse;
 import com.parting.dippin.core.common.annotation.LoggedInMemberId;
 import com.parting.dippin.domain.member.dto.MemberDto;
