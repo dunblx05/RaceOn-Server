@@ -1,0 +1,17 @@
+[id=get-presigned-url]
+=== 프로필 이미지 수정 권한 요청
+
+프로필 이미지 수정은 presignedURL형식 으로 이루어진다.
+
+해당 API는 presignedURL 요청 API이며 실제 수정은 <<profile-update, 프로필 수정>>에서 진행된다.
+
+==== Request
+include::{snippets}/member-controller-docs-test/update-profile-image/http-request.adoc[]
+
+include::{snippets}/member-controller-docs-test/update-profile-image/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-docs-test/update-profile-image/response-body.adoc[]
+
+include::{snippets}/member-controller-docs-test/update-profile-image/response-fields.adoc[]

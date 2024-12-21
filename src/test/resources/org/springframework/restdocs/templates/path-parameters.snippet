@@ -1,0 +1,15 @@
+===== Path Variable
+:table-caption!:
+.+{{path}}+
+[%header,cols="2,1,4,4"]
+|===
+|Parameter|Required|Description|Constraints
+
+{{#parameters}}
+|{{#tableCellContent}}`+{{name}}+`{{/tableCellContent}}
+|{{#tableCellContent}}`+{{^optional}}True{{/optional}}{{#optional}}False{{/optional}}+`{{/tableCellContent}}
+|{{#tableCellContent}}`+{{description}}+`{{/tableCellContent}}
+|{{#tableCellContent}}{{#constraints}}{{.}}{{/constraints}}{{/tableCellContent}}
+{{/parameters}}
+
+|===

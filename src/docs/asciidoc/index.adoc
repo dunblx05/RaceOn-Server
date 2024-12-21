@@ -1,4 +1,4 @@
-= API DOCS
+= Race-On API Document
 :sectnums:
 :toc: left
 :toclevels: 4
@@ -7,12 +7,14 @@
 
 최종 업데이트: {docdate} {doctime}
 
+== Introduction
+include::./introduction.adoc[]
+
 == Auth
 include::./auth/auth.adoc[]
 
 == Member
-include::./members/get-member-code.adoc[]
-'''
+include::./members/member.adoc[]
 
 == Friend
 include::./friends/get-friends.adoc[]

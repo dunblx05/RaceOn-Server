@@ -1,0 +1,11 @@
+[%header,cols="2,1,1,4,4"]
+|===
+|Path|Type|Required|Description|Constraints
+{{#fields}}
+|{{#tableCellContent}}`+{{path}}+`{{/tableCellContent}}
+|{{#tableCellContent}}`+{{type}}+`{{/tableCellContent}}
+|{{#tableCellContent}}`+{{^optional}}True{{/optional}}{{#optional}}False{{/optional}}+`{{/tableCellContent}}
+|{{#tableCellContent}}{{description}}{{/tableCellContent}}
+|{{#tableCellContent}}{{#constraints}}{{.}}{{/constraints}}{{/tableCellContent}}
+{{/fields}}
+|===

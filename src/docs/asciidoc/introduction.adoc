@@ -1,0 +1,47 @@
+해당 문서는 Race-On API에 대한 문서입니다.
+
+API 사용법 관련 문의는 Discord DM을 통해 주시면 최대한 빨리 답변드리겠습니다.
+
+=== Base Format
+[source,json]
+----
+{
+  "code": 200,
+  "data": {
+    "key1":"value1",
+    "key2":"value2"
+  },
+  "success": true
+}
+----
+|===
+|Name |Description | optional
+
+|success | 성공여부 | false
+|code | 응답 코드(http status code x) | false
+|data | 응답 데이터(없을 경우 생략 가능) | true
+|===
+
+
+*code*:
+
+성공의 경우 항상 200을 반환합니다.
+
+실패의 원인을 나타내기 위해 코드를 반환하며 코드에 대응되는 실패 원인은 아래 예시를 참고바랍니다.
+
+*※ http status code가 아님에 유의해주세요. ※*
+
+*data* :
+
+key, value 형식으로 data를 반환하며 반환할 데이터가 없을 경우 아래와 같이 생략될 수 있습니다.
+
+실패의 경우 대부분 data가 생략됩니다.
+
+[source,json]
+----
+{
+  "code": 200,
+  "success": true
+}
+----
+

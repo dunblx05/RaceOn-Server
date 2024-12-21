@@ -1,13 +1,13 @@
 === 멤버 코드 조회 (임시)
-include::{snippets}/get-memberCode/http-request.adoc[]
+
 
 ==== Request
-include::{snippets}/get-memberCode/request-body.adoc[]
+include::{snippets}/get-memberCode/http-request.adoc[]
+
+include::{snippets}/get-memberCode/path-parameters.adoc[]
 
 ==== Response
 
 include::{snippets}/get-memberCode/response-body.adoc[]
 
 include::{snippets}/get-memberCode/response-fields.adoc[]
-
-include::{snippets}/get-memberCode/http-response.adoc[]

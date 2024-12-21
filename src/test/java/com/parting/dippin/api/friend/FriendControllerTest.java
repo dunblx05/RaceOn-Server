@@ -30,6 +30,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.snippet.Attributes.Attribute;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -121,11 +122,11 @@ class FriendControllerTest {
                     requestFields(
                         fieldWithPath("friendCode").type(JsonFieldType.STRING)
                             .description("친구 추가할 멤버코드")
+                                .attributes(new Attribute("constraints", "영어 대문자, 숫자로 이루어진 6글자"))
                     ),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
-                        fieldWithPath("data").type(JsonFieldType.NULL).description("데이터")
+                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드")
                     )
                 )
             );

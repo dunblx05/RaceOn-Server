@@ -1,0 +1,19 @@
+[id=profile-update]
+=== 프로필 수정
+프로필 이미지를 수정할 경우 <<get-presigned-url, 프로필 이미지 수정 권한 요청>>이 선행되어야한다.
+
+==== Request
+include::{snippets}/member-controller-docs-test/update-profile/http-request.adoc[]
+
+include::{snippets}/member-controller-docs-test/update-profile/path-parameters.adoc[]
+
+include::{snippets}/member-controller-docs-test/update-profile/request-body.adoc[]
+
+include::{snippets}/member-controller-docs-test/update-profile/request-fields.adoc[]
+
+
+==== Response
+
+include::{snippets}/member-controller-docs-test/update-profile-image/response-body.adoc[]
+
+include::{snippets}/member-controller-docs-test/update-profile-image/response-fields.adoc[]

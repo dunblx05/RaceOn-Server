@@ -7,6 +7,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -65,6 +67,9 @@ class MemberControllerTest {
                 document("get-memberCode",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint()),
+                    pathParameters(
+                            parameterWithName("memberId").description("조회하고자 하는 유저의 memberId")
+                    ),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),

@@ -1,0 +1,3 @@
+include::./get-member-code.adoc[]
+include::./get-presigned-url.adoc[]
+include::./update-profile.adoc[]
