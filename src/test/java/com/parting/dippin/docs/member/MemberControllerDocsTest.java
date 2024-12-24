@@ -13,8 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.parting.dippin.api.member.MemberController;
 import com.parting.dippin.api.member.dto.PatchProfileImageResDto;
 import com.parting.dippin.api.member.dto.PatchUpdateProfileReqDto;
-import com.parting.dippin.api.member.service.MemberReader;
 import com.parting.dippin.docs.RestDocsSupport;
+import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.domain.member.service.ProfileUpdateService;
 import java.net.URL;
 import org.junit.jupiter.api.DisplayName;
