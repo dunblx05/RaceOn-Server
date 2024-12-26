@@ -1,0 +1,70 @@
+=== 게임 시작 요청 [SOCKET]
+유저가 웹소켓에 연결되면 게임 시작 준비가 되었다는 요청을 보내야합니다.
+
+==== Request
+[source,json,options="nowrap"]
+----
+{
+  "command": "START",
+  "data": null
+}
+----
+
+|===
+|Path|Type|Value|Description
+
+|`+command+`
+|`+String+`
+|START
+|게임 시작 요청 커맨드
+
+|`+data+`
+|`+JSON+`
+|null
+|START 요청시에는 null 값으로 보내줍니다.
+
+|===
+
+==== Response
+[source,json,options="nowrap"]
+----
+{
+  "command": "START",
+  "code": 200,
+  "data": {
+    "gameId": 1,
+    "isMatched": false,
+    "startTime": null
+  }
+}
+----
+
+|===
+|Path|Type|Value|Description
+
+|`+command+`
+|`+String+`
+|START
+|게임 시작 요청 커맨드
+
+|`+data+`
+|`+JSON+`
+|
+|결과값
+
+|data.gameId
+|Number
+|1
+|게임번호
+
+|data.isMatched
+|Boolean
+|true
+|게임 시작 여부 (상대방이 아직 접속하지 않았다면 false 를 받습니다.)
+
+|data.startTime
+|String
+|2024-12-19T22:51:02
+|isMatched가 false면 null값을, 아니면 시작시간을 반환합니다.(해당 시간에 게임이 시작된다고 이해하시면 됩니다.)
+
+|===

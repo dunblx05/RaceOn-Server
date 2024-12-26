@@ -1,0 +1,110 @@
+=== 게임 종료 [SOCKET]
+먼저 도착한 유저가 END 커맨드를 요청합니다.
+
+아래 예시는 3KM 대결이라고 가정하였습니다.
+
+==== Request
+[source,json,options="nowrap"]
+----
+{
+  "command": "END",
+  "data": {
+    "time": "00:32:01",
+    "latitude": 36.123456,
+    "longitude": 128.123456,
+    "distance": 3,
+    "avgSpeed": 10.1,
+    "maxSpeed": 10.2
+  }
+}
+----
+
+|===
+|Path|Type|Value|Description
+
+|`+command+`
+|`+String+`
+|END
+|게임 기록 저장 커맨드
+
+|`+data+`
+|`+JSON+`
+|
+|
+
+|`+data.time+`
+|`+String+`
+|00:30:01
+|시분초 단위로 전송
+
+|`+data.latitude+`
+|`+Number+`
+|36.123456
+|위도(소수점 6번째자리까지) 전송
+
+|`+data.longitude+`
+|`+Number+`
+|128.123456
+|위도(소수점 6번째자리까지) 전송
+
+|`+data.distance+`
+|`+Number+`
+|3
+|거리(KM - 소수점 셋째자리까지) 전송
+
+|`+data.avgSpeed+`
+|`+Number+`
+|10.10
+|평균 페이스 전송 (16'12" -> 16.12)
+
+|`+data.maxSpeed+`
+|`+Number+`
+|10.10
+|최대 페이스 전송 (16'12" -> 16.12)
+
+|===
+
+==== Response
+먼저 들어온 유저를 승리자로 판단하여 게임을 종료시킵니다.
+
+[source,json,options="nowrap"]
+----
+{
+  "command": "END",
+  "code": 200,
+  "data": {
+    "gameId": 1,
+    "winMemberId": 2
+  }
+}
+----
+
+|===
+|Path|Type|Value|Description
+
+|`+command+`
+|`+String+`
+|END
+|게임 기록 저장 커맨드
+
+|`+code+`
+|`+Number+`
+|200
+|요청 결과 코드
+
+|`+data+`
+|`+JSON+`
+|
+|
+
+|`+data.gameId+`
+|`+Number+`
+|1
+|시분초 단위로 전송
+
+|`+data.winMemberId+`
+|`+Number+`
+|2
+|이긴 유저의 memberId
+
+|===

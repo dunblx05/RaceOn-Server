@@ -1,7 +1,11 @@
 package com.parting.dippin.entity.game.geo;
 
 import com.parting.dippin.core.base.BaseEntity;
+import com.parting.dippin.entity.game.GameEntity;
+import com.parting.dippin.entity.game.enums.PlayerStatus;
 import com.parting.dippin.entity.game.player.GamePlayerEntity;
+import com.parting.dippin.entity.game.player.enums.ResultStatus;
+import com.parting.dippin.entity.member.MemberEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,8 +49,22 @@ public class GeoCoordinatesEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-        @JoinColumn(name = "game_id", referencedColumnName = "game_id"),
-        @JoinColumn(name = "member_id", referencedColumnName = "member_id")
+        @JoinColumn(name = "game_id", referencedColumnName = "game_id" , insertable = false),
+        @JoinColumn(name = "member_id", referencedColumnName = "member_id", insertable = false),
     })
     private GamePlayerEntity gamePlayerEntity;
+
+    public static GeoCoordinatesEntity from(int gameId, int memberId, String time, double latitude, double longitude, double distance) {
+        GeoCoordinatesEntity geoCoordinatesEntity = new GeoCoordinatesEntity();
+        geoCoordinatesEntity.gameId = gameId;
+        geoCoordinatesEntity.memberId = memberId;
+        geoCoordinatesEntity.time = time;
+        geoCoordinatesEntity.latitude = latitude;
+        geoCoordinatesEntity.longitude = longitude;
+        geoCoordinatesEntity.distance = distance;
+
+        geoCoordinatesEntity.gamePlayerEntity = GamePlayerEntity.from(gameId, memberId);
+
+        return geoCoordinatesEntity;
+    }
 }

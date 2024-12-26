@@ -26,6 +26,7 @@ public class FirebaseConfig {
                 .getResourceAsStream("raceon-firebase-admin.json");
 
         assert serviceAccount != null;
+
         FirebaseOptions options = FirebaseOptions.builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
             .build();

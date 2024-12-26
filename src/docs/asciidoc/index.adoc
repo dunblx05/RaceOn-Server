@@ -5,6 +5,16 @@
 :toc-title: APIs
 :source-highlighter: prettify
 
+:icons: font
+:source-highlighter: highlight.js
+:mermaid:
+:stem:
+
++++
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.2.3/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true });</script>
++++
+
 최종 업데이트: {docdate} {doctime}
 
 == Introduction
@@ -24,4 +34,12 @@ include::./friends/add-friends.adoc[]
 
 == Game
 include::./games/post-games.adoc[]
+
+include::./games/socket-games.adoc[]
+
+include::./games/start-games.adoc[]
+
+include::./games/process-games.adoc[]
+
+include::./games/end-games.adoc[]
 '''

@@ -23,6 +23,7 @@ class MemberReaderTest {
     void getMemberCode() {
         // given
         int memberId = 1;
+
         String memberCode = "A12345";
 
         // when

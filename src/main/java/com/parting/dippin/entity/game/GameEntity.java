@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -47,6 +48,9 @@ public class GameEntity extends BaseEntity {
     @Column(name = "type", columnDefinition = "char(30) default 'DEFAULT'", nullable = false)
     private Type type;
 
+    @Column(name = "start_time", columnDefinition = "datetime")
+    private LocalDateTime startTime;
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
     private List<GamePlayerEntity> gamePlayerEntities = new ArrayList<>();
@@ -66,5 +70,20 @@ public class GameEntity extends BaseEntity {
         game.type = Type.DEFAULT;
 
         return game;
+    }
+
+    public LocalDateTime start() {
+        this.progressStatus = ProgressStatus.ONGOING;
+        this.startTime = LocalDateTime.now().plusSeconds(15).withNano(0);
+
+        return startTime;
+    }
+
+    public boolean isFinished(double distance) {
+        return distance >= this.distance;
+    }
+
+    public void finish() {
+        this.progressStatus = ProgressStatus.FINISHED;
     }
 }

@@ -1,0 +1,135 @@
+=== 게임 진행중 기록 저장 [SOCKET]
+현재는 거리, 속도 계산을 클라이언트에서 진행하기 때문에 서버에서는 관련 기록들을 저장하는 역할을 가집니다.
+
+전송 주기는 미정입니다. (1~3초 내로 지금은 진행하면 될 것 같습니다.)
+
+==== Request
+[source,json,options="nowrap"]
+----
+{
+  "command": "PROGRESS",
+  "data": {
+    "time": "00:00:01",
+    "latitude": 36.123456,
+    "longitude": 128.123456,
+    "distance": 0.01,
+    "avgSpeed": 0.1,
+    "maxSpeed": 0.2
+  }
+}
+----
+
+|===
+|Path|Type|Value|Description
+
+|`+command+`
+|`+String+`
+|PROGRESS
+|게임 기록 저장 커맨드
+
+|`+data+`
+|`+JSON+`
+|
+|
+
+|`+data.time+`
+|`+String+`
+|00:00:01
+|시분초 단위로 전송
+
+|`+data.latitude+`
+|`+Number+`
+|36.123456
+|위도(소수점 6번째자리까지) 전송
+
+|`+data.longitude+`
+|`+Number+`
+|128.123456
+|위도(소수점 6번째자리까지) 전송
+
+|`+data.distance+`
+|`+Number+`
+|0.001
+|거리(KM - 소수점 셋째자리까지) 전송
+
+|`+data.avgSpeed+`
+|`+Number+`
+|0.10
+|평균 페이스 전송 (16'12" -> 16.12)
+
+|`+data.maxSpeed+`
+|`+Number+`
+|0.10
+|최대 페이스 전송 (16'12" -> 16.12)
+
+|===
+
+==== Response
+응답 성공할 경우 Request 그대로 결과값을 보내준다.
+(memberId가 1인 유저의 기록을 2인 유저가 확인하기 위함)
+
+[source,json,options="nowrap"]
+----
+{
+  "command": "PROGRESS",
+  "code": 200,
+  "data": {
+    "time": "00:00:01",
+    "latitude": 36.123456,
+    "longitude": 128.123456,
+    "distance": 0.01,
+    "avgSpeed": 0.1,
+    "maxSpeed": 0.2
+  }
+}
+----
+
+|===
+|Path|Type|Value|Description
+
+|`+command+`
+|`+String+`
+|PROGRESS
+|게임 기록 저장 커맨드
+
+|`+code+`
+|`+Number+`
+|200
+|요청 결과 코드
+
+|`+data+`
+|`+JSON+`
+|
+|
+
+|`+data.time+`
+|`+String+`
+|00:00:01
+|시분초 단위로 전송
+
+|`+data.latitude+`
+|`+Number+`
+|36.123456
+|위도(소수점 6번째자리까지) 전송
+
+|`+data.longitude+`
+|`+Number+`
+|128.123456
+|위도(소수점 6번째자리까지) 전송
+
+|`+data.distance+`
+|`+Number+`
+|0.001
+|거리(KM - 소수점 셋째자리까지) 전송
+
+|`+data.avgSpeed+`
+|`+Number+`
+|0.10
+|평균 페이스 전송 (16'12" -> 16.12)
+
+|`+data.maxSpeed+`
+|`+Number+`
+|0.10
+|최대 페이스 전송 (16'12" -> 16.12)
+
+|===

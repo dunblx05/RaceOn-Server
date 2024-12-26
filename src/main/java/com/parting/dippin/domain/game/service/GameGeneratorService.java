@@ -25,7 +25,7 @@ public class GameGeneratorService {
 
         List<GamePlayerEntity> gamePlayerEntities = new ArrayList<>();
 
-        gamePlayerEntities.add(GamePlayerEntity.from(gameId, receivedMemberId, PlayerStatus.PARTICIPATION));
+        gamePlayerEntities.add(GamePlayerEntity.from(gameId, receivedMemberId, PlayerStatus.WAITING_TO_PARTICIPATE));
         gamePlayerEntities.add(GamePlayerEntity.from(gameId, requestMemberId, PlayerStatus.WAITING_TO_PARTICIPATE));
 
         this.gamePlayerRepository.saveAll(gamePlayerEntities);

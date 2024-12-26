@@ -91,4 +91,37 @@ public class GamePlayerEntity extends BaseEntity {
 
         return gamePlayerEntity;
     }
+
+    public static GamePlayerEntity from(int gameId, int memberId) {
+        GamePlayerEntity gamePlayerEntity = new GamePlayerEntity();
+        gamePlayerEntity.gameId = gameId;
+        gamePlayerEntity.memberId = memberId;
+
+        return gamePlayerEntity;
+    }
+
+    public void participate() {
+        this.playerStatus = PlayerStatus.PARTICIPATION;
+    }
+
+    public void reject() {
+        this.playerStatus = PlayerStatus.REJECT;
+    }
+
+    public void process(double distance, double avgSpeed, double maxSpeed) {
+        this.distance = distance;
+        this.avgSpeed = avgSpeed;
+        this.maxSpeed = maxSpeed;
+    }
+
+    public void win(double distance, double avgSpeed, double maxSpeed, String finishedTime) {
+        this.process(distance, avgSpeed, maxSpeed);
+        this.finishedTime = finishedTime;
+        this.resultStatus = ResultStatus.WIN;
+    }
+
+    public void lose(String finishedTime) {
+        this.finishedTime = finishedTime;
+        this.resultStatus = ResultStatus.LOSE;
+    }
 }
