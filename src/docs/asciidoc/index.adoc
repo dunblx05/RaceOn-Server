@@ -43,3 +43,6 @@ include::./games/process-games.adoc[]
 
 include::./games/end-games.adoc[]
 '''
+
+== FCM
+include::./fcm/fcm.adoc[]
