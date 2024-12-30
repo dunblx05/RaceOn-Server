@@ -17,6 +17,6 @@ public class ConnectionController {
     public BaseResponse<Void> getMembers(@LoggedInMemberId Integer memberId) {
         connectionService.updateConnectionStatus(memberId);
 
-        return BaseResponse.success();
+        return BaseResponse.ok();
     }
 }

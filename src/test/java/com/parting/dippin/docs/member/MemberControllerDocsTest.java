@@ -1,7 +1,11 @@
 package com.parting.dippin.docs.member;
 
+import static com.parting.dippin.core.exception.CommonCodeAndMessage.BAD_REQUEST;
+import static com.parting.dippin.core.exception.CommonCodeAndMessage.OK;
+import static com.parting.dippin.domain.member.exception.MemberCodeAndMessage.FAILED_UPLOAD_IMAGE;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -13,10 +17,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.parting.dippin.api.member.MemberController;
 import com.parting.dippin.api.member.dto.PatchProfileImageResDto;
 import com.parting.dippin.api.member.dto.PatchUpdateProfileReqDto;
-import com.parting.dippin.docs.RestDocsSupport;
+import com.parting.dippin.docs.RestDocsExceptionSupport;
+import com.parting.dippin.domain.member.exception.MemberTypeException;
 import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.domain.member.service.ProfileUpdateService;
 import java.net.URL;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,7 +30,7 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
-class MemberControllerDocsTest extends RestDocsSupport {
+class MemberControllerDocsTest extends RestDocsExceptionSupport {
 
     @MockBean
     private MemberReader memberReader;
@@ -59,6 +65,7 @@ class MemberControllerDocsTest extends RestDocsSupport {
         // when
         ResultActions result = this.mockMvc.perform(
                 RestDocumentationRequestBuilders.patch("/members/{memberId}/profile-image", 1)
+                        .header(AUTHORIZATION, ACCESS_TOKEN)
         );
 
         // then
@@ -72,7 +79,8 @@ class MemberControllerDocsTest extends RestDocsSupport {
                                 ),
                                 responseFields(
                                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                        fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
+                                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                         fieldWithPath("data.preSignedUrl").type(JsonFieldType.STRING)
                                                 .description("presigned Url"),
                                         fieldWithPath("data.contentUrl").type(JsonFieldType.STRING)
@@ -80,6 +88,27 @@ class MemberControllerDocsTest extends RestDocsSupport {
                                 )
                         )
                 );
+    }
+
+    @DisplayName("프로필 이미지 PresignedURL 발급 실패시 500에러를 던진다.")
+    @Test
+    void failedUploadImageThenReturn500code() throws Exception {
+        // given
+        given(profileUpdateService.updateProfileImage()).willThrow(
+                MemberTypeException.from(FAILED_UPLOAD_IMAGE)
+        );
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders.patch("/members/{memberId}/profile-image", 1)
+        );
+
+        verifyResponse(result, FAILED_UPLOAD_IMAGE);
+
+        // then
+        result
+                .andDo(print())
+                .andExpect(status().isInternalServerError());
     }
 
     @DisplayName("프로필 수정 API")
@@ -96,7 +125,9 @@ class MemberControllerDocsTest extends RestDocsSupport {
         // when
         ResultActions result = this.mockMvc.perform(
                 RestDocumentationRequestBuilders.patch("/members/{memberId}", 1)
+                        .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto))
+                        .header(AUTHORIZATION, ACCESS_TOKEN)
         );
 
         // then
@@ -113,6 +144,7 @@ class MemberControllerDocsTest extends RestDocsSupport {
                                                 .type(JsonFieldType.STRING)
                                                 .description(
                                                         "수정된 프로필 이미지 주소. 프로필 이미지 권한 요청 API의 response중 contentUrl에 해당한다.")
+                                                .attributes(constraints("URL 형식"))
                                                 .optional(),
                                         fieldWithPath("username").type(JsonFieldType.STRING)
                                                 .description("닉네임")
@@ -121,9 +153,79 @@ class MemberControllerDocsTest extends RestDocsSupport {
                                 ),
                                 responseFields(
                                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드")
+                                        fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
+                                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지")
                                 )
                         )
                 );
+    }
+
+    @DisplayName("프로필 수정시 닉네임의 길이가 20자 초과라면 에러를 던진다.")
+    @Test
+    void updateProfileWithTooLongNicknameThenReturn400code() throws Exception {
+        // given
+        String testName = RandomStringUtils.randomAlphabetic(21);
+        PatchUpdateProfileReqDto dto = PatchUpdateProfileReqDto.builder()
+                .username(testName)
+                .build();
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders.patch("/members/{memberId}", 1)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+        );
+
+        // then
+        verifyResponse(result, BAD_REQUEST);
+        result
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("프로필 수정시 닉네임은 생략될 수 있다.")
+    @Test
+    void updateProfileWithoutNicknameThenReturn200code() throws Exception {
+        // given
+        String newProfileUrl = "https://content.url";
+        PatchUpdateProfileReqDto dto = PatchUpdateProfileReqDto.builder()
+                .newProfileUrl(newProfileUrl)
+                .build();
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders.patch("/members/{memberId}", 1)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+        );
+
+        // then
+        verifyResponse(result, OK);
+        result
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("프로필 수정시 newProfileUrl이 URL형식이 아닐 경우 400코드를 반환한다..")
+    @Test
+    void updateProfileWithNotUrlFormatThenReturn400code() throws Exception {
+        // given
+        String newProfileUrl = "test-url";
+        PatchUpdateProfileReqDto dto = PatchUpdateProfileReqDto.builder()
+                .newProfileUrl(newProfileUrl)
+                .build();
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders.patch("/members/{memberId}", 1)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+        );
+
+        // then
+        verifyResponse(result, BAD_REQUEST);
+        result
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }

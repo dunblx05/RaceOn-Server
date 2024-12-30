@@ -1,5 +1,7 @@
 package com.parting.dippin.api.friend;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 import com.parting.dippin.api.friend.dto.GetFriendsResDto;
 import com.parting.dippin.api.friend.dto.PostFriendsReqDto;
 import com.parting.dippin.api.friend.service.FriendReader;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Validated
@@ -32,16 +35,17 @@ public class FriendController {
         List<FriendDto> friends = friendReader.getFriends(memberId);
         GetFriendsResDto resDto = new GetFriendsResDto(friends);
 
-        return BaseResponse.success(resDto);
+        return BaseResponse.ok(resDto);
     }
 
     @PostMapping()
+    @ResponseStatus(CREATED)
     public BaseResponse<Void> addFriend(
         @LoggedInMemberId Integer memberId,
         @RequestBody PostFriendsReqDto postFriendsReqDto
     ) {
         friendService.addFriend(memberId, postFriendsReqDto.getFriendCode());
 
-        return BaseResponse.success();
+        return BaseResponse.created();
     }
 }

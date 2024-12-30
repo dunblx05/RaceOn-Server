@@ -1,6 +1,6 @@
 package com.parting.dippin.core.scheduler;
 
-import com.parting.dippin.core.exception.UserNotFoundException;
+import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.entity.connection.ConnectionStatusEntity;
 import com.parting.dippin.entity.connection.repository.ConnectionRepository;
 import com.parting.dippin.entity.member.MemberEntity;
@@ -16,10 +16,11 @@ public class ConnectionSchedulerService {
 
     private final ConnectionRepository connectionRepository;
     private final MemberRepository memberRepository;
+    private final MemberReader memberReader;
 
     @Transactional
     public void syncConnectionStatus(int memberId) {
-        MemberEntity memberEntity = getMemberEntityFromDatabase(memberId);
+        MemberEntity memberEntity = memberReader.getMemberById(memberId);
 
         LocalDateTime lastActiveAtFromDatabase = memberEntity.getLastActiveAt();
         LocalDateTime lastActiveAtFromRedis = getLastActiveAtFromRedis(memberId);
@@ -30,11 +31,6 @@ public class ConnectionSchedulerService {
 
             connectionRepository.deleteById(memberId);
         }
-    }
-
-    private MemberEntity getMemberEntityFromDatabase(int memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new UserNotFoundException("해당 유저가 없습니다."));
     }
 
     private LocalDateTime getLastActiveAtFromRedis(int memberId) {

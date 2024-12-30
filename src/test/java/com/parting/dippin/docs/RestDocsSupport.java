@@ -7,6 +7,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parting.dippin.common.LoggedInMemberIdArgumentResolver;
+import com.parting.dippin.core.exception.GlobalExceptionHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,10 +20,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.restdocs.snippet.Attributes.Attribute;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(RestDocumentationExtension.class)
 public abstract class RestDocsSupport {
+
+    protected static final String AUTHORIZATION = "Authorization";
+    protected static final String ACCESS_TOKEN = "Bearer your access token";
+    protected static final String REFRESH_TOKEN = "Bearer your refresh token";
+
     protected  RestDocumentationResultHandler restDocs;
     protected MockMvc mockMvc;
     protected static final ObjectMapper objectMapper = new ObjectMapper();
@@ -30,12 +37,16 @@ public abstract class RestDocsSupport {
     @BeforeEach
     void setup(RestDocumentationContextProvider provider) {
         restDocs = restDocumentationResultHandler();
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.afterPropertiesSet(); // Bean Validator 초기화
 
         this.mockMvc = MockMvcBuilders.standaloneSetup(initController())
                 .apply(documentationConfiguration(provider))
                 .alwaysDo(MockMvcResultHandlers.print()) // print 적용
                 .alwaysDo(restDocs)
+                .setControllerAdvice(new GlobalExceptionHandler())
                 .setCustomArgumentResolvers(new LoggedInMemberIdArgumentResolver())
+                .setValidator(validator)
                 .build();
     }
 
@@ -49,7 +60,11 @@ public abstract class RestDocsSupport {
 
     protected abstract Object initController();
 
+    /**
+     *   constraints 속성을 편하게 추가할 수 있게 도와주는 메서드이다.
+     */
     protected Attributes.Attribute constraints(String constraints) {
+
         return new Attribute("constraints", constraints);
     }
 }

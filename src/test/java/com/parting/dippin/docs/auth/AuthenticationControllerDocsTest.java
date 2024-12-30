@@ -46,7 +46,8 @@ class AuthenticationControllerDocsTest extends RestDocsSupport {
         mockMvc.perform(post("/auth/login")
                         .with(csrf())
                         .queryParam("memberId", String.valueOf(memberId))
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andDo(restDocs.document(
@@ -55,7 +56,8 @@ class AuthenticationControllerDocsTest extends RestDocsSupport {
                         ),
                         responseFields(
                                 fieldWithPath("success").type(BOOLEAN).description("성공 여부"),
-                                fieldWithPath("code").type(NUMBER).description("응답 코드"),
+                                fieldWithPath("code").type(STRING).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("data.accessToken").type(STRING).description("액세스 토큰"),
                                 fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰")
                         )
@@ -77,14 +79,16 @@ class AuthenticationControllerDocsTest extends RestDocsSupport {
         // When & Then
         mockMvc.perform(post("/auth/reissue")
                         .with(csrf())
-                        .header("X-AUTH-TOKEN", "someToken") // Assuming you're using a custom header for authentication
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(AUTHORIZATION, REFRESH_TOKEN)
+                )
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andDo(restDocs.document(
                         responseFields(
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("새 액세스 토큰"),
                                 fieldWithPath("data.refreshToken").type(JsonFieldType.STRING).description("새 리프레시 토큰")
                         )

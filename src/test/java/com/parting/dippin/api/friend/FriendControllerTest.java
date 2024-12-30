@@ -66,6 +66,7 @@ class FriendControllerTest {
         // when
         ResultActions result = this.mockMvc.perform(
                 RestDocumentationRequestBuilders.get("/friends")
+                        .header("Authorization","Bearer your access Token")
         );
 
         // then
@@ -76,7 +77,8 @@ class FriendControllerTest {
                         document("get-friends",
                                 responseFields(
                                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                        fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
+                                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("데이터"),
                                         fieldWithPath("data.friends").type(JsonFieldType.ARRAY)
                                                 .description("+ 친구 목록 데이터"),
@@ -106,6 +108,7 @@ class FriendControllerTest {
         ResultActions result = this.mockMvc.perform(
                 RestDocumentationRequestBuilders
                         .post("/friends")
+                        .header("Authorization","Bearer your access Token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(postFriendsReqDto))
@@ -114,7 +117,7 @@ class FriendControllerTest {
         // then
         result
             .andDo(print())
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andDo(
                 document("post-friends",
                     preprocessRequest(prettyPrint()),
@@ -126,7 +129,8 @@ class FriendControllerTest {
                     ),
                     responseFields(
                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드")
+                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                        fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드")
                     )
                 )
             );

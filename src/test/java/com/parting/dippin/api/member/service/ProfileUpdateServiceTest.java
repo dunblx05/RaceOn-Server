@@ -1,9 +1,10 @@
 package com.parting.dippin.api.member.service;
 
+import static com.parting.dippin.core.exception.CommonCodeAndMessage.INVALID_USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.parting.dippin.common.DatabaseTest;
-import com.parting.dippin.core.exception.UserNotFoundException;
+import com.parting.dippin.core.exception.CommonException;
 import com.parting.dippin.domain.member.service.ProfileUpdateService;
 import com.parting.dippin.entity.member.MemberEntity;
 import com.parting.dippin.entity.member.enums.MemberStatus;
@@ -42,7 +43,7 @@ class ProfileUpdateServiceTest {
 
         // then
         MemberEntity retrievedMember = memberRepository.findById(save.getMemberId())
-            .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자입니다."));
+            .orElseThrow(() -> CommonException.from(INVALID_USER_ID));
 
         assertThat(retrievedMember.getNickname()).isEqualTo(newNickname);
         assertThat(retrievedMember.getProfileImageUrl()).isEqualTo(newProfileUrl);
@@ -65,7 +66,7 @@ class ProfileUpdateServiceTest {
 
         // then
         MemberEntity retrievedMember = memberRepository.findById(save.getMemberId())
-            .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자입니다."));
+            .orElseThrow(() -> CommonException.from(INVALID_USER_ID));
 
         assertThat(retrievedMember.getNickname()).isEqualTo(newNickname);
         assertThat(retrievedMember.getProfileImageUrl()).isEqualTo(currentProfileImageUrl);
@@ -88,7 +89,7 @@ class ProfileUpdateServiceTest {
 
         // then
         MemberEntity retrievedMember = memberRepository.findById(save.getMemberId())
-            .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자입니다."));
+            .orElseThrow(() -> CommonException.from(INVALID_USER_ID));
 
         assertThat(retrievedMember.getNickname()).isEqualTo(currentNickname);
         assertThat(retrievedMember.getProfileImageUrl()).isEqualTo(newProfileImageUrl);

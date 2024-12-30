@@ -1,6 +1,7 @@
 package com.parting.dippin.domain.member.service;
 
-import com.parting.dippin.core.exception.UserNotFoundException;
+import com.parting.dippin.core.exception.CommonCodeAndMessage;
+import com.parting.dippin.core.exception.CommonException;
 import com.parting.dippin.domain.member.dto.MemberDto;
 import com.parting.dippin.entity.member.MemberEntity;
 import com.parting.dippin.entity.member.enums.SocialProvider;
@@ -18,19 +19,22 @@ public class MemberReader {
 
     public List<MemberDto> getMembers(String nickname, int myMemberId) {
         return this.memberRepository.findMemberAndIsFriendByNicknameAndMemberId(nickname,
-            myMemberId);
+                myMemberId);
+    }
+
+    public MemberEntity getMemberById(int memberId){
+        return this.memberRepository.findMemberEntityByMemberId(memberId)
+                .orElseThrow(() -> CommonException.from(CommonCodeAndMessage.INVALID_USER_ID));
     }
 
     public String getMemberCode(int memberId) {
-        MemberEntity member = this.memberRepository.findMemberEntityByMemberId(memberId)
-            .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않아요."));
+        MemberEntity member = getMemberById(memberId);
 
         return member.getMemberCode();
     }
 
     public String getNickname(int memberId) {
-        MemberEntity member = this.memberRepository.findMemberEntityByMemberId(memberId)
-            .orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않아요."));
+        MemberEntity member = getMemberById(memberId);
 
         return member.getNickname();
     }

@@ -34,6 +34,6 @@ public class GameController {
 
         PostGameResDto resDto = new PostGameResDto(gameInfo);
 
-        return BaseResponse.success(resDto);
+        return BaseResponse.created(resDto);
     }
 }

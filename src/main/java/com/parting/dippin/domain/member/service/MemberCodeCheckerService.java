@@ -1,6 +1,8 @@
 package com.parting.dippin.domain.member.service;
 
-import com.parting.dippin.domain.member.exception.InvalidMemberCodeException;
+import static com.parting.dippin.domain.member.exception.MemberCodeAndMessage.INVALID_MEMBER_CODE;
+
+import com.parting.dippin.domain.member.exception.MemberTypeException;
 import com.parting.dippin.entity.member.MemberEntity;
 import com.parting.dippin.entity.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +19,13 @@ public class MemberCodeCheckerService {
      *
      * @param memberCode
      * @return memberId
-     * @throws InvalidMemberCodeException
+     * @throws MemberTypeException
      */
     public int invoke(String memberCode) {
         validateMemberCode(memberCode);
 
-        MemberEntity member = memberRepository.findMemberEntityByMemberCode(memberCode).orElseThrow(
-            InvalidMemberCodeException::new);
+        MemberEntity member = memberRepository.findMemberEntityByMemberCode(memberCode)
+                .orElseThrow(() -> MemberTypeException.from(INVALID_MEMBER_CODE));
 
         return member.getMemberId();
     }
@@ -32,7 +34,7 @@ public class MemberCodeCheckerService {
         boolean isValid = memberCode.matches("^[A-Z0-9]{6}$");
 
         if (!isValid) {
-            throw new InvalidMemberCodeException();
+            throw MemberTypeException.from(INVALID_MEMBER_CODE);
         }
     }
 }

@@ -11,7 +11,14 @@ include::{snippets}/member-controller-docs-test/update-profile-image/http-reques
 include::{snippets}/member-controller-docs-test/update-profile-image/path-parameters.adoc[]
 
 ==== Response
-
+===== Success
 include::{snippets}/member-controller-docs-test/update-profile-image/response-body.adoc[]
 
 include::{snippets}/member-controller-docs-test/update-profile-image/response-fields.adoc[]
+
+===== Presigned Url 발급실패
+include::{snippets}/member-controller-docs-test/failed-upload-image-then-return500code/response-body.adoc[]
+
+* AWS와의 통신 실패로 에러를 리턴하는 경우
+
+

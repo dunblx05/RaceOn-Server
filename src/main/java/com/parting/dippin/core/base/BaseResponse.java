@@ -1,6 +1,10 @@
 package com.parting.dippin.core.base;
 
+import static com.parting.dippin.core.exception.CommonCodeAndMessage.CREATED;
+import static com.parting.dippin.core.exception.CommonCodeAndMessage.OK;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.parting.dippin.core.exception.CodeAndMessage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,30 +13,37 @@ import lombok.NoArgsConstructor;
 public class BaseResponse<T> {
 
     boolean isSuccess;
-    int code;
+    String code;
+    String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     T data;
 
-    private BaseResponse(boolean isSuccess, int code, T data) {
-        this.isSuccess = isSuccess;
-        this.code = code;
+    private BaseResponse(CodeAndMessage codeAndMessage, T data) {
+        this.isSuccess = codeAndMessage.isSuccess();
+        this.code = codeAndMessage.code();
+        this.message = codeAndMessage.message();
         this.data = data;
     }
 
-    public BaseResponse(boolean isSuccess, int code) {
-        this.isSuccess = isSuccess;
-        this.code = code;
+    private BaseResponse(CodeAndMessage codeAndMessage) {
+        this.isSuccess = true;
+        this.code = codeAndMessage.code();
+        this.message = codeAndMessage.message();
     }
 
-    public static <T> BaseResponse<T> success(T data) {
-        return new BaseResponse<>(true, 200, data);
+    public static <T> BaseResponse<T> ok(T data) {
+        return new BaseResponse<>(OK, data);
     }
 
-    public static BaseResponse<Void> success() {
-        return new BaseResponse<>(true, 200);
+    public static <T> BaseResponse<T> created(T data){
+        return new BaseResponse<>(CREATED, data);
     }
 
-    public static BaseResponse<Void> fail(int code) {
-        return new BaseResponse<>(true, code);
+    public static BaseResponse<Void> ok() {
+        return new BaseResponse<>(OK);
+    }
+
+    public static BaseResponse<Void> created() {
+        return new BaseResponse<>(CREATED);
     }
 }

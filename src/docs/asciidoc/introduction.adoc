@@ -7,6 +7,7 @@ API 사용법 관련 문의는 Discord DM을 통해 주시면 최대한 빨리 �
 ----
 {
   "code": 200,
+  "message": "응답 메시지",
   "data": {
     "key1":"value1",
     "key2":"value2"
@@ -18,18 +19,19 @@ API 사용법 관련 문의는 Discord DM을 통해 주시면 최대한 빨리 �
 |Name |Description | optional
 
 |success | 성공여부 | false
-|code | 응답 코드(http status code x) | false
+|code | 응답 코드(http status code) | false
 |data | 응답 데이터(없을 경우 생략 가능) | true
+|message | 응답 메시지(성공/실패 원인을 간략히 설명) | false
 |===
 
+*code, message*
 
-*code*:
+code는 일반적으로 http status code를 따르고, message는 실패 원인을 간략히 설명합니다.
 
-성공의 경우 항상 200을 반환합니다.
+(성공시 "요청에 성공했습니다.","생성에 성공했습니다."를 반환합니다.)
 
-실패의 원인을 나타내기 위해 코드를 반환하며 코드에 대응되는 실패 원인은 아래 예시를 참고바랍니다.
+code와 message를 통해 API문서에서 실패 원인을 확인하고 개발하시면 됩니다.
 
-*※ http status code가 아님에 유의해주세요. ※*
 
 *data* :
 
@@ -44,4 +46,24 @@ key, value 형식으로 data를 반환하며 반환할 데이터가 없을 경�
   "success": true
 }
 ----
+
+=== Common Error Response
+해당 Error Response 목록은 호출하는 API와 상관없이 공통으로 반환될 수 있는 ErrorCode를 의미한다.
+
+API Error Response에 아래 에러에 대한 내용이 없더라도
+공통 에러 응답이므로 적절한 핸들링을 바란다.
+
+단, OK, CREATED는 적절한 HTTP Method에 따라 반환된다.
+
+include::{snippets}/common-error-response-docs-test/error-code-response-test/common-error-code-response-fields-beneath-errorCodes.adoc[]
+
+=== 로그인 여부 확인 방법
+아래 문서에서 요청 Header에 대한 정보를 확인할 수 있을 것이다.
+
+요청 Header 중 아래와 같이 Authorization이 있는 경우 로그인이 필요한
+요청으로 이해하면 된다.
+
+Example) 프로필 이미지 수정 권한 요청 API
+
+include::{snippets}/member-controller-docs-test/update-profile-image/http-request.adoc[]
 

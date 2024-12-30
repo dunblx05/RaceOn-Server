@@ -23,7 +23,7 @@ public class AuthenticationController {
     ) {
         GetJwtResDto jwtDto = authService.login(memberId);
 
-        return BaseResponse.success(jwtDto);
+        return BaseResponse.ok(jwtDto);
     }
 
     @PostMapping("/reissue")
@@ -32,6 +32,6 @@ public class AuthenticationController {
     ) {
         GetJwtResDto jwtDto = authService.reissue(memberId);
 
-        return BaseResponse.success(jwtDto);
+        return BaseResponse.ok(jwtDto);
     }
 }

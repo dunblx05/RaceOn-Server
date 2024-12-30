@@ -91,6 +91,9 @@ dependencies {
 
 	// Firebase
 	implementation 'com.google.firebase:firebase-admin:7.3.0'
+
+	// convenience
+	implementation 'org.apache.commons:commons-lang3'
 }
 
 tasks.named('test') {

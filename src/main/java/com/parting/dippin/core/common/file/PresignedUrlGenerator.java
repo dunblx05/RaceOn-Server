@@ -1,12 +1,14 @@
 package com.parting.dippin.core.common.file;
 
+import static com.parting.dippin.domain.member.exception.MemberCodeAndMessage.FAILED_UPLOAD_IMAGE;
+
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.parting.dippin.api.member.dto.PatchProfileImageResDto;
-import com.parting.dippin.api.member.exception.FailedUploadImageException;
+import com.parting.dippin.domain.member.exception.MemberTypeException;
 import java.net.URL;
 import java.util.Date;
 import java.util.UUID;
@@ -28,7 +30,7 @@ public class PresignedUrlGenerator {
 
             return new PatchProfileImageResDto(preSignedUrl);
         } catch (Exception e) {
-            throw new FailedUploadImageException("이미지 업로드 실패");
+            throw MemberTypeException.from(FAILED_UPLOAD_IMAGE);
         }
     }
 

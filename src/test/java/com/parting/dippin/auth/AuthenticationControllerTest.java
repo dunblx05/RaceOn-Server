@@ -61,7 +61,8 @@ class AuthenticationControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("액세스 토큰"),
                                 fieldWithPath("data.refreshToken").type(JsonFieldType.STRING).description("리프레시 토큰")
                         )
@@ -91,7 +92,8 @@ class AuthenticationControllerTest {
                 .andDo(document("auth-reissue",
                         responseFields(
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("새 액세스 토큰"),
                                 fieldWithPath("data.refreshToken").type(JsonFieldType.STRING).description("새 리프레시 토큰")
                         )

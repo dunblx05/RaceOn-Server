@@ -1,6 +1,8 @@
 package com.parting.dippin.domain.friend;
 
-import com.parting.dippin.domain.friend.exception.AlreadyFriendException;
+import static com.parting.dippin.domain.friend.exception.FriendCodeAndMessage.ALREADY_FRIEND_EXCEPTION;
+
+import com.parting.dippin.domain.friend.exception.FriendTypeException;
 import com.parting.dippin.domain.friend.service.FriendAddingService;
 import com.parting.dippin.domain.friend.service.FriendValidationService;
 import lombok.Getter;
@@ -20,7 +22,7 @@ public class FriendAdder {
         FriendAddingService friendAddingService) {
 
         if (isAlreadyFriend(friendValidationService)) {
-            throw new AlreadyFriendException();
+            throw FriendTypeException.from(ALREADY_FRIEND_EXCEPTION);
         }
 
         friendAddingService.addFriend(this);

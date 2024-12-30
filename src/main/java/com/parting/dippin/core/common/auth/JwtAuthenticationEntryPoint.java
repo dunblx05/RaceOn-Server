@@ -1,7 +1,9 @@
 package com.parting.dippin.core.common.auth;
 
+import static com.parting.dippin.core.exception.CommonCodeAndMessage.REQUIRED_LOGIN;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parting.dippin.core.base.BaseResponse;
+import com.parting.dippin.core.base.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             AuthenticationException authException
     ) throws IOException {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        BaseResponse<Void> forbiddenResponse = BaseResponse.fail(403);
+        ErrorResponse forbiddenResponse = ErrorResponse.from(REQUIRED_LOGIN);
         String json = objectMapper.writeValueAsString(forbiddenResponse);
 
         response.getWriter().write(json);
