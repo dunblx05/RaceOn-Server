@@ -26,6 +26,6 @@ public class KakaoLoginController {
 
         GetJwtResDto jwtResDto = kakaoOauthService.callBack(code);
 
-        return BaseResponse.success(jwtResDto);
+        return BaseResponse.ok(jwtResDto);
     }
 }
