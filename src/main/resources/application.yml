@@ -38,3 +38,11 @@ aws:
 jwt:
   secret:
     key: ${JWT_KEY}
+
+kakao:
+  client:
+    id: ${KAKAO_CLIENT_ID}
+  uri:
+    redirect: ${KAKAO_OAUTH_REDIRECT_URI}
+    token-request: ${KAKAO_TOKEN_REQUEST_URI}
+    user-request: ${KAKAO_USER_INFO_REQUEST_URI}

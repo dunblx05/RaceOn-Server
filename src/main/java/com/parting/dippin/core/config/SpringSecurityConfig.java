@@ -57,6 +57,7 @@ public class SpringSecurityConfig {
                         .requestMatchers("/docs/**").permitAll()
                         .requestMatchers("/hello").permitAll()
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/kakao/callback").permitAll()
                         .anyRequest().authenticated());
 
         // SESSION POLICY

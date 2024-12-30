@@ -9,7 +9,7 @@ public class MemberRegisterDto {
     SocialProvider socialProvider;
     String socialId;
 
-    MemberRegisterDto(SocialProvider socialProvider, String socialId) {
+    public MemberRegisterDto(SocialProvider socialProvider, String socialId) {
         this.socialProvider = socialProvider;
         this.socialId = socialId;
     }

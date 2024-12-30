@@ -1,0 +1,25 @@
+=== 토큰 재발급
+accessToken, refreshToken의 유효기간은 각각 30분, 2주로 설정되어 있다.
+
+accessToken의 유효기간이 만료된 경우 해당 API를 호출하여 token을 재발급 받아야한다.
+
+refreshToken은 유효기간이 남아있더라도 매번 새로 재발급되어 반환된다.(Refresh Token Rotation)
+
+refreshToken도 만료된 상태로 유저가 접속할 경우 재 로그인이 필요하다.
+
+==== Request
+
+include::{snippets}/authentication-controller-docs-test/reissue/http-request.adoc[]
+
+===== Request Header
+[%header,cols="2,1,4"]
+|===
+|Header |Required | Description
+|Authorization | True | refreshToken
+|===
+
+==== Response
+
+include::{snippets}/authentication-controller-docs-test/reissue/response-body.adoc[]
+
+include::{snippets}/authentication-controller-docs-test/reissue/response-fields.adoc[]

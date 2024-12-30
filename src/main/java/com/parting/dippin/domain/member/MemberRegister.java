@@ -27,7 +27,7 @@ public class MemberRegister {
         socialId = memberRegisterDto.getSocialId();
 
         nickname = nicknameGeneratorService.generate();
-        memberId = memberRegisterService.register(this);
         memberCode = memberCodeGeneratorService.generate();
+        memberId = memberRegisterService.register(this);
     }
 }

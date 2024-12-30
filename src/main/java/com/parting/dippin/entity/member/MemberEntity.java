@@ -33,6 +33,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class MemberEntity extends BaseEntity {
 
+    private static final String DEFAULT_PROFILE_IMAGE_URL = "https://race-on.s3.ap-northeast-2.amazonaws.com/profileimage/basic_profile.png";
+
     @Id
     @Column(name = "member_id", columnDefinition = "int(11)")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,7 +72,7 @@ public class MemberEntity extends BaseEntity {
     @JoinColumn(name = "member_id")
     private List<FriendsEntity> friendsEntities = new ArrayList<>();
 
-    @Column(name = "last_active_at", columnDefinition = "datetime", nullable = false)
+    @Column(name = "last_active_at", columnDefinition = "datetime default CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime lastActiveAt;
 
     @Builder
@@ -127,6 +129,9 @@ public class MemberEntity extends BaseEntity {
         memberEntity.socialProvider = memberRegister.getSocialProvider();
         memberEntity.socialId = memberRegister.getSocialId();
         memberEntity.memberCode = memberRegister.getMemberCode();
+        memberEntity.lastActiveAt = LocalDateTime.now();
+        memberEntity.memberStatus = MemberStatus.ACTIVE;
+        memberEntity.profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
 
         return memberEntity;
     }

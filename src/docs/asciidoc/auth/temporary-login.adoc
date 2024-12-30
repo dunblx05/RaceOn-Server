@@ -1,0 +1,19 @@
+=== 로그인 요청 (임시)
+
+SNS 로그인이 구현되기 전 임시로 사용하기 위한 API로 임시 로그인 API이다.
+
+해당 API를 통해 accessToken과 refreshToken을 발급받을 수 있으며 추후 SNS를 통한 로그인 으로 JWT 발급 방법을 교체하면 된다.
+
+(한동안은 테스트의 편의성을 위해 임시 로그인 API는 유지하려 한다. 출시 전까지는 사용 가능할 예정이다.)
+
+==== Request
+
+include::{snippets}/authentication-controller-docs-test/login/http-request.adoc[]
+
+include::{snippets}/authentication-controller-docs-test/login/query-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/authentication-controller-docs-test/login/response-body.adoc[]
+
+include::{snippets}/authentication-controller-docs-test/login/response-fields.adoc[]
