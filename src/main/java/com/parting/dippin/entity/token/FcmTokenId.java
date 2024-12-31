@@ -14,7 +14,6 @@ public class FcmTokenId implements Serializable {
 
     private Integer memberId;
 
-    @Column(name = "token", columnDefinition = "varchar(255)", nullable = false, updatable = false)
     private String token;
 
     public FcmTokenId(Integer memberId, String token) {

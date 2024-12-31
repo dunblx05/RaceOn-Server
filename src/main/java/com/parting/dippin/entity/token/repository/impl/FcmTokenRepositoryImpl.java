@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 public class FcmTokenRepositoryImpl extends QuerydslRepositorySupport implements
     QFcmTokenRepository {
+
     private final JPAQueryFactory jpaQueryFactory;
 
     public FcmTokenRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
@@ -19,8 +20,8 @@ public class FcmTokenRepositoryImpl extends QuerydslRepositorySupport implements
 
     public List<String> findTokensByMemberId(int memberId) {
         return jpaQueryFactory.from(fcmTokenEntity)
-            .select(fcmTokenEntity.id.token)
-            .where(fcmTokenEntity.id.memberId.eq(memberId))
+            .select(fcmTokenEntity.token)
+            .where(fcmTokenEntity.memberId.eq(memberId))
             .fetch();
     }
 }

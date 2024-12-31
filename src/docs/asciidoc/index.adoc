@@ -19,12 +19,15 @@
 
 == Introduction
 include::./introduction.adoc[]
+...
 
 == Auth
 include::./auth/auth.adoc[]
+...
 
 == Member
 include::./members/member.adoc[]
+...
 
 == Friend
 include::./friends/get-friends.adoc[]
@@ -34,15 +37,23 @@ include::./friends/add-friends.adoc[]
 
 == Game
 include::./games/post-games.adoc[]
+...
 
 include::./games/socket-games.adoc[]
+...
 
 include::./games/start-games.adoc[]
+...
 
 include::./games/process-games.adoc[]
+...
 
 include::./games/end-games.adoc[]
 '''
 
-== FCM
+== FCM Token
 include::./fcm/fcm.adoc[]
+...
+
+include::./token/save-token.adoc[]
+...
