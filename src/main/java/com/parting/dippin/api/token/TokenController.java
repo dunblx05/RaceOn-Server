@@ -26,6 +26,6 @@ public class TokenController {
     ) {
         tokenService.saveToken(memberId, postTokenReqDto.getToken());
 
-        return BaseResponse.success();
+        return BaseResponse.ok();
     }
 }
