@@ -1,6 +1,7 @@
 package com.parting.dippin.entity.member;
 
 import com.parting.dippin.core.base.BaseEntity;
+import com.parting.dippin.core.common.CurrentTimeProvider;
 import com.parting.dippin.domain.member.MemberRegister;
 import com.parting.dippin.entity.friends.FriendsEntity;
 import com.parting.dippin.entity.game.player.GamePlayerEntity;
@@ -146,5 +147,10 @@ public class MemberEntity extends BaseEntity {
 
     public void updateLastActiveAt(LocalDateTime lastActiveAt) {
         this.lastActiveAt = lastActiveAt;
+    }
+
+    public void withdraw(CurrentTimeProvider currentTimeProvider) {
+        this.memberStatus = MemberStatus.DELETED;
+        this.deletedAt = currentTimeProvider.now();
     }
 }

@@ -1,0 +1,12 @@
+=== 회원 탈퇴
+
+==== Request
+include::{snippets}/member-controller-docs-test/withdraw/http-request.adoc[]
+
+include::{snippets}/member-controller-docs-test/withdraw/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-docs-test/withdraw/response-body.adoc[]
+
+include::{snippets}/member-controller-docs-test/withdraw/response-fields.adoc[]

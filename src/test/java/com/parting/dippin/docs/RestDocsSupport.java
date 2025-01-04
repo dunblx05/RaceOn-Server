@@ -4,10 +4,13 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parting.dippin.common.LoggedInMemberIdArgumentResolver;
 import com.parting.dippin.core.exception.GlobalExceptionHandler;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,6 +18,8 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.restdocs.snippet.Attributes;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -66,5 +71,18 @@ public abstract class RestDocsSupport {
     protected Attributes.Attribute constraints(String constraints) {
 
         return new Attribute("constraints", constraints);
+    }
+
+    /**
+     * success, code, message로 구성된 기본 Response Fields를 반환한다.
+     * @author 정민욱
+     */
+    @NotNull
+    protected static ResponseFieldsSnippet defaultResponseFields() {
+        return responseFields(
+                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
+                fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
+                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지")
+        );
     }
 }

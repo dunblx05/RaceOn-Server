@@ -8,10 +8,12 @@ import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.core.base.BaseResponse;
 import com.parting.dippin.core.common.annotation.LoggedInMemberId;
 import com.parting.dippin.domain.member.dto.MemberDto;
+import com.parting.dippin.domain.member.service.MemberWithdrawService;
 import com.parting.dippin.domain.member.service.ProfileUpdateService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,7 @@ public class MemberController {
 
     private final MemberReader memberReader;
     private final ProfileUpdateService profileUpdateService;
+    private final MemberWithdrawService memberWithdrawService;
 
     @GetMapping()
     public BaseResponse<GetMembersResDto> getMembers(
@@ -67,5 +70,15 @@ public class MemberController {
         GetMemberCodeResDto getMemberCodeResDto = new GetMemberCodeResDto(memberCode);
 
         return BaseResponse.ok(getMemberCodeResDto);
+    }
+
+    @DeleteMapping("{memberId}")
+    public BaseResponse<Void> withdraw(
+            @LoggedInMemberId Integer memberId,
+            @PathVariable("memberId") Integer pMemberId
+    ) {
+        memberWithdrawService.withdraw(memberId);
+
+        return BaseResponse.ok();
     }
 }

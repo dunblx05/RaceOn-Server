@@ -29,8 +29,8 @@ class ConnectionServiceTest {
         //given
         int memberId = 1;
 
-        LocalDateTime now = LocalDateTime.now();
-        currentTimeProvider.setCurrentTime(now);
+        currentTimeProvider.setCurrentTime(LocalDateTime.now());
+        LocalDateTime now = currentTimeProvider.now();
 
         // when
         connectionService.updateConnectionStatus(memberId);

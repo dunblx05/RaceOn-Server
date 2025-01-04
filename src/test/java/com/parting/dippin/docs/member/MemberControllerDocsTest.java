@@ -20,30 +20,29 @@ import com.parting.dippin.api.member.dto.PatchUpdateProfileReqDto;
 import com.parting.dippin.docs.RestDocsExceptionSupport;
 import com.parting.dippin.domain.member.exception.MemberTypeException;
 import com.parting.dippin.domain.member.service.MemberReader;
+import com.parting.dippin.domain.member.service.MemberWithdrawService;
 import com.parting.dippin.domain.member.service.ProfileUpdateService;
 import java.net.URL;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 class MemberControllerDocsTest extends RestDocsExceptionSupport {
 
-    @MockBean
     private MemberReader memberReader;
-
-    @MockBean
     private ProfileUpdateService profileUpdateService;
+    private MemberWithdrawService memberWithdrawService;
 
     @Override
     protected Object initController() {
         memberReader = mock(MemberReader.class);
         profileUpdateService = mock(ProfileUpdateService.class);
+        memberWithdrawService = mock(MemberWithdrawService.class);
 
-        return new MemberController(memberReader, profileUpdateService);
+        return new MemberController(memberReader, profileUpdateService, memberWithdrawService);
     }
 
     @DisplayName("프로필 이미지 수정 API")
@@ -151,11 +150,7 @@ class MemberControllerDocsTest extends RestDocsExceptionSupport {
                                                 .attributes(constraints("20자 이하 문자열"))
                                                 .optional()
                                 ),
-                                responseFields(
-                                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                                        fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
-                                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지")
-                                )
+                                defaultResponseFields()
                         )
                 );
     }
@@ -228,4 +223,31 @@ class MemberControllerDocsTest extends RestDocsExceptionSupport {
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
+
+    @DisplayName("회원 탈퇴를 할 수 있다.")
+    @Test
+    void withdraw() throws Exception {
+        // given
+        int memberId = 1;
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders.delete("/members/{memberId}", memberId)
+                        .header(AUTHORIZATION, ACCESS_TOKEN)
+        );
+
+        // then
+        verifyResponse(result, OK);
+        result
+                .andDo(print())
+                .andDo(restDocs.document(
+                        pathParameters(
+                                parameterWithName("memberId").description("수정하고자 하는 유저의 memberId")
+                        ),
+                        defaultResponseFields()
+                ))
+                .andExpect(status().isOk());
+    }
+
+
 }

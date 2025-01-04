@@ -3,4 +3,5 @@ include::./image_upload_flow.adoc[]
 include::./get-presigned-url.adoc[]
 include::./update-profile.adoc[]
 
+include::./withdraw.adoc[]
 include::./report.adoc[]

@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parting.dippin.domain.member.service.MemberReader;
+import com.parting.dippin.domain.member.service.MemberWithdrawService;
 import com.parting.dippin.domain.member.service.ProfileUpdateService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,9 @@ class MemberControllerTest {
 
     @MockBean
     private ProfileUpdateService profileUpdateService;
+
+    @MockBean
+    private MemberWithdrawService memberWithdrawService;
 
     @DisplayName("멤버코드 조회")
     @Test
