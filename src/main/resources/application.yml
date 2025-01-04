@@ -46,3 +46,17 @@ kakao:
     redirect: ${KAKAO_OAUTH_REDIRECT_URI}
     token-request: ${KAKAO_TOKEN_REQUEST_URI}
     user-request: ${KAKAO_USER_INFO_REQUEST_URI}
+
+
+apple:
+  uri:
+    redirect: ${APPLE_REDIRECT_URI}
+    token-request: ${APPLE_TOKEN_REQUEST_URI}
+  client:
+    id: ${APPLE_CLIENT_ID}
+  team:
+    id: ${APPLE_TEAM_ID}
+  key:
+    id: ${APPLE_KEY_ID}
+    content: ${APPLE_KEY_CONTENT}
+

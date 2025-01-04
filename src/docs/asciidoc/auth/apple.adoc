@@ -1,0 +1,30 @@
+=== 카카오 로그인 흐름도
+
+이미 회원가입 된 유저라면 로그인 처리만 진행되며,
+회원이 아니라면 회원가입 후 로그인 처리가 된다.
+
+두 경우 모두 최종적으로 JWT Token을 반환한다.
+
+image::./images/oauth_process.png[]
+
+==== 1. GET /oauth/authorize
+
+카카오톡 로그인 버튼을 클릭했을 때, 아래 URL로 요청이 보내져야한다.
+
+===== RequestURI
+```
+GET https://appleid.apple.com/auth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}$$&response_type=${RESPONSE_TYPE}
+```
+
+===== Query String
+[%header,cols="2,4"]
+|===
+|Name         | Value
+|RESPONSE_TYPE| code
+|CLIENT_ID| shop.runner-dev.www
+|REDIRECT_URI | https://api.runner-dev.shop/apple/callback
+|===
+
+==== 2. accessToken, refreshToken
+로그인 과정이 완료되고 accessToken과 refreshToken을 발급받을 수 있다.
+

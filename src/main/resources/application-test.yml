@@ -37,3 +37,15 @@ kakao:
     redirect: mockOauthRedirectUri
     token-request: mockTokenRequestUri
     user-request: mockUserInfoRequestUri
+
+apple:
+  uri:
+    redirect: mockRedirectUri
+    token-request: mockTokenRequestUri
+  client:
+    id: mockClientId
+  team:
+    id: mockTeamId
+  key:
+    id: mockAppleId
+    content: mockKeyContent

@@ -125,6 +125,7 @@ public class MemberEntity extends BaseEntity {
   
     public static MemberEntity from(MemberRegister memberRegister) {
         MemberEntity memberEntity = new MemberEntity();
+        memberEntity.memberId = memberRegister.getMemberId();
         memberEntity.nickname = memberRegister.getNickname();
         memberEntity.socialProvider = memberRegister.getSocialProvider();
         memberEntity.socialId = memberRegister.getSocialId();

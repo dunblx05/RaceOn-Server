@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.parting.dippin.api.auth.dto.GetJwtResDto;
 import com.parting.dippin.api.member.service.MemberService;
 import com.parting.dippin.core.common.auth.TokenProvider;
+import com.parting.dippin.core.exception.CommonCodeAndMessage;
+import com.parting.dippin.core.exception.CommonException;
 import com.parting.dippin.domain.member.dto.MemberRegisterDto;
 import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.entity.member.MemberEntity;
@@ -43,8 +45,7 @@ public abstract class OauthService {
 
             return tokenProvider.createJwt(member.getMemberId());
         }catch (JsonProcessingException exception){
-            // TODO 예외 처리 PR 머지 후 수정 예정.
-            throw new RuntimeException("서버 외부 통신 에러");
+            throw CommonException.from(CommonCodeAndMessage.INTERNAL_SERVER_ERROR);
         }
     }
 

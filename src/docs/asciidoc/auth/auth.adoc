@@ -2,4 +2,6 @@ include::./temporary-login.adoc[]
 
 include::./kakao.adoc[]
 
+include::./apple.adoc[]
+
 include::./reissue.adoc[]
