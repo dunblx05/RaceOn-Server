@@ -1,7 +1,13 @@
 [id=get-presigned-url]
 === 프로필 이미지 수정 권한 요청
 
-프로필 이미지 수정은 presignedURL형식 으로 이루어진다.
+위 sequenceDiagram에서 1~4번에 해당한다.
+
+PresignedURL은 클라이언트가 직접 S3에 이미지를 업로드하기 위한 임시 권한 토큰으로 이해하면 된다.
+
+PresignedURL은 일회용으로 한번 이미지를 업로드하고 나면 다시 해당 URL로 이미지를 업로드할 수 없다.
+
+또한 10분간 권한이 허용되며 10분안에 이미지 업로드를 하지 못하면 권한은 사라진다.
 
 해당 API는 presignedURL 요청 API이며 실제 수정은 <<profile-update, 프로필 수정>>에서 진행된다.
 

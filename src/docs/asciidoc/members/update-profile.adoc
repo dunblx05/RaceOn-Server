@@ -13,9 +13,9 @@ include::{snippets}/member-controller-docs-test/update-profile/request-fields.ad
 
 ==== Response
 
-include::{snippets}/member-controller-docs-test/update-profile-image/response-body.adoc[]
+include::{snippets}/member-controller-docs-test/update-profile/response-body.adoc[]
 
-include::{snippets}/member-controller-docs-test/update-profile-image/response-fields.adoc[]
+include::{snippets}/member-controller-docs-test/update-profile/response-fields.adoc[]
 
 ===== BAD REQUEST
 include::{snippets}/member-controller-docs-test/update-profile-with-too-long-nickname-then-return400code/response-body.adoc[]
