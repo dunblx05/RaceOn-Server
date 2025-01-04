@@ -1,0 +1,15 @@
+=== 유저 신고
+
+==== Request
+include::{snippets}/member-report-controller-docs-test/report-member/http-request.adoc[]
+include::{snippets}/member-report-controller-docs-test/report-member/request-body.adoc[]
+include::{snippets}/member-report-controller-docs-test/report-member/request-fields.adoc[]
+
+==== Response
+include::{snippets}/member-report-controller-docs-test/report-member/response-body.adoc[]
+
+==== BAD REQUEST
+include::{snippets}/member-report-controller-docs-test/report-member-with-non-exist-member-id-then-return400-code/response-body.adoc[]
+* 신고하고자 하는 유저의 memberId가 없는 memberId인 경우
+
+

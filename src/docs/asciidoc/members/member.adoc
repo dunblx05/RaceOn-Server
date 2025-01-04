@@ -2,3 +2,5 @@ include::./get-member-code.adoc[]
 include::./image_upload_flow.adoc[]
 include::./get-presigned-url.adoc[]
 include::./update-profile.adoc[]
+
+include::./report.adoc[]

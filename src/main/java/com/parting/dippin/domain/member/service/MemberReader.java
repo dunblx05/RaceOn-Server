@@ -8,6 +8,7 @@ import com.parting.dippin.entity.member.enums.SocialProvider;
 import com.parting.dippin.entity.member.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +23,13 @@ public class MemberReader {
                 myMemberId);
     }
 
-    public MemberEntity getMemberById(int memberId){
+    public MemberEntity getMemberById(int memberId) {
+        return getMemberById(memberId, () -> CommonException.from(CommonCodeAndMessage.INVALID_USER_ID));
+    }
+
+    public MemberEntity getMemberById(int memberId, Supplier<RuntimeException> customException) {
         return this.memberRepository.findMemberEntityByMemberId(memberId)
-                .orElseThrow(() -> CommonException.from(CommonCodeAndMessage.INVALID_USER_ID));
+                .orElseThrow(customException);
     }
 
     public String getMemberCode(int memberId) {
