@@ -58,15 +58,15 @@ class FriendControllerTest {
     void getFriends() throws Exception {
         // given
         List<FriendDto> friends = new ArrayList<>();
-        friends.add(new FriendDto(2, "test2", LocalDateTime.now()));
-        friends.add(new FriendDto(3, "test3", LocalDateTime.now()));
+        friends.add(new FriendDto(2, "test2", "https://profile1.image.url", LocalDateTime.now()));
+        friends.add(new FriendDto(3, "test3", "https://profile2.image.url", LocalDateTime.now()));
 
         given(friendReader.getFriends(1)).willReturn(friends);
 
         // when
         ResultActions result = this.mockMvc.perform(
                 RestDocumentationRequestBuilders.get("/friends")
-                        .header("Authorization","Bearer your access Token")
+                        .header("Authorization", "Bearer your access Token")
         );
 
         // then
@@ -86,6 +86,8 @@ class FriendControllerTest {
                                                 .description("++ 친구 ID"),
                                         fieldWithPath("data.friends[].friendNickname").type(JsonFieldType.STRING)
                                                 .description("++ 친구 닉네임"),
+                                        fieldWithPath("data.friends[].profileImageUrl").type(JsonFieldType.STRING)
+                                                .description("++ 친구 프로필 이미지 URL"),
                                         fieldWithPath("data.friends[].lastActiveAt").type(JsonFieldType.STRING)
                                                 .description("++ 최근 접속 시각"),
                                         fieldWithPath("data.friends[].playing").type(JsonFieldType.BOOLEAN)
@@ -108,7 +110,7 @@ class FriendControllerTest {
         ResultActions result = this.mockMvc.perform(
                 RestDocumentationRequestBuilders
                         .post("/friends")
-                        .header("Authorization","Bearer your access Token")
+                        .header("Authorization", "Bearer your access Token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(postFriendsReqDto))
@@ -116,23 +118,23 @@ class FriendControllerTest {
 
         // then
         result
-            .andDo(print())
-            .andExpect(status().isCreated())
-            .andDo(
-                document("post-friends",
-                    preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint()),
-                    requestFields(
-                        fieldWithPath("friendCode").type(JsonFieldType.STRING)
-                            .description("친구 추가할 멤버코드")
-                                .attributes(new Attribute("constraints", "영어 대문자, 숫자로 이루어진 6글자"))
-                    ),
-                    responseFields(
-                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
-                        fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드")
-                    )
-                )
-            );
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andDo(
+                        document("post-friends",
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                requestFields(
+                                        fieldWithPath("friendCode").type(JsonFieldType.STRING)
+                                                .description("친구 추가할 멤버코드")
+                                                .attributes(new Attribute("constraints", "영어 대문자, 숫자로 이루어진 6글자"))
+                                ),
+                                responseFields(
+                                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
+                                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                        fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드")
+                                )
+                        )
+                );
     }
 }
