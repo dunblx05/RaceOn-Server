@@ -1,0 +1,12 @@
+=== 프로필 조회
+
+==== Request
+include::{snippets}/profile-controller-docs-test/get-profile/http-request.adoc[]
+
+include::{snippets}/profile-controller-docs-test/get-profile/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/profile-controller-docs-test/get-profile/response-body.adoc[]
+
+include::{snippets}/profile-controller-docs-test/get-profile/response-fields.adoc[]

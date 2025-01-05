@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.transaction.annotation.Transactional;
 
 @DatabaseTest
 class ConnectionStatusSchedulerTest {
@@ -26,7 +25,6 @@ class ConnectionStatusSchedulerTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Transactional
     @Test
     void writeBackVotes() {
         // given

@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 @DatabaseTest
 class ProfileUpdateServiceTest {
@@ -25,7 +24,6 @@ class ProfileUpdateServiceTest {
     @Autowired
     private ProfileUpdateService profileUpdateService;
 
-    @Transactional
     @DisplayName("프로필 수정 DTO를 받아 프로필을 수정한다.")
     @Test
     void updateProfile() {
@@ -49,7 +47,6 @@ class ProfileUpdateServiceTest {
         assertThat(retrievedMember.getProfileImageUrl()).isEqualTo(newProfileUrl);
     }
 
-    @Transactional
     @DisplayName("프로필 수정 DTO에 nickname만 전달하면 닉네임만 수정된다.")
     @Test
     void updateProfileWithNickname() {
@@ -72,7 +69,6 @@ class ProfileUpdateServiceTest {
         assertThat(retrievedMember.getProfileImageUrl()).isEqualTo(currentProfileImageUrl);
     }
 
-    @Transactional
     @DisplayName("프로필 수정 DTO에 profileImageUrl만 전달하면 프로필 이미지만 수정된다.")
     @Test
     void updateProfileWithProfileImageUrl() {

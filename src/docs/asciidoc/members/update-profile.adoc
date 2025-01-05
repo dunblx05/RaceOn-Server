@@ -3,22 +3,22 @@
 프로필 이미지를 수정할 경우 <<get-presigned-url, 프로필 이미지 수정 권한 요청>>이 선행되어야한다.
 
 ==== Request
-include::{snippets}/member-controller-docs-test/update-profile/http-request.adoc[]
+include::{snippets}/profile-controller-docs-test/update-profile/http-request.adoc[]
 
-include::{snippets}/member-controller-docs-test/update-profile/path-parameters.adoc[]
+include::{snippets}/profile-controller-docs-test/update-profile/path-parameters.adoc[]
 
-include::{snippets}/member-controller-docs-test/update-profile/request-body.adoc[]
+include::{snippets}/profile-controller-docs-test/update-profile/request-body.adoc[]
 
-include::{snippets}/member-controller-docs-test/update-profile/request-fields.adoc[]
+include::{snippets}/profile-controller-docs-test/update-profile/request-fields.adoc[]
 
 ==== Response
 
-include::{snippets}/member-controller-docs-test/update-profile/response-body.adoc[]
+include::{snippets}/profile-controller-docs-test/update-profile/response-body.adoc[]
 
-include::{snippets}/member-controller-docs-test/update-profile/response-fields.adoc[]
+include::{snippets}/profile-controller-docs-test/update-profile/response-fields.adoc[]
 
 ===== BAD REQUEST
-include::{snippets}/member-controller-docs-test/update-profile-with-too-long-nickname-then-return400code/response-body.adoc[]
+include::{snippets}/profile-controller-docs-test/update-profile-with-too-long-nickname-then-return400code/response-body.adoc[]
 
 * 닉네임이 20자를 초과한 경우
 * newProfileUrl이 URL형식이 아닌 경우
