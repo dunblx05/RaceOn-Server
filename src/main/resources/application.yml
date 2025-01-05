@@ -47,6 +47,13 @@ kakao:
     token-request: ${KAKAO_TOKEN_REQUEST_URI}
     user-request: ${KAKAO_USER_INFO_REQUEST_URI}
 
+google:
+  client:
+    id: ${GOOGLE_CLIENT_ID}
+  uri:
+    redirect: ${GOOGLE_OAUTH_REDIRECT_URI}
+    token-request: ${GOOGLE_TOKEN_REQUEST_URI}
+    user-request: ${GOOGLE_USER_INFO_REQUEST_URI}
 
 apple:
   uri:

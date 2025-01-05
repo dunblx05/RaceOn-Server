@@ -1,6 +1,10 @@
 include::./temporary-login.adoc[]
 
+include::./common.adoc[]
+
 include::./kakao.adoc[]
+
+include::./google.adoc[]
 
 include::./apple.adoc[]
 

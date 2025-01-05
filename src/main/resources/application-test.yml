@@ -38,6 +38,15 @@ kakao:
     token-request: mockTokenRequestUri
     user-request: mockUserInfoRequestUri
 
+google:
+  client:
+    id: mockGoogleClientId
+    secret: mockGoogleClientSecret
+  uri:
+    redirect: mockOauthRedirectUri
+    token-request: mockTokenRequestUri
+    user-request: mockUserInfoRequestUri
+
 apple:
   uri:
     redirect: mockRedirectUri
@@ -49,3 +58,4 @@ apple:
   key:
     id: mockAppleId
     content: mockKeyContent
+

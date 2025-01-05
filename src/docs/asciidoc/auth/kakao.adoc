@@ -1,13 +1,6 @@
-=== 카카오 로그인 흐름도
+=== 카카오 로그인
 
-이미 회원가입 된 유저라면 로그인 처리만 진행되며,
-회원이 아니라면 회원가입 후 로그인 처리가 된다.
-
-두 경우 모두 최종적으로 JWT Token을 반환한다.
-
-image::./images/oauth_process.png[]
-
-==== 1. GET /oauth/authorize
+==== 1.OAuth 서버로 사용자 인증
 
 카카오톡 로그인 버튼을 클릭했을 때, 아래 URL로 요청이 보내져야한다.
 
@@ -25,6 +18,6 @@ GET https://kauth.kakao.com/oauth/authorize?response_type=${RESPONSE_TYPE}&clien
 |REDIRECT_URI | https://api.runner-dev.shop/kakao/callback
 |===
 
-==== 2. accessToken, refreshToken
+==== 3. accessToken, refreshToken
 로그인 과정이 완료되고 accessToken과 refreshToken을 발급받을 수 있다.
 
