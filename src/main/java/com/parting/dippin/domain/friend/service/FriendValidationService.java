@@ -1,7 +1,6 @@
 package com.parting.dippin.domain.friend.service;
 
 import com.parting.dippin.entity.friends.repository.FriendsRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,5 +12,9 @@ public class FriendValidationService {
 
     public boolean isLinkedFriend(int memberId, int friendId) {
         return friendsRepository.existsFriendsByMyMemberIdAndMemberId(memberId, friendId);
+    }
+
+    public boolean isSameUser(int memberId, int friendId) {
+        return memberId == friendId;
     }
 }

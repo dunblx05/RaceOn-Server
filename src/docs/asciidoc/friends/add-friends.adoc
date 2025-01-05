@@ -10,3 +10,11 @@ include::{snippets}/post-friends/request-fields.adoc[]
 
 include::{snippets}/post-friends/response-body.adoc[]
 include::{snippets}/post-friends/response-fields.adoc[]
+
+==== Bad Request
+include::{snippets}/friend-controller-docs-test/add-friend-with-my-id-then-return400-code/response-body.adoc[]
+
+- 본인의 아이디로 친구추가를 시도하는 경우
+
+include::{snippets}/friend-controller-docs-test/add-friend-with-friend-id-then-return400-code/response-body.adoc[]
+- 이미 친구인 id로 친구 추가를 시도하는 경우

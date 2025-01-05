@@ -1,10 +1,13 @@
 package com.parting.dippin.docs.friend;
 
+import static com.parting.dippin.core.exception.CommonCodeAndMessage.BAD_REQUEST;
+import static com.parting.dippin.domain.friend.exception.FriendCodeAndMessage.ALREADY_FRIEND_EXCEPTION;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static com.parting.dippin.core.exception.CommonCodeAndMessage.OK;
 import static com.parting.dippin.domain.friend.exception.FriendCodeAndMessage.NOT_FRIENDS_EXCEPTION;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.mock;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
@@ -15,15 +18,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.parting.dippin.api.friend.FriendController;
-import com.parting.dippin.api.friend.dto.DeleteFriendReqDto;
+import com.parting.dippin.api.friend.dto.PostFriendsReqDto;
 import com.parting.dippin.api.friend.service.FriendReader;
 import com.parting.dippin.api.friend.service.FriendService;
+import com.parting.dippin.core.exception.CommonException;
+import com.parting.dippin.api.friend.dto.DeleteFriendReqDto;
 import com.parting.dippin.docs.RestDocsExceptionSupport;
 import com.parting.dippin.domain.friend.exception.FriendTypeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -38,6 +43,56 @@ class FriendControllerDocsTest extends RestDocsExceptionSupport {
         friendService = mock(FriendService.class);
 
         return new FriendController(friendReader, friendService);
+    }
+
+    @DisplayName("본인의 id로 친구추가를 요청할 경우 400에러를 응답한다.")
+    @Test
+    void addFriendWithMyIdThenReturn400Code() throws Exception {
+        // given
+        String friendCode = "AAAAAA";
+        PostFriendsReqDto dto = new PostFriendsReqDto(friendCode);
+
+        doThrow(CommonException.from(BAD_REQUEST))
+                .when(friendService).addFriend(1, friendCode);
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders.post("/friends")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+        );
+
+        // then
+        verifyResponse(result, BAD_REQUEST);
+        result
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @DisplayName("이미 친구관계인 유저의 id로 친구추가를 시도할 경우 400코드를 반환한다.")
+    @Test
+    void addFriendWithFriendIdThenReturn400Code() throws Exception {
+        // given
+        String friendCode = "AAAAAA";
+        PostFriendsReqDto dto = new PostFriendsReqDto(friendCode);
+
+        doThrow(FriendTypeException.from(ALREADY_FRIEND_EXCEPTION))
+                .when(friendService).addFriend(1, friendCode);
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders.post("/friends")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+        );
+
+        // then
+        verifyResponse(result, ALREADY_FRIEND_EXCEPTION);
+        result
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+
     }
 
     @DisplayName("친구 삭제 테스트")

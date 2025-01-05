@@ -103,8 +103,7 @@ class FriendControllerTest {
         // given
         willDoNothing().given(friendService).addFriend(1, "J13D6E");
 
-        PostFriendsReqDto postFriendsReqDto = new PostFriendsReqDto();
-        postFriendsReqDto.setFriendCode("J13D6E");
+        PostFriendsReqDto postFriendsReqDto = new PostFriendsReqDto("J13D6E");
 
         // when
         ResultActions result = this.mockMvc.perform(
