@@ -1,0 +1,3 @@
+include::add-friends.adoc[]
+include::get-friends.adoc[]
+include::delete-friends.adoc[]

@@ -5,7 +5,9 @@ import java.util.List;
 
 public interface QFriendsRepository {
 
-    public List<MemberEntity> findByMemberId(int memberId);
+    List<MemberEntity> findByMemberId(int memberId);
 
-    public boolean existsFriendsByMyMemberIdAndMemberId(int myMemberId, int memberId);
+    boolean existsFriendsByMyMemberIdAndMemberId(int myMemberId, int memberId);
+
+    void deleteByMemberIdAndFriendId(int memberId, int friendId);
 }

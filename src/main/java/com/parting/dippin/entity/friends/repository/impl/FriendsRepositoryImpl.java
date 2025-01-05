@@ -53,4 +53,23 @@ public class FriendsRepositoryImpl extends QuerydslRepositorySupport
 
         return fetchOne != null;
     }
+
+    @Override
+    public void deleteByMemberIdAndFriendId(int memberId, int friendId) {
+        jpaQueryFactory
+                .delete(friendsEntity)
+                .where(
+                        or(
+                                and(
+                                        friendsEntity.memberId.eq(memberId),
+                                        friendsEntity.friendId.eq(friendId)
+                                ),
+                                and(
+                                        friendsEntity.memberId.eq(friendId),
+                                        friendsEntity.friendId.eq(memberId)
+                                )
+                        )
+                )
+                .execute();
+    }
 }

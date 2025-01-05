@@ -4,7 +4,8 @@ import com.parting.dippin.core.exception.CodeAndMessage;
 
 // 도메인 코드 : FR
 public enum FriendCodeAndMessage implements CodeAndMessage {
-    ALREADY_FRIEND_EXCEPTION(false, 400, "FRBR01", "이미 추가된 친구입니다.");
+    ALREADY_FRIEND_EXCEPTION(false, 400, "FRBR01", "이미 추가된 친구입니다."),
+    NOT_FRIENDS_EXCEPTION(false, 400, "FRBR02", "친구 관계가 아닙니다.");
 
     private final boolean success;
     private final int httpStatusCode;

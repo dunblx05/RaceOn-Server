@@ -2,6 +2,7 @@ package com.parting.dippin.api.friend;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+import com.parting.dippin.api.friend.dto.DeleteFriendReqDto;
 import com.parting.dippin.api.friend.dto.GetFriendsResDto;
 import com.parting.dippin.api.friend.dto.PostFriendsReqDto;
 import com.parting.dippin.api.friend.service.FriendReader;
@@ -12,6 +13,7 @@ import com.parting.dippin.domain.friend.dto.FriendDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,5 +49,15 @@ public class FriendController {
         friendService.addFriend(memberId, postFriendsReqDto.getFriendCode());
 
         return BaseResponse.created();
+    }
+
+    @DeleteMapping()
+    public BaseResponse<Void> deleteFriend(
+            @LoggedInMemberId Integer memberId,
+            @RequestBody DeleteFriendReqDto deleteFriendReqDto
+    ){
+        friendService.deleteFriend(memberId, deleteFriendReqDto.getFriendId());
+
+        return BaseResponse.ok();
     }
 }

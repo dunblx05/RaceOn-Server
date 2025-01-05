@@ -18,8 +18,10 @@ public class FriendAdder {
         this.friendId = friendId;
     }
 
-    public void addFriend(FriendValidationService friendValidationService,
-        FriendAddingService friendAddingService) {
+    public void addFriend(
+            FriendValidationService friendValidationService,
+            FriendAddingService friendAddingService
+    ) {
 
         if (isAlreadyFriend(friendValidationService)) {
             throw FriendTypeException.from(ALREADY_FRIEND_EXCEPTION);

@@ -1,6 +1,7 @@
 package com.parting.dippin.domain.friend.exception;
 
 import static com.parting.dippin.domain.friend.exception.FriendCodeAndMessage.ALREADY_FRIEND_EXCEPTION;
+import static com.parting.dippin.domain.friend.exception.FriendCodeAndMessage.NOT_FRIENDS_EXCEPTION;
 
 import com.parting.dippin.core.exception.BusinessException;
 import com.parting.dippin.core.exception.CodeAndMessage;
@@ -17,6 +18,7 @@ public class FriendTypeException extends BusinessException {
 
     static {
         exceptionMap.put(ALREADY_FRIEND_EXCEPTION, new FriendTypeException.AlreadyFriendException(ALREADY_FRIEND_EXCEPTION));
+        exceptionMap.put(NOT_FRIENDS_EXCEPTION, new FriendTypeException.DoesNotFriendException(NOT_FRIENDS_EXCEPTION));
     }
 
     public static FriendTypeException from(final FriendCodeAndMessage codeAndMessage) {
@@ -31,6 +33,13 @@ public class FriendTypeException extends BusinessException {
     private static final class AlreadyFriendException extends FriendTypeException {
 
         public AlreadyFriendException(final FriendCodeAndMessage codeAndMessage) {
+            super(codeAndMessage);
+        }
+    }
+
+    private static final class DoesNotFriendException extends FriendTypeException {
+
+        public DoesNotFriendException(final FriendCodeAndMessage codeAndMessage) {
             super(codeAndMessage);
         }
     }
