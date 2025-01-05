@@ -64,19 +64,19 @@ public class TokenProvider implements InitializingBean {
         return null;
     }
 
-    // TODO 임시 로그인 로큰에서만 사용할 예정.
-    public GetJwtResDto createJwt(long memberId) {
+    public GetJwtResDto createJwt(int memberId) {
         String accessToken = createAccessToken(memberId);
         String refreshToken = createRefreshToken(memberId);
 
         return GetJwtResDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .memberId(memberId)
                 .build();
     }
 
     // TODO 임시 로그인 로큰에서만 사용할 예정.
-    private String createRefreshToken(long memberId){
+    private String createRefreshToken(long memberId) {
         Map<String, String> extraClaims = createExtraClaims(REFRESH_TOKEN);
 
         Date validity = new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALIDITY_2_WEEKS);
@@ -85,7 +85,7 @@ public class TokenProvider implements InitializingBean {
     }
 
     // TODO 임시 로그인 로큰에서만 사용할 예정.
-    private String createAccessToken(long memberId){
+    private String createAccessToken(long memberId) {
         Map<String, String> extraClaims = createExtraClaims(ACCESS_TOKEN);
 
         Date validity = new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_30_MINUTES);

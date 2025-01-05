@@ -8,9 +8,16 @@ public class GetJwtResDto {
     private final String accessToken;
     private final String refreshToken;
 
+    private final int memberId;
+
     @Builder
-    private GetJwtResDto(String accessToken, String refreshToken) {
+    private GetJwtResDto(
+            String accessToken,
+            String refreshToken,
+            int memberId
+    ) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.memberId = memberId;
     }
 }

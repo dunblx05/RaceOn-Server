@@ -11,11 +11,11 @@ public class AuthenticationService {
 
     private final TokenProvider tokenProvider;
 
-    public GetJwtResDto login(long memberId) {
+    public GetJwtResDto login(int memberId) {
         return tokenProvider.createJwt(memberId);
     }
 
-    public GetJwtResDto reissue(long memberId) {
+    public GetJwtResDto reissue(int memberId) {
         return tokenProvider.createJwt(memberId);
     }
 }

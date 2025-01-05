@@ -34,12 +34,13 @@ class AuthenticationControllerDocsTest extends RestDocsSupport {
     @Test
     void login() throws Exception {
         // Given
+        int memberId = 1;
         GetJwtResDto jwtDto = GetJwtResDto.builder()
                 .accessToken("accessToken")
                 .refreshToken("refreshToken")
+                .memberId(memberId)
                 .build();
 
-        int memberId = 1;
         given(authenticationService.login(memberId)).willReturn(jwtDto);
 
         // When & Then
@@ -59,7 +60,8 @@ class AuthenticationControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("code").type(STRING).description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("data.accessToken").type(STRING).description("액세스 토큰"),
-                                fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰")
+                                fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"),
+                                fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("유저 id")
                         )
                 ));
     }
@@ -68,12 +70,13 @@ class AuthenticationControllerDocsTest extends RestDocsSupport {
     @Test
     void reissue() throws Exception {
         // Given
+        int memberId = 1;
         GetJwtResDto jwtDto = GetJwtResDto.builder()
                 .accessToken("accessToken")
                 .refreshToken("refreshToken")
+                .memberId(memberId)
                 .build();
 
-        int memberId = 1;
         given(authenticationService.reissue(memberId)).willReturn(jwtDto);
 
         // When & Then
@@ -90,7 +93,8 @@ class AuthenticationControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("새 액세스 토큰"),
-                                fieldWithPath("data.refreshToken").type(JsonFieldType.STRING).description("새 리프레시 토큰")
+                                fieldWithPath("data.refreshToken").type(JsonFieldType.STRING).description("새 리프레시 토큰"),
+                                fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("유저 id")
                         )
                 ));
     }
