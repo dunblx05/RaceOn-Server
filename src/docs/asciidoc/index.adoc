@@ -32,6 +32,9 @@ include::./members/member.adoc[]
 == Friend
 include::./friends/friend.adoc[]
 
+== 접속 상태
+include::./connection/update-connection-status.adoc[]
+
 == Game
 include::./games/post-games.adoc[]
 ...

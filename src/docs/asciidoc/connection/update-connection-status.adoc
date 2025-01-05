@@ -1,0 +1,14 @@
+=== 접속 상태 갱신 API
+사용자가 서비스에 로그인한 시점부터 Polling 방식으로 30초에 한 번씩 해당 API를 요청해야한다.
+
+단, 게임을 진행중일 때는 해당 API를 요청하면 안된다.
+
+(WebSocket 통신과정에서 접속상태를 갱신하며 게임중으로 표시한다.)
+
+접속 상태 여부를 읽어오는 기능은 <<get-friends-api, 친구 목록 가져오기 API>>에서 함께 진행된다.
+
+==== Request
+include::{snippets}/connection-controller-docs-test/update-connection-status/http-request.adoc[]
+
+==== Response
+include::{snippets}/connection-controller-docs-test/update-connection-status/response-body.adoc[]
