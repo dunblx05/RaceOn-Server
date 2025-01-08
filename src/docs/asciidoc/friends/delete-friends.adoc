@@ -14,3 +14,5 @@ include::{snippets}/friend-controller-docs-test/delete-friend/response-fields.ad
 include::{snippets}/friend-controller-docs-test/delete-friend-with-does-not-friend-id-then-return400-code/response-body.adoc[]
 
 * 친구관계가 아닌데 친구 삭제 요청을 보낸 경우
+
+'''

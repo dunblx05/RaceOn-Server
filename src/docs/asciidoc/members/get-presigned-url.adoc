@@ -27,4 +27,4 @@ include::{snippets}/profile-controller-docs-test/failed-upload-image-then-return
 
 * AWS와의 통신 실패로 에러를 리턴하는 경우
 
-
+'''

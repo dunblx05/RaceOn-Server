@@ -1,5 +1,6 @@
 package com.parting.dippin.domain.friend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.parting.dippin.entity.connection.ConnectionStatusEntity;
 import com.parting.dippin.entity.member.MemberEntity;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ public class FriendDto {
     Integer friendId;
     String friendNickname;
     String profileImageUrl;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime lastActiveAt;
     boolean isPlaying;
 

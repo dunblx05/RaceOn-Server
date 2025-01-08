@@ -10,3 +10,5 @@ include::{snippets}/profile-controller-docs-test/get-profile/path-parameters.ado
 include::{snippets}/profile-controller-docs-test/get-profile/response-body.adoc[]
 
 include::{snippets}/profile-controller-docs-test/get-profile/response-fields.adoc[]
+
+'''

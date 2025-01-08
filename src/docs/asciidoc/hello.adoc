@@ -12,4 +12,5 @@ include::{snippets}/get-hello/request-body.adoc[]
 include::{snippets}/get-hello/response-body.adoc[]
 
 include::{snippets}/get-hello/http-response.adoc[]
-...
+
+'''

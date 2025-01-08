@@ -57,7 +57,7 @@ public class SpringSecurityConfig {
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/docs/**").permitAll()
                         .requestMatchers("/hello").permitAll()
-                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/temp/login").permitAll()
                         .requestMatchers("/kakao/callback").permitAll()
                         .requestMatchers("/google/callback").permitAll()
                         .requestMatchers("/apple/callback").permitAll()
@@ -69,7 +69,8 @@ public class SpringSecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         // JWT POLICY
-        http.with(new JwtSecurityConfig(tokenProvider), customizer -> {});
+        http.with(new JwtSecurityConfig(tokenProvider), customizer -> {
+        });
 
         // EXCEPTION HANDLING POLICY
         http.exceptionHandling(handler -> handler

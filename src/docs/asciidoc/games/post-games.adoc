@@ -1,14 +1,16 @@
 === 게임 초대 요청
-include::{snippets}/post-games/http-request.adoc[]
+include::{snippets}/game-controller-docs-test/request-game/http-request.adoc[]
 
 ==== Request
-include::{snippets}/post-games/request-body.adoc[]
-include::{snippets}/post-games/request-fields.adoc[]
+include::{snippets}/game-controller-docs-test/request-game/request-body.adoc[]
+include::{snippets}/game-controller-docs-test/request-game/request-fields.adoc[]
 
 ==== Response
 
-include::{snippets}/post-games/response-body.adoc[]
+include::{snippets}/game-controller-docs-test/request-game/response-body.adoc[]
 
-include::{snippets}/post-games/response-fields.adoc[]
+include::{snippets}/game-controller-docs-test/request-game/response-fields.adoc[]
 
-include::{snippets}/post-games/http-response.adoc[]
+include::{snippets}/game-controller-docs-test/request-game/http-response.adoc[]
+
+'''

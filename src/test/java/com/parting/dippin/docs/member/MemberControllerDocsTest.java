@@ -11,6 +11,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -48,6 +49,42 @@ class MemberControllerDocsTest extends RestDocsExceptionSupport {
                 memberReader,
                 memberWithdrawService
         );
+    }
+
+    @DisplayName("멤버코드 조회")
+    @Test
+    void getMemberCode() throws Exception {
+        // given
+        String memberCode = "123Ad2";
+
+        given(memberReader.getMemberCode(1)).willReturn(memberCode);
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders.get("/members/{memberId}/member-code", 1)
+                        .header(AUTHORIZATION, ACCESS_TOKEN)
+        );
+
+        // then
+        verifyResponse(result, OK);
+        result
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(
+                        restDocs.document(
+                                pathParameters(
+                                        parameterWithName("memberId").description("조회하고자 하는 유저의 memberId")
+                                ),
+                                responseFields(
+                                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
+                                        fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
+                                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("데이터"),
+                                        fieldWithPath("data.memberCode").type(JsonFieldType.STRING)
+                                                .description("+ 멤버 코드")
+                                )
+                        )
+                );
     }
 
     @DisplayName("회원 가입을 할 수 있다.")

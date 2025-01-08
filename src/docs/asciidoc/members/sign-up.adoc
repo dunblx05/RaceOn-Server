@@ -28,3 +28,4 @@ include::{snippets}/member-controller-docs-test/sign-up-with-invalid-id-token-th
 ===== EXIST MEMBER
 include::{snippets}/member-controller-docs-test/sign-up-with-existing-user-token-then-return400-code/response-body.adoc[]
 
+'''

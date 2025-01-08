@@ -12,3 +12,5 @@ include::{snippets}/connection-controller-docs-test/update-connection-status/htt
 
 ==== Response
 include::{snippets}/connection-controller-docs-test/update-connection-status/response-body.adoc[]
+
+'''

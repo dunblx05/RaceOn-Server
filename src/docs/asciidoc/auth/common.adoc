@@ -8,7 +8,7 @@
 
 4. 회원가입되지 않은 유저인 경우 에러 응답을 반환합니다. 이 경우 회원가입 API 로 이어나가면 됩니다.
 
-image::../images/oauth_process.png[]
+image::./images/oauth_process.png[]
 
 여기서 OAuth Server란 Kakao, Google, Apple과 같은
 인증 서비스 제공자의 서버를 의미한다.

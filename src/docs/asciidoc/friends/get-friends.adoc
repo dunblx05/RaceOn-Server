@@ -2,10 +2,12 @@
 === 친구 목록 조회
 
 ==== Request
-include::{snippets}/get-friends/http-request.adoc[]
+include::{snippets}/friend-controller-docs-test/get-friends/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/get-friends/response-body.adoc[]
+include::{snippets}/friend-controller-docs-test/get-friends/response-body.adoc[]
 
-include::{snippets}/get-friends/response-fields.adoc[]
+include::{snippets}/friend-controller-docs-test/get-friends/response-fields.adoc[]
+
+'''

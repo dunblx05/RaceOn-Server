@@ -17,3 +17,5 @@ include::{snippets}/authentication-controller-docs-test/login/query-parameters.a
 include::{snippets}/authentication-controller-docs-test/login/response-body.adoc[]
 
 include::{snippets}/authentication-controller-docs-test/login/response-fields.adoc[]
+
+'''

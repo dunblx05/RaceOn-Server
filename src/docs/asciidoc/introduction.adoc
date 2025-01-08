@@ -67,3 +67,4 @@ Example) 프로필 이미지 수정 권한 요청 API
 
 include::{snippets}/member-controller-docs-test/update-profile-image/http-request.adoc[]
 
+'''

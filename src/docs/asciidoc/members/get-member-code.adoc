@@ -2,12 +2,14 @@
 
 
 ==== Request
-include::{snippets}/get-memberCode/http-request.adoc[]
+include::{snippets}/member-controller-docs-test/get-member-code/http-request.adoc[]
 
-include::{snippets}/get-memberCode/path-parameters.adoc[]
+include::{snippets}/member-controller-docs-test/get-member-code/path-parameters.adoc[]
 
 ==== Response
 
-include::{snippets}/get-memberCode/response-body.adoc[]
+include::{snippets}/member-controller-docs-test/get-member-code/response-body.adoc[]
 
-include::{snippets}/get-memberCode/response-fields.adoc[]
+include::{snippets}/member-controller-docs-test/get-member-code/response-fields.adoc[]
+
+'''

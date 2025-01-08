@@ -10,3 +10,5 @@ include::{snippets}/member-controller-docs-test/withdraw/path-parameters.adoc[]
 include::{snippets}/member-controller-docs-test/withdraw/response-body.adoc[]
 
 include::{snippets}/member-controller-docs-test/withdraw/response-fields.adoc[]
+
+'''

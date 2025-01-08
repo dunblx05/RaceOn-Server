@@ -18,3 +18,5 @@ include::{snippets}/token-controller-docs-test/save-token/request-fields.adoc[]
 include::{snippets}/token-controller-docs-test/save-token/response-body.adoc[]
 
 include::{snippets}/token-controller-docs-test/save-token/response-fields.adoc[]
+
+'''

@@ -104,3 +104,5 @@ destination:/app/games/${gameId}/gamer/{memberId} 유저가 가지고있는 memb
 
 {"command":"START", "data": null}"}NULL
 ----
+
+'''

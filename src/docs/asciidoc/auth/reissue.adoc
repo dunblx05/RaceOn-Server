@@ -23,3 +23,5 @@ include::{snippets}/authentication-controller-docs-test/reissue/http-request.ado
 include::{snippets}/authentication-controller-docs-test/reissue/response-body.adoc[]
 
 include::{snippets}/authentication-controller-docs-test/reissue/response-fields.adoc[]
+
+'''

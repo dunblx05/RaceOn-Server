@@ -21,3 +21,4 @@ GET https://kauth.kakao.com/oauth/authorize?response_type=${RESPONSE_TYPE}&clien
 ==== 3. accessToken, refreshToken
 로그인 과정이 완료되고 accessToken과 refreshToken을 발급받을 수 있다.
 
+'''

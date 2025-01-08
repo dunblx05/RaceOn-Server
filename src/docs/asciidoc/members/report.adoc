@@ -12,4 +12,5 @@ include::{snippets}/member-report-controller-docs-test/report-member/response-bo
 include::{snippets}/member-report-controller-docs-test/report-member-with-non-exist-member-id-then-return400-code/response-body.adoc[]
 * 신고하고자 하는 유저의 memberId가 없는 memberId인 경우
 
+'''
 
