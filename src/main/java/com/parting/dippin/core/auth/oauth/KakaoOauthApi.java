@@ -74,8 +74,8 @@ public class KakaoOauthApi implements OauthApi {
 
     @Override
     public String getUser(String token) throws JsonProcessingException {
-        HttpEntity<MultiValueMap<String, String>> requestEntity = genereateUserInfoRequestEntity(
-                token);
+        HttpEntity<MultiValueMap<String, String>> requestEntity
+                = genereateUserInfoRequestEntity(token);
 
         /* get 메소드 요청하여 response 받기 */
         ResponseEntity<String> response = restTemplate.exchange(
@@ -104,7 +104,6 @@ public class KakaoOauthApi implements OauthApi {
         headers.setBearerAuth(token);
 
         /* request 엔티티 만들어주기 */
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(null, headers);
-        return requestEntity;
+        return new HttpEntity<>(null, headers);
     }
 }

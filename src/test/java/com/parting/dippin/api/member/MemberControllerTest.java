@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parting.dippin.api.member.service.MemberService;
 import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.domain.member.service.MemberWithdrawService;
 import com.parting.dippin.domain.member.service.ProfileUpdateService;
@@ -40,6 +41,9 @@ class MemberControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private MemberService memberService;
 
     @MockBean
     private MemberReader memberReader;

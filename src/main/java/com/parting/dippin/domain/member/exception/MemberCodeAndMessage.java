@@ -5,7 +5,8 @@ import com.parting.dippin.core.exception.CodeAndMessage;
 // 도메인 코드 : ME
 public enum MemberCodeAndMessage implements CodeAndMessage {
     FAILED_UPLOAD_IMAGE(false, 500, "MEES01", "이미지 업로드 실패"),
-    INVALID_MEMBER_CODE(false, 400, "MEBR01", "유효하지 않은 코드에요.");
+    INVALID_MEMBER_CODE(false, 400, "MEBR01", "유효하지 않은 코드에요."),
+    EXIST_MEMBER(false, 400, "MEBR02", "이미 가입된 유저입니다.");
 
     private final boolean success;
     private final int httpStatusCode;

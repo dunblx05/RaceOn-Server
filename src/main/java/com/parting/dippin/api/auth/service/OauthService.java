@@ -11,6 +11,7 @@ import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.entity.member.MemberEntity;
 import com.parting.dippin.entity.member.enums.SocialProvider;
 import com.parting.dippin.core.auth.oauth.OauthApi;
+import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,25 +37,21 @@ public abstract class OauthService {
     abstract SocialProvider socialProvider();
 
     public GetJwtResDto callBack(String callbackToken) {
-        try{
+        try {
             String oauthApiToken = oauthApi.getToken(callbackToken);
 
             String socialId = oauthApi.getUser(oauthApiToken);
-            MemberEntity member = memberReader.getMemberByOauthId(socialId, socialProvider())
-                    .orElseGet(signUp(socialProvider(), socialId));
+            Optional<MemberEntity> member = memberReader.getMemberByOauthId(socialId, socialProvider());
 
-            return tokenProvider.createJwt(member.getMemberId());
-        }catch (JsonProcessingException exception){
+            return member.map(m -> tokenProvider.createJwt(m.getMemberId()))
+                    .orElseGet(signUp(socialProvider(), socialId));
+        } catch (JsonProcessingException exception) {
             throw CommonException.from(CommonCodeAndMessage.INTERNAL_SERVER_ERROR);
         }
     }
 
     @NotNull
-    Supplier<MemberEntity> signUp(SocialProvider socialProvider, String socialId) {
-        return () -> {
-            MemberRegisterDto registerDto = new MemberRegisterDto(socialProvider, socialId);
-
-            return memberService.signUp(registerDto);
-        };
+    Supplier<GetJwtResDto> signUp(SocialProvider socialProvider, String socialId) {
+        return () -> memberService.signUp(socialProvider, socialId);
     }
 }

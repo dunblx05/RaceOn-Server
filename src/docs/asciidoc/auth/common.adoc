@@ -1,11 +1,52 @@
-=== OAuth 로그인 흐름도
+=== Social Login 구현(SDK 사용)
 
-이미 회원가입 된 유저라면 로그인 처리만 진행되며,
-회원이 아니라면 회원가입 후 로그인 처리가 된다.
+1. SDK를 통해 로그인을 진행하고 받은 응답에서 id_token을 추출합니다.
 
-두 경우 모두 최종적으로 JWT Token을 반환한다.
+2. id_token과 SoicalProvider를 Body로 넣어 로그인을 시도합니다.
 
-image::./images/oauth_process.png[]
+3. 회원가입된 유저인 경우 JWT가 반환됩니다.
+
+4. 회원가입되지 않은 유저인 경우 에러 응답을 반환합니다. 이 경우 회원가입 API 로 이어나가면 됩니다.
+
+image::../images/oauth_process.png[]
 
 여기서 OAuth Server란 Kakao, Google, Apple과 같은
 인증 서비스 제공자의 서버를 의미한다.
+
+==== Request
+
+include::{snippets}/authentication-controller-docs-test/social-login/http-request.adoc[]
+
+include::{snippets}/authentication-controller-docs-test/social-login/request-body.adoc[]
+
+include::{snippets}/authentication-controller-docs-test/social-login/request-fields.adoc[]
+
+==== Response
+===== Success
+include::{snippets}/authentication-controller-docs-test/social-login/response-body.adoc[]
+
+===== USER NOT REGISTERED
+include::{snippets}/authentication-controller-docs-test/social-login-with-not-registered-user-id/response-body.adoc[]
+
+- 회원가입 되어 있지 않은 유저인 경우
+
+===== BAD REQUEST
+include::{snippets}/authentication-controller-docs-test/social-login-with-invalid-social-id/response-body.adoc[]
+
+- socialProvider가 잘못 된 경우
+
+===== INVALID TOKEN
+include::{snippets}/authentication-controller-docs-test/social-login-with-invalid-token/response-body.adoc[]
+
+- idToken 이 잘못 된 경우
+- SDK를 통해 로그인 한 지 너무 오랜 시간이 지난 경우 (재로그인 필요)
+
+idToken 유효기간:
+
+- KAKAO : 6시간
+
+- APPLE : 24시간
+
+- GOOGLE :
+
+'''

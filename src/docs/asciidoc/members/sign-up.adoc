@@ -1,0 +1,30 @@
+=== 회원가입
+
+Social Login API 에서 회원 가입이 필요하다는 응답을 받았을 경우
+해당 API를 호출하면 된다.
+
+==== Request
+
+include::{snippets}/member-controller-docs-test/sign-up/http-request.adoc[]
+
+include::{snippets}/member-controller-docs-test/sign-up/request-body.adoc[]
+
+include::{snippets}/member-controller-docs-test/sign-up/request-fields.adoc[]
+
+==== Response
+
+===== SUCCESS
+include::{snippets}/member-controller-docs-test/sign-up/response-body.adoc[]
+
+===== BAD REQUEST
+include::{snippets}/member-controller-docs-test/sign-up-without-id-token-then-return400-code/response-body.adoc[]
+
+===== INVALID TOKEN
+include::{snippets}/member-controller-docs-test/sign-up-with-invalid-id-token-then-return403-code/response-body.adoc[]
+
+- idToken이 유효하지 않는 경우
+- idToken의 유효 시간이 종료된 경우(SDK를 통한 재 로그인 필요)
+
+===== EXIST MEMBER
+include::{snippets}/member-controller-docs-test/sign-up-with-existing-user-token-then-return400-code/response-body.adoc[]
+

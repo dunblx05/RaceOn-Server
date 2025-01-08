@@ -7,6 +7,7 @@ import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -60,6 +61,7 @@ public class SpringSecurityConfig {
                         .requestMatchers("/kakao/callback").permitAll()
                         .requestMatchers("/google/callback").permitAll()
                         .requestMatchers("/apple/callback").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/members").permitAll()
                         .anyRequest().authenticated());
 
         // SESSION POLICY

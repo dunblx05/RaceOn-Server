@@ -6,6 +6,7 @@ import static com.parting.dippin.core.exception.CommonCodeAndMessage.INVALID_URL
 
 import com.parting.dippin.core.base.ErrorResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,7 +25,8 @@ public class GlobalExceptionHandler {
             MissingServletRequestParameterException.class,
             MethodArgumentTypeMismatchException.class,
             MethodArgumentNotValidException.class,
-            HandlerMethodValidationException.class
+            HandlerMethodValidationException.class,
+            HttpMessageNotReadableException.class // ENUM 직렬화 실패시 던져짐.
     })
     public ResponseEntity<ErrorResponse> resolveIllegalArgumentException(
             Exception exception

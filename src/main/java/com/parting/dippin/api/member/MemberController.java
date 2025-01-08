@@ -1,20 +1,28 @@
 package com.parting.dippin.api.member;
 
+import com.parting.dippin.api.auth.dto.GetJwtResDto;
 import com.parting.dippin.api.member.dto.GetMemberCodeResDto;
 import com.parting.dippin.api.member.dto.GetMembersResDto;
+import com.parting.dippin.api.member.service.MemberService;
+import com.parting.dippin.domain.member.dto.MemberRegisterDto;
 import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.core.base.BaseResponse;
 import com.parting.dippin.core.common.annotation.LoggedInMemberId;
 import com.parting.dippin.domain.member.dto.MemberDto;
 import com.parting.dippin.domain.member.service.MemberWithdrawService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Validated
@@ -23,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 public class MemberController {
 
+    private final MemberService memberService;
     private final MemberReader memberReader;
     private final MemberWithdrawService memberWithdrawService;
 
@@ -57,5 +66,15 @@ public class MemberController {
         memberWithdrawService.withdraw(memberId);
 
         return BaseResponse.ok();
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping()
+    public BaseResponse<GetJwtResDto> signUp(
+            @RequestBody @Valid MemberRegisterDto memberRegisterDto
+    ) {
+        GetJwtResDto jwtDto = memberService.signUp(memberRegisterDto);
+
+        return BaseResponse.created(jwtDto);
     }
 }

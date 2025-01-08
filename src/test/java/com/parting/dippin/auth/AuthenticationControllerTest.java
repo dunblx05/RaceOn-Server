@@ -50,7 +50,7 @@ class AuthenticationControllerTest {
         given(authService.login(memberId)).willReturn(jwtDto);
 
         // When & Then
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/auth/temp/login")
                         .with(csrf())
                         .queryParam("memberId", String.valueOf(memberId))
                         .contentType(MediaType.APPLICATION_JSON))

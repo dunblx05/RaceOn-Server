@@ -1,8 +1,15 @@
 include::./get-member-code.adoc[]
+
 include::./image_upload_flow.adoc[]
+
 include::./get-presigned-url.adoc[]
+
 include::./update-profile.adoc[]
+
 include::./get-profile.adoc[]
 
+include::./sign-up.adoc[]
+
 include::./withdraw.adoc[]
+
 include::./report.adoc[]
