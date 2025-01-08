@@ -3,6 +3,7 @@ package com.parting.dippin.core.config;
 import com.parting.dippin.core.common.auth.JwtAccessDeniedHandler;
 import com.parting.dippin.core.common.auth.JwtAuthenticationEntryPoint;
 import com.parting.dippin.core.common.auth.TokenProvider;
+import com.parting.dippin.entity.jwt.BlacklistRepository;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @RequiredArgsConstructor
 public class SpringSecurityConfig {
 
+    private final BlacklistRepository blacklistRepository;
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
@@ -69,7 +71,7 @@ public class SpringSecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         // JWT POLICY
-        http.with(new JwtSecurityConfig(tokenProvider), customizer -> {
+        http.with(new JwtSecurityConfig(tokenProvider, blacklistRepository), customizer -> {
         });
 
         // EXCEPTION HANDLING POLICY

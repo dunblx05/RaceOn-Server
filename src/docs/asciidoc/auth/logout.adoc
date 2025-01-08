@@ -1,0 +1,30 @@
+=== 로그아웃
+
+로그아웃시 해당 토큰들이 Blacklist로 등록되어 더이상 해당 토큰으로 API호출이 불가능해집니다.
+
+Request Body로 accessToken 을 보내고 있지만 Header 에도 로그인 인증을 위해 accessToken을 보내주셔야 합니다.
+
+==== Request
+
+include::{snippets}/authentication-controller-docs-test/logout/http-request.adoc[]
+
+include::{snippets}/authentication-controller-docs-test/logout/request-body.adoc[]
+
+include::{snippets}/authentication-controller-docs-test/logout/request-fields.adoc[]
+
+==== Response
+===== Success
+include::{snippets}/authentication-controller-docs-test/logout/response-body.adoc[]
+
+===== INVALID TOKEN 1
+include::{snippets}/authentication-controller-docs-test/logout-with-mismatch-type-token/response-body.adoc[]
+
+- accessToken 으로 refreshToken 을 보낸 경우
+- refreshToken 으로 accessToken 을 보낸 경우
+
+===== INVALID TOKEN 2
+include::{snippets}/authentication-controller-docs-test/logout-with-not-my-token/response-body.adoc[]
+
+- Request Body로 전송된 token이 본인의 토큰이 아닌 경우
+
+'''

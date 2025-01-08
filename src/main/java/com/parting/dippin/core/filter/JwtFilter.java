@@ -1,6 +1,7 @@
 package com.parting.dippin.core.filter;
 
 import com.parting.dippin.core.common.auth.TokenProvider;
+import com.parting.dippin.entity.jwt.BlacklistRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -20,6 +21,7 @@ public class JwtFilter extends GenericFilterBean {
     private static final String REISSUE_PATH = "/auth/reissue";
 
     private final TokenProvider tokenProvider;
+    private final BlacklistRepository blacklistRepository;
 
     @Override
     public void doFilter(
@@ -45,7 +47,8 @@ public class JwtFilter extends GenericFilterBean {
             String jwt
     ) {
         return isInValidTokenForm(jwt) ||
-                isInValidTokenUsage(request, jwt);
+                isInValidTokenUsage(request, jwt) ||
+                isBlacklistToken(jwt);
     }
 
     private boolean isInValidTokenForm(String jwt) {
@@ -63,5 +66,9 @@ public class JwtFilter extends GenericFilterBean {
         boolean isRefreshToken = tokenProvider.isRefreshToken(jwt);
 
         return isReissuePath ^ isRefreshToken;
+    }
+
+    private boolean isBlacklistToken(String jwt) {
+        return blacklistRepository.isBlacklisted(jwt);
     }
 }

@@ -5,6 +5,8 @@ accessToken의 유효기간이 만료된 경우 해당 API를 호출하여 token
 
 refreshToken은 유효기간이 남아있더라도 매번 새로 재발급되어 반환된다.(Refresh Token Rotation)
 
+토큰 재발급시, 이전 refreshToken은 더 이상 사용이 불가능하다.
+
 refreshToken도 만료된 상태로 유저가 접속할 경우 재 로그인이 필요하다.
 
 ==== Request

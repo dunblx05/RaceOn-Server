@@ -1,24 +1,18 @@
 package com.parting.dippin.api.auth.service;
 
-import static com.parting.dippin.api.auth.exception.AuthenticationCodeAndMessage.USER_NOT_REGISTERED;
-import static com.parting.dippin.core.exception.CommonCodeAndMessage.INVALID_USER_TOKEN;
+import static com.parting.dippin.domain.auth.exception.AuthenticationCodeAndMessage.USER_NOT_REGISTERED;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.parting.dippin.api.auth.dto.GetJwtResDto;
+import com.parting.dippin.api.auth.dto.LogoutReqDto;
 import com.parting.dippin.api.auth.dto.PostLoginReqDto;
-import com.parting.dippin.api.auth.exception.AuthenticationTypeException;
+import com.parting.dippin.domain.auth.exception.AuthenticationTypeException;
 import com.parting.dippin.core.auth.oauth.IdTokenParser;
-import com.parting.dippin.core.common.CurrentTimeProvider;
 import com.parting.dippin.core.common.auth.TokenProvider;
-import com.parting.dippin.core.exception.CommonException;
+import com.parting.dippin.domain.auth.TokenBlacklistRegister;
+import com.parting.dippin.domain.auth.service.TokenBlacklistService;
 import com.parting.dippin.domain.member.service.MemberReader;
 import com.parting.dippin.entity.member.MemberEntity;
-import com.parting.dippin.entity.member.enums.SocialProvider;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +20,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
+    private final TokenBlacklistService tokenBlacklistService;
     private final TokenProvider tokenProvider;
     private final MemberReader memberReader;
     private final IdTokenParser idTokenParser;
@@ -34,7 +29,17 @@ public class AuthenticationService {
         return tokenProvider.createJwt(memberId);
     }
 
-    public GetJwtResDto reissue(int memberId) {
+    public GetJwtResDto reissue(int memberId, HttpServletRequest request) {
+        String refreshToken = tokenProvider.resolveToken(request);
+        TokenBlacklistRegister tokenBlacklistRegister = new TokenBlacklistRegister();
+
+        tokenBlacklistRegister.registerInBlacklist(
+                tokenBlacklistService,
+                tokenProvider,
+                refreshToken,
+                memberId
+        );
+
         return tokenProvider.createJwt(memberId);
     }
 
@@ -50,5 +55,16 @@ public class AuthenticationService {
         ).orElseThrow(() -> AuthenticationTypeException.from(USER_NOT_REGISTERED));
 
         return tokenProvider.createJwt(member.getMemberId());
+    }
+
+    public void logout(int memberId, LogoutReqDto logoutReqDto) {
+        TokenBlacklistRegister tokenBlacklistRegister = new TokenBlacklistRegister();
+
+        tokenBlacklistRegister.registerInBlacklist(
+                tokenBlacklistService,
+                tokenProvider,
+                logoutReqDto,
+                memberId
+        );
     }
 }

@@ -1,12 +1,16 @@
 package com.parting.dippin.docs.auth;
 
-import static com.parting.dippin.api.auth.exception.AuthenticationCodeAndMessage.USER_NOT_REGISTERED;
+import static com.parting.dippin.domain.auth.exception.AuthenticationCodeAndMessage.INVALID_TOKEN_OWNER;
+import static com.parting.dippin.domain.auth.exception.AuthenticationCodeAndMessage.INVALID_TOKEN_TYPE;
+import static com.parting.dippin.domain.auth.exception.AuthenticationCodeAndMessage.USER_NOT_REGISTERED;
 import static com.parting.dippin.core.exception.CommonCodeAndMessage.BAD_REQUEST;
 import static com.parting.dippin.core.exception.CommonCodeAndMessage.CREATED;
 import static com.parting.dippin.core.exception.CommonCodeAndMessage.INVALID_USER_TOKEN;
 import static com.parting.dippin.core.exception.CommonCodeAndMessage.OK;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
@@ -21,13 +25,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.parting.dippin.api.auth.AuthenticationController;
 import com.parting.dippin.api.auth.dto.GetJwtResDto;
+import com.parting.dippin.api.auth.dto.LogoutReqDto;
 import com.parting.dippin.api.auth.dto.PostLoginReqDto;
-import com.parting.dippin.api.auth.exception.AuthenticationCodeAndMessage;
-import com.parting.dippin.api.auth.exception.AuthenticationTypeException;
+import com.parting.dippin.domain.auth.exception.AuthenticationTypeException;
 import com.parting.dippin.api.auth.service.AuthenticationService;
 import com.parting.dippin.core.exception.CommonException;
 import com.parting.dippin.docs.RestDocsExceptionSupport;
-import com.parting.dippin.docs.RestDocsSupport;
 import com.parting.dippin.entity.member.enums.SocialProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -91,7 +94,7 @@ class AuthenticationControllerDocsTest extends RestDocsExceptionSupport {
                 .memberId(memberId)
                 .build();
 
-        given(authenticationService.reissue(memberId)).willReturn(jwtDto);
+        given(authenticationService.reissue(anyInt(), any())).willReturn(jwtDto);
 
         // When
         ResultActions result = mockMvc.perform(post("/auth/reissue")
@@ -251,6 +254,95 @@ class AuthenticationControllerDocsTest extends RestDocsExceptionSupport {
         verifyResponse(result, USER_NOT_REGISTERED);
         result
                 .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
+
+    @DisplayName("로그아웃 테스트")
+    @Test
+    void logout() throws Exception {
+        // Given
+        int memberId = 1;
+        LogoutReqDto logoutReqDto = LogoutReqDto.builder()
+                .accessToken("accessToken")
+                .refreshToken("refreshToken")
+                .build();
+
+        // When
+        ResultActions result = mockMvc.perform(post("/auth/logout")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION, ACCESS_TOKEN)
+                .content(objectMapper.writeValueAsString(logoutReqDto))
+        );
+
+        // Then
+        verifyResponse(result, CREATED);
+        result
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andDo(restDocs.document(
+                        requestFields(
+                                fieldWithPath("accessToken")
+                                        .type(JsonFieldType.STRING)
+                                        .description("accessToken"),
+                                fieldWithPath("refreshToken")
+                                        .type(JsonFieldType.STRING)
+                                        .description("refreshToken")
+                        ),
+                        defaultResponseFields()
+                ));
+    }
+
+    @DisplayName("accessToken 과 refreshToken 이 타입과 일치하지 않게 입력으로 들어올 경우 400응답을 반환한다.")
+    @Test
+    void logoutWithMismatchTypeToken() throws Exception {
+        // Given
+        int memberId = 1;
+        LogoutReqDto logoutReqDto = LogoutReqDto.builder()
+                .accessToken("refreshToken")
+                .refreshToken("accessToken")
+                .build();
+
+        willThrow(AuthenticationTypeException.from(INVALID_TOKEN_TYPE))
+                .given(authenticationService)
+                .logout(anyInt(), any());
+        // When
+        ResultActions result = mockMvc.perform(post("/auth/logout")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION, ACCESS_TOKEN)
+                .content(objectMapper.writeValueAsString(logoutReqDto))
+        );
+
+        // Then
+        verifyResponse(result, INVALID_TOKEN_TYPE);
+        result
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @DisplayName("본인 소유가 아닌 토큰으로 로그아웃을 요청할 경우 400응답을 반환한다.")
+    @Test
+    void logoutWithNotMyToken() throws Exception {
+        // Given
+        int memberId = 1;
+        LogoutReqDto logoutReqDto = LogoutReqDto.builder()
+                .accessToken("accessToken")
+                .refreshToken("refreshToken")
+                .build();
+
+        willThrow(AuthenticationTypeException.from(INVALID_TOKEN_OWNER))
+                .given(authenticationService)
+                .logout(anyInt(), any());
+        // When
+        ResultActions result = mockMvc.perform(post("/auth/logout")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION, ACCESS_TOKEN)
+                .content(objectMapper.writeValueAsString(logoutReqDto))
+        );
+
+        // Then
+        verifyResponse(result, INVALID_TOKEN_OWNER);
+        result
+                .andExpect(status().isBadRequest())
                 .andDo(print());
     }
 }

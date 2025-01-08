@@ -2,6 +2,7 @@ package com.parting.dippin.core.common.auth;
 
 
 import com.parting.dippin.api.auth.dto.GetJwtResDto;
+import com.parting.dippin.core.exception.CommonException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -26,6 +27,9 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import static com.parting.dippin.core.common.auth.TokenType.*;
+import static com.parting.dippin.core.common.constant.JwtConstant.ACCESS_TOKEN_VALIDITY_30_MINUTES;
+import static com.parting.dippin.core.common.constant.JwtConstant.REFRESH_TOKEN_VALIDITY_2_WEEKS;
+import static com.parting.dippin.core.exception.CommonCodeAndMessage.INVALID_USER_TOKEN;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
@@ -35,9 +39,6 @@ public class TokenProvider implements InitializingBean {
     private static final String BEARER = "Bearer ";
     private static final String AUTHORITIES_KEY = "authority";
     private static final String TOKEN_TYPE_KEY = "tokenType";
-
-    private static final long ACCESS_TOKEN_VALIDITY_30_MINUTES = 1_000 * 60 * 30L;
-    private static final long REFRESH_TOKEN_VALIDITY_2_WEEKS = 1_000 * 60 * 60 * 24 * 14L;
 
     private final String secret;
     private Key SIGNING_KEY;
@@ -75,7 +76,6 @@ public class TokenProvider implements InitializingBean {
                 .build();
     }
 
-    // TODO 임시 로그인 로큰에서만 사용할 예정.
     private String createRefreshToken(long memberId) {
         Map<String, String> extraClaims = createExtraClaims(REFRESH_TOKEN);
 
@@ -84,7 +84,6 @@ public class TokenProvider implements InitializingBean {
         return createToken(memberId, extraClaims, validity);
     }
 
-    // TODO 임시 로그인 로큰에서만 사용할 예정.
     private String createAccessToken(long memberId) {
         Map<String, String> extraClaims = createExtraClaims(ACCESS_TOKEN);
 
@@ -93,7 +92,6 @@ public class TokenProvider implements InitializingBean {
         return createToken(memberId, extraClaims, validity);
     }
 
-    // TODO 임시 로그인 로큰에서만 사용할 예정.
     private Map<String, String> createExtraClaims(TokenType tokenType) {
         Map<String, String> extraClaims = new HashMap<>();
         extraClaims.put(AUTHORITIES_KEY, "NORMAL_USER");
@@ -102,7 +100,6 @@ public class TokenProvider implements InitializingBean {
         return extraClaims;
     }
 
-    // TODO 임시 로그인 로큰에서만 사용할 예정.
     private String createToken(long memberId, Map<String, String> extraClaims, Date validity) {
         return Jwts.builder()
                 .signWith(SIGNING_KEY, SignatureAlgorithm.HS512)
@@ -138,6 +135,16 @@ public class TokenProvider implements InitializingBean {
         return createToken(authentication, extraClaims, validity);
     }
 
+    public int extractMemberId(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+
+            return Integer.parseInt(claims.getSubject());
+        } catch (NumberFormatException exception) {
+            throw CommonException.from(INVALID_USER_TOKEN);
+        }
+    }
+
     public Authentication getAuthentication(String token) {
         Claims claims = extractAllClaims(token);
 
@@ -151,6 +158,11 @@ public class TokenProvider implements InitializingBean {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
+    public boolean isAccessToken(String jwt) {
+        TokenType tokenType = extractTokenType(jwt);
+
+        return tokenType.equals(ACCESS_TOKEN);
+    }
     public boolean isRefreshToken(String jwt) {
         TokenType tokenType = extractTokenType(jwt);
 

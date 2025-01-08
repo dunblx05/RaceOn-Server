@@ -1,4 +1,4 @@
-package com.parting.dippin.api.auth.exception;
+package com.parting.dippin.domain.auth.exception;
 
 import com.parting.dippin.core.exception.CodeAndMessage;
 import com.parting.dippin.core.exception.CommonException;
@@ -11,7 +11,9 @@ import com.parting.dippin.core.exception.CommonException;
  */
 public enum AuthenticationCodeAndMessage implements CodeAndMessage {
 
-    USER_NOT_REGISTERED(false, 401, "AUAU01", "회원가입이 필요합니다.");
+    USER_NOT_REGISTERED(false, 401, "AUAU01", "회원가입이 필요합니다."),
+    INVALID_TOKEN_TYPE(false, 400, "AUBR01", "잘못된 토큰입니다."),
+    INVALID_TOKEN_OWNER(false, 400, "AUBR02", "잘못된 토큰입니다.");
 
     private final boolean success;
     private final int httpStatusCode;

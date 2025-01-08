@@ -1,6 +1,8 @@
-package com.parting.dippin.api.auth.exception;
+package com.parting.dippin.domain.auth.exception;
 
-import static com.parting.dippin.api.auth.exception.AuthenticationCodeAndMessage.USER_NOT_REGISTERED;
+import static com.parting.dippin.domain.auth.exception.AuthenticationCodeAndMessage.INVALID_TOKEN_OWNER;
+import static com.parting.dippin.domain.auth.exception.AuthenticationCodeAndMessage.INVALID_TOKEN_TYPE;
+import static com.parting.dippin.domain.auth.exception.AuthenticationCodeAndMessage.USER_NOT_REGISTERED;
 
 import com.parting.dippin.core.exception.BusinessException;
 import com.parting.dippin.core.exception.CodeAndMessage;
@@ -17,6 +19,8 @@ public sealed class AuthenticationTypeException extends BusinessException {
 
     static {
         exceptionMap.put(USER_NOT_REGISTERED, new UserNotRegisteredException(USER_NOT_REGISTERED));
+        exceptionMap.put(INVALID_TOKEN_TYPE, new InvalidTokenTypeException(INVALID_TOKEN_TYPE));
+        exceptionMap.put(INVALID_TOKEN_OWNER, new InvalidTokenOwnerException(INVALID_TOKEN_OWNER));
     }
 
     public static AuthenticationTypeException from(final AuthenticationCodeAndMessage codeAndMessage) {
@@ -32,6 +36,19 @@ public sealed class AuthenticationTypeException extends BusinessException {
         return authenticationTypeException;
     }
 
+    private static final class InvalidTokenOwnerException extends AuthenticationTypeException {
+
+        private InvalidTokenOwnerException(final CodeAndMessage codeAndMessage) {
+            super(codeAndMessage);
+        }
+    }
+
+    private static final class InvalidTokenTypeException extends AuthenticationTypeException {
+
+        private InvalidTokenTypeException(final CodeAndMessage codeAndMessage) {
+            super(codeAndMessage);
+        }
+    }
 
     private static final class UserNotRegisteredException extends AuthenticationTypeException {
 

@@ -9,3 +9,5 @@ include::./google.adoc[]
 include::./apple.adoc[]
 
 include::./reissue.adoc[]
+
+include::./logout.adoc[]

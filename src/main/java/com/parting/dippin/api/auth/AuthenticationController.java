@@ -1,10 +1,12 @@
 package com.parting.dippin.api.auth;
 
 import com.parting.dippin.api.auth.dto.GetJwtResDto;
+import com.parting.dippin.api.auth.dto.LogoutReqDto;
 import com.parting.dippin.api.auth.dto.PostLoginReqDto;
 import com.parting.dippin.api.auth.service.AuthenticationService;
 import com.parting.dippin.core.base.BaseResponse;
 import com.parting.dippin.core.common.annotation.LoggedInMemberId;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,9 +34,10 @@ public class AuthenticationController {
 
     @PostMapping("/reissue")
     public BaseResponse<GetJwtResDto> reissue(
+            HttpServletRequest request,
             @LoggedInMemberId Integer memberId
     ) {
-        GetJwtResDto jwtDto = authService.reissue(memberId);
+        GetJwtResDto jwtDto = authService.reissue(memberId, request);
 
         return BaseResponse.ok(jwtDto);
     }
@@ -47,5 +50,16 @@ public class AuthenticationController {
         GetJwtResDto jwtDto = authService.login(postLoginReqDto);
 
         return BaseResponse.created(jwtDto);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/logout")
+    public BaseResponse<Void> logout(
+            @LoggedInMemberId Integer memberId,
+            @RequestBody LogoutReqDto logoutReqDto
+    ) {
+        authService.logout(memberId, logoutReqDto);
+
+        return BaseResponse.created();
     }
 }
