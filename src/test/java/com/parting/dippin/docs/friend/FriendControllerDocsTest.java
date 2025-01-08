@@ -3,6 +3,7 @@ package com.parting.dippin.docs.friend;
 import static com.parting.dippin.core.exception.CommonCodeAndMessage.BAD_REQUEST;
 import static com.parting.dippin.core.exception.CommonCodeAndMessage.CREATED;
 import static com.parting.dippin.domain.friend.exception.FriendCodeAndMessage.ALREADY_FRIEND_EXCEPTION;
+import static com.parting.dippin.domain.member.exception.MemberCodeAndMessage.INVALID_MEMBER_CODE;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.doThrow;
@@ -29,6 +30,7 @@ import com.parting.dippin.api.friend.dto.DeleteFriendReqDto;
 import com.parting.dippin.docs.RestDocsExceptionSupport;
 import com.parting.dippin.domain.friend.dto.FriendDto;
 import com.parting.dippin.domain.friend.exception.FriendTypeException;
+import com.parting.dippin.domain.member.exception.MemberTypeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -179,6 +181,31 @@ class FriendControllerDocsTest extends RestDocsExceptionSupport {
 
         // then
         verifyResponse(result, ALREADY_FRIEND_EXCEPTION);
+        result
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @DisplayName("잘못된 멤버코드로 친구추가를 요청할 경우 400 코드를 반환한다.")
+    @Test
+    void addFriendWithInvalidMemberCodeThenReturn400Code() throws Exception {
+        // given
+        String friendCode = "AAAAAA";
+        PostFriendsReqDto dto = new PostFriendsReqDto(friendCode);
+
+        doThrow(MemberTypeException.from(INVALID_MEMBER_CODE))
+                .when(friendService).addFriend(1, friendCode);
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders.post("/friends")
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto))
+        );
+
+        // then
+        verifyResponse(result, INVALID_MEMBER_CODE);
         result
                 .andDo(print())
                 .andExpect(status().isBadRequest());
