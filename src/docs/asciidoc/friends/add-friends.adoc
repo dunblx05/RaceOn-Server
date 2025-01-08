@@ -18,4 +18,7 @@ include::{snippets}/friend-controller-docs-test/add-friend-with-my-id-then-retur
 include::{snippets}/friend-controller-docs-test/add-friend-with-friend-id-then-return400-code/response-body.adoc[]
 - 이미 친구인 id로 친구 추가를 시도하는 경우
 
+include::{snippets}/friend-controller-docs-test/add-friend-with-invalid-member-code-then-return400-code/response-body.adoc[]
+
+- memberCode가 잘못된 경우(해당 멤버 코드가 존재하지 않는 경우)
 '''

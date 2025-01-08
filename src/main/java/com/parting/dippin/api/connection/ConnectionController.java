@@ -14,7 +14,9 @@ public class ConnectionController {
     private final ConnectionService connectionService;
 
     @PutMapping("/connection-status")
-    public BaseResponse<Void> updateConnectionStatus(@LoggedInMemberId Integer memberId) {
+    public BaseResponse<Void> updateConnectionStatus(
+            @LoggedInMemberId Integer memberId
+    ) {
         connectionService.updateConnectionStatus(memberId);
 
         return BaseResponse.ok();
