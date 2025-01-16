@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -54,17 +55,15 @@ public class GeoCoordinatesEntity extends BaseEntity {
     })
     private GamePlayerEntity gamePlayerEntity;
 
-    public static GeoCoordinatesEntity from(int gameId, int memberId, String time, double latitude, double longitude, double distance) {
-        GeoCoordinatesEntity geoCoordinatesEntity = new GeoCoordinatesEntity();
-        geoCoordinatesEntity.gameId = gameId;
-        geoCoordinatesEntity.memberId = memberId;
-        geoCoordinatesEntity.time = time;
-        geoCoordinatesEntity.latitude = latitude;
-        geoCoordinatesEntity.longitude = longitude;
-        geoCoordinatesEntity.distance = distance;
+    @Builder
+    private GeoCoordinatesEntity(int gameId, int memberId, String time, double latitude, double longitude, double distance) {
+        this.gameId = gameId;
+        this.memberId = memberId;
+        this.time = time;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.distance = distance;
 
-        geoCoordinatesEntity.gamePlayerEntity = GamePlayerEntity.from(gameId, memberId);
-
-        return geoCoordinatesEntity;
+        this.gamePlayerEntity = GamePlayerEntity.from(gameId, memberId);
     }
 }

@@ -73,8 +73,10 @@ public class GameEntity extends BaseEntity {
     }
 
     public LocalDateTime start() {
+        long START_DELAY_SECONDS = 3;
+
         this.progressStatus = ProgressStatus.ONGOING;
-        this.startTime = LocalDateTime.now().plusSeconds(15).withNano(0);
+        this.startTime = LocalDateTime.now().plusSeconds(START_DELAY_SECONDS).withNano(0);
 
         return startTime;
     }
@@ -85,5 +87,9 @@ public class GameEntity extends BaseEntity {
 
     public void finish() {
         this.progressStatus = ProgressStatus.FINISHED;
+    }
+
+    public void stop() {
+        this.progressStatus = ProgressStatus.STOPPED;
     }
 }

@@ -7,4 +7,6 @@ VALUES (1, "test",  "http://dippin.com/image/url",  "A12345", "ACTIVE", "KAKAO",
 
 INSERT INTO friends(member_id, friend_id, created_at, deleted_at, updated_at)
 VALUES (1, 2, "2024-11-17 10:10:10", null, null),
-       (1, 3, "2024-11-17 10:10:10", null, null)
+       (1, 3, "2024-11-17 10:10:10", null, null),
+       (2, 1, "2024-11-17 10:10:10", null, null),
+       (3, 1, "2024-11-17 10:10:10", null, null)

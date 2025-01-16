@@ -120,8 +120,18 @@ public class GamePlayerEntity extends BaseEntity {
         this.resultStatus = ResultStatus.WIN;
     }
 
+    public void win(String finishedTime) {
+        this.finishedTime = finishedTime;
+        this.resultStatus = ResultStatus.WIN;
+    }
+
     public void lose(String finishedTime) {
         this.finishedTime = finishedTime;
         this.resultStatus = ResultStatus.LOSE;
+    }
+
+    public void stop(String finishedTime) {
+        this.finishedTime = finishedTime;
+        this.resultStatus = ResultStatus.ABSTENTION;
     }
 }

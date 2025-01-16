@@ -1,4 +1,4 @@
-package com.parting.dippin.domain.game.dto.socket;
+package com.parting.dippin.api.game.dto.socket;
 
 import com.parting.dippin.core.base.BaseSocketData;
 import java.time.LocalDateTime;

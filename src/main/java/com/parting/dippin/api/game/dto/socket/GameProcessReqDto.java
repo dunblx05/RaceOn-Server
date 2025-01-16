@@ -1,9 +1,9 @@
-package com.parting.dippin.domain.game.dto.socket;
+package com.parting.dippin.api.game.dto.socket;
 
 import lombok.Getter;
 
 @Getter
-public class GameEndReqDto {
+public class GameProcessReqDto {
 
     String time;
     double latitude;

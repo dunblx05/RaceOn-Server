@@ -41,7 +41,8 @@ include::./games/start-games.adoc[]
 
 include::./games/process-games.adoc[]
 
-include::./games/end-games.adoc[]
+include::./games/stop-games.adoc[]
+'''
 
 == FCM Token
 include::./fcm/fcm.adoc[]

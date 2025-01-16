@@ -27,7 +27,7 @@ http -> ws, https -> wss 로 생각해주시면 됩니다.
 
 |`+data+`
 |`+String+`
-|String으로 변환된 json
+|String 으로 변환된 json
 
 |===
 
@@ -36,13 +36,18 @@ http -> ws, https -> wss 로 생각해주시면 됩니다.
 ----
 {
   "command": "START",
-  "code": 200,
-  "data": "string"
+  "statusCode": 200,
+  "code": "COOK01",
+  "data": "JSON"
 }
 ----
 
 |===
 |Path|Type|Description
+
+|`+isSuccess+`
+|`+Boolean+`
+|요청 성공 여부
 
 |`+command+`
 |`+String+`
@@ -52,13 +57,23 @@ http -> ws, https -> wss 로 생각해주시면 됩니다.
 |`+String+`
 |String으로 변환된 json
 
-|`+code+`
+|`+statusCode+`
 |`+Number+`
-|요청 결과 코드 (200, 400, 404, 500 등)
+|200
+|statusCode
+
+|`+code+`
+|`+String+`
+|COOK01
+|요청 결과 코드
+
+|`+data+`
+|`+JSON+`
+|
 
 |===
 
-data 예시들은 JSON 그대로 표시되어있습니다. 실제 요청시에는 String으로 변환해주시길 바랍니다.
+data 예시들은 JSON 그대로 표시되어있습니다. 실제 요청시에는 String 으로 변환해주시길 바랍니다.
 
 ===== 연결 테스트
 포스트맨 기준으로 설명드리겠습니다.
@@ -102,7 +117,7 @@ NULL
 SEND
 destination:/app/games/${gameId}/gamer/{memberId} 유저가 가지고있는 memberId를 보내시면 됩니다.
 
-{"command":"START", "data": null}"}NULL
+{"command":"START", "data": null}NULL
 ----
 
 '''

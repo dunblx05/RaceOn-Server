@@ -1,0 +1,119 @@
+=== 게임 중단요청 [SOCKET]
+게임 진행중 중단 요청할 수 있도록 만든 커맨드입니다.
+
+요청자는 해당 커맨드로 중단 요청을 보낼 수 있습니다.
+
+요청자가 보낸 중단 요청을 게임 참여자가 받으면 중단을 요청할 것인지 확인 알림을 띄워줍니다.
+게임 참여자가 중단을 수락하면 isAgree를 true로 보내 게임을 중단시킬 수 있습니다.
+
+==== Request
+[source,json,options="nowrap"]
+----
+{
+  "command": "STOP",
+  "data": {
+    "requestMemberId": 1,
+    "isAgree": true
+  }
+}
+----
+
+|===
+|Path|Type|Value|Description
+
+|`+command+`
+|`+String+`
+|PROGRESS
+|게임 기록 저장 커맨드
+
+|`+data+`
+|`+JSON+`
+|
+|
+
+|`+data.requestMemberId+`
+|`+Number+`
+|1
+|중단요청자의 멤버 아이디
+
+|`+data.isAgree+`
+|`+Boolean+`
+|false
+|중단 요청자는 true, false 상관없이 보내면됩니다. 중단 수락자는 해당 중단요청을 수락할지 값 반영해서 보내주시면됩니다.
+
+|===
+
+==== Response
+
+
+[source,json,options="nowrap"]
+----
+{
+  "isSuccess": true,
+  "command": "STOP",
+  "statusCode": 200,
+  "code": "COOK01",
+  "data": {
+    "gameId": 1,
+    "requestMemberId": 1,
+    "curMemberId": 1,
+    "isInProgress": true,
+    "isAgree": false
+  }
+}
+----
+
+|===
+|Path|Type|Value|Description
+
+|`+isSuccess+`
+|`+Boolean+`
+|true
+|요청 성공 여부
+
+|`+command+`
+|`+String+`
+|PROGRESS
+|게임 기록 저장 커맨드
+
+|`+statusCode+`
+|`+Number+`
+|200
+|statusCode
+
+|`+code+`
+|`+String+`
+|COOK01
+|요청 결과 코드
+
+|`+data+`
+|`+JSON+`
+|
+|
+
+|`+data.gameId+`
+|`+Number+`
+|1
+|게임번호
+
+|`+data.requestMemberId+`
+|`+Number+`
+|1
+|중단요청자 멤버 아이디
+
+|`+data.curMemberId+`
+|`+Number+`
+|2
+|현재 중단요청에 대한 응답을 보낸 멤버아이디 (requestMemberId와 같으면 중단 요청자입니다.)
+
+|`+data.isInProgress+`
+|`+Boolean+`
+|true
+|중단 요청 진행 중인지 확인하는 값입니다.
+
+|`+data.isAgree+`
+|`+Boolean+`
+|false
+|curMemberId의 동의여부입니다. 중단 요청자가 보낸 응답일 경우 false 입니다.
+
+|===

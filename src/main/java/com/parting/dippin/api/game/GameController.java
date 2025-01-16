@@ -7,6 +7,8 @@ import com.parting.dippin.api.game.service.GameMessageService;
 import com.parting.dippin.api.game.service.GameService;
 import com.parting.dippin.core.base.BaseResponse;
 import com.parting.dippin.core.common.annotation.LoggedInMemberId;
+import com.parting.dippin.core.exception.CommonCodeAndMessage;
+import com.parting.dippin.core.exception.CommonException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,10 @@ public class GameController {
             @LoggedInMemberId Integer memberId,
             @RequestBody PostGameReqDto postGameReqDto
     ) {
+        if (memberId == postGameReqDto.getFriendId()) {
+            throw CommonException.from(CommonCodeAndMessage.BAD_REQUEST);
+        }
+
         GameGeneratedInfoDto gameInfo = this.gameService.requestGame(memberId, postGameReqDto);
 
         this.gameMessageService.sendInvitationMessage(gameInfo);

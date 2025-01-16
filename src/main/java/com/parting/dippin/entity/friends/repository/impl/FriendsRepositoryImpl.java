@@ -5,6 +5,7 @@ import static com.parting.dippin.entity.member.QMemberEntity.memberEntity;
 import static com.querydsl.core.types.ExpressionUtils.and;
 import static com.querydsl.core.types.ExpressionUtils.or;
 
+import com.parting.dippin.entity.friends.FriendsEntity;
 import com.parting.dippin.entity.friends.QFriendsEntity;
 import com.parting.dippin.entity.friends.repository.QFriendsRepository;
 import com.parting.dippin.entity.member.MemberEntity;
@@ -35,8 +36,8 @@ public class FriendsRepositoryImpl extends QuerydslRepositorySupport
 
     @Override
     public boolean existsFriendsByMyMemberIdAndMemberId(int myMemberId, int memberId) {
-        Integer fetchOne = jpaQueryFactory
-            .selectOne()
+        FriendsEntity fetchOne = jpaQueryFactory
+            .select(friendsEntity)
             .from(friendsEntity)
             .where(
                 or(
