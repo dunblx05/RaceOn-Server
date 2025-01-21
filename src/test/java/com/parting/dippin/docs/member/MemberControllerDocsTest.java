@@ -9,6 +9,8 @@ import static com.parting.dippin.entity.member.enums.SocialProvider.KAKAO;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -17,6 +19,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.parting.dippin.api.auth.dto.GetJwtResDto;
 import com.parting.dippin.api.member.MemberController;
 import com.parting.dippin.api.member.service.MemberService;
 import com.parting.dippin.core.exception.CommonException;
@@ -91,6 +94,8 @@ class MemberControllerDocsTest extends RestDocsExceptionSupport {
     @Test
     void signUp() throws Exception {
         // given
+        int memberId = 1;
+
         MemberRegisterDto memberRegisterDto = MemberRegisterDto.builder()
                 .idToken("idToken")
                 .socialProvider(KAKAO)
@@ -98,10 +103,16 @@ class MemberControllerDocsTest extends RestDocsExceptionSupport {
                 .profileImageUrl("https://content.url")
                 .build();
 
+        GetJwtResDto jwtDto = GetJwtResDto.builder()
+                .accessToken("accessToken")
+                .refreshToken("refreshToken")
+                .memberId(memberId)
+                .build();
+
+        given(memberService.signUp(any())).willReturn(jwtDto);
         // when
         ResultActions result = this.mockMvc.perform(
                 RestDocumentationRequestBuilders.post("/members")
-                        .header(AUTHORIZATION, ACCESS_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(memberRegisterDto))
         );
@@ -121,7 +132,7 @@ class MemberControllerDocsTest extends RestDocsExceptionSupport {
                                         .attributes(constraints("KAKAO, APPLE, GOOGLE 중 하나여야하며 대문자만 허용한다.")),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING)
                                         .description("닉네임")
-                                        .attributes(constraints("최대 20자 까지 허용된다."))
+                                        .attributes(constraints("최대 20자 까지 허용된다.\n카카오 로그인을 통해 닉네임을 제공받았을 경우 해당된다."))
                                         .optional(),
                                 fieldWithPath("profileImageUrl").type(JsonFieldType.STRING)
                                         .description("프로필 이미지 url")
@@ -129,7 +140,14 @@ class MemberControllerDocsTest extends RestDocsExceptionSupport {
                                                 "1. KAKAO로그인을 통해 프로필 이미지 주소를 제공받았을 경우 해당된다.\n URL 형식이여야한다."))
                                         .optional()
                         ),
-                        defaultResponseFields()
+                        responseFields(
+                                fieldWithPath("success").type(BOOLEAN).description("성공 여부"),
+                                fieldWithPath("code").type(STRING).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                fieldWithPath("data.accessToken").type(STRING).description("액세스 토큰"),
+                                fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"),
+                                fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("유저 id")
+                        )
                 ))
                 .andExpect(status().isCreated());
     }
