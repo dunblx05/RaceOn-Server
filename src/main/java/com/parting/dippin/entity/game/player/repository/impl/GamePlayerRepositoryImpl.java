@@ -9,6 +9,7 @@ import com.parting.dippin.entity.game.enums.PlayerStatus;
 import com.parting.dippin.entity.game.enums.ProgressStatus;
 import com.parting.dippin.entity.game.player.GamePlayerEntity;
 import com.parting.dippin.entity.game.player.QGamePlayerEntity;
+import com.parting.dippin.entity.game.player.enums.ResultStatus;
 import com.parting.dippin.entity.game.player.repository.QGamePlayerRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -39,12 +40,12 @@ public class GamePlayerRepositoryImpl extends QuerydslRepositorySupport implemen
                     anyOf(
                         allOf(
                             gamePlayerEntity.memberId.eq(memberId),
-                            gamePlayerEntity.resultStatus.isNull(),
+                            gamePlayerEntity.resultStatus.eq(ResultStatus.UNDECIDED),
                             gamePlayerEntity.playerStatus.notIn(List.of(PlayerStatus.REJECT))
                         ),
                         allOf(
                             gamePlayerEntity.memberId.eq(friendId),
-                            gamePlayerEntity.resultStatus.isNull(),
+                            gamePlayerEntity.resultStatus.eq(ResultStatus.UNDECIDED),
                             gamePlayerEntity.playerStatus.notIn(List.of(PlayerStatus.REJECT))
                         )
                     )

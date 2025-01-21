@@ -1,6 +1,8 @@
 package com.parting.dippin.core.config;
 
+import com.parting.dippin.core.filter.ChannelLoggingReqInterceptor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -9,6 +11,12 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    private final ChannelLoggingReqInterceptor channelLoggingReqInterceptor;
+
+    public WebSocketConfig(ChannelLoggingReqInterceptor channelLoggingReqInterceptor) {
+        this.channelLoggingReqInterceptor = channelLoggingReqInterceptor;
+    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
@@ -24,5 +32,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         // WebSocket 엔드포인트 등록
         registry.addEndpoint("/ws").setAllowedOriginPatterns("*");
+    }
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        // 클라이언트에서 들어오는 메시지 채널에 인터셉터 추가
+        registration.interceptors(channelLoggingReqInterceptor);
+    }
+
+    @Override
+    public void configureClientOutboundChannel(ChannelRegistration registration) {
+        registration.interceptors(channelLoggingReqInterceptor);
     }
 }

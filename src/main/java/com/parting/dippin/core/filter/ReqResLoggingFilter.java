@@ -27,7 +27,7 @@ public class ReqResLoggingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
-        FilterChain filterChain) throws ServletException, IOException {
+            FilterChain filterChain) throws ServletException, IOException {
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
 
@@ -49,38 +49,41 @@ public class ReqResLoggingFilter extends OncePerRequestFilter {
         MDC.clear();
     }
 
-    private void log(ContentCachingRequestWrapper request,
-        ContentCachingResponseWrapper response, Double elapsedTime) {
+    private void log(
+            ContentCachingRequestWrapper request,
+            ContentCachingResponseWrapper response,
+            Double elapsedTime
+    ) {
         try {
             String httpMethod = request.getMethod();
             String requestUri = request.getRequestURI();
             HttpStatus httpStatus = HttpStatus.valueOf(response.getStatus());
             String clientIp = request.getRemoteAddr();
             String headers = Collections.list(request.getHeaderNames()).stream()
-                .map(name -> name + ": " + request.getHeader(name))
-                .collect(Collectors.joining(", "));
+                    .map(name -> name + ": " + request.getHeader(name))
+                    .collect(Collectors.joining(", "));
             String requestParam = request.getQueryString();
             String requestBody = new String(request.getContentAsByteArray());
             String responseBody = new String(response.getContentAsByteArray());
 
             String logMessage = """
-            |
-            |[REQUEST] %s %s %s (%.3f s)
-            |>> CLIENT_IP: %s
-            |>> HEADERS: %s
-            |>> REQUEST_PARAM: %s
-            |>> REQUEST_BODY: %s
-            |>> RESPONSE_BODY: %s
-            """.formatted(
-                httpMethod,
-                requestUri,
-                httpStatus,
-                elapsedTime,
-                clientIp,
-                headers,
-                requestParam != null ? requestParam : "N/A",
-                requestBody.isEmpty() ? "N/A" : requestBody,
-                responseBody.isEmpty() ? "N/A" : responseBody
+                    |
+                    |[REQUEST] %s %s %s (%.3f s)
+                    |>> CLIENT_IP: %s
+                    |>> HEADERS: %s
+                    |>> REQUEST_PARAM: %s
+                    |>> REQUEST_BODY: %s
+                    |>> RESPONSE_BODY: %s
+                    """.formatted(
+                    httpMethod,
+                    requestUri,
+                    httpStatus,
+                    elapsedTime,
+                    clientIp,
+                    headers,
+                    requestParam != null ? requestParam : "N/A",
+                    requestBody.isEmpty() ? "N/A" : requestBody,
+                    responseBody.isEmpty() ? "N/A" : responseBody
             );
 
             log.info(logMessage);
