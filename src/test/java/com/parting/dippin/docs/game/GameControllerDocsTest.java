@@ -67,6 +67,7 @@ class GameControllerDocsTest extends RestDocsExceptionSupport {
         ResultActions result = this.mockMvc.perform(
                 RestDocumentationRequestBuilders
                         .post("/games")
+                        .header(AUTHORIZATION, ACCESS_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .characterEncoding(StandardCharsets.UTF_8)

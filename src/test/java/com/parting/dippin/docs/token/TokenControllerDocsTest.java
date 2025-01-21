@@ -45,6 +45,7 @@ class TokenControllerDocsTest extends RestDocsSupport {
         // when
         ResultActions result = this.mockMvc.perform(
             RestDocumentationRequestBuilders.post("/tokens/{memberId}", 1)
+                .header(AUTHORIZATION, ACCESS_TOKEN)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto))
