@@ -24,6 +24,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 @Component
 public class ReqResLoggingFilter extends OncePerRequestFilter {
 
+    public static final double NANOSECONDS_IN_A_SECOND = 1000000000.0;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
@@ -35,12 +36,12 @@ public class ReqResLoggingFilter extends OncePerRequestFilter {
         MDC.put("request_id", UUID.randomUUID().toString());
 
         // CHECK API ELAPSED TIME
-        Long startTime = System.currentTimeMillis();
+        Long requestTime = System.nanoTime();
         filterChain.doFilter(requestWrapper, responseWrapper);
-        Long endTime = System.currentTimeMillis();
+        Long responseTime = System.nanoTime();
 
         // LOGGING API RESULT
-        this.log(requestWrapper, responseWrapper, (endTime - startTime) / 1000.0);
+        this.log(requestWrapper, responseWrapper, (responseTime - requestTime) / NANOSECONDS_IN_A_SECOND);
 
         // RESPONSE API
         responseWrapper.copyBodyToResponse();
