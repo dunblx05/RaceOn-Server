@@ -7,15 +7,6 @@ assignees: ''
 
 ---
 
----
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
-
----
-
 ## Description
 버그에 대한 간단한 설명을 추가하세요.
 
