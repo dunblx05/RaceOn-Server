@@ -1,21 +1,25 @@
 package com.parting.dippin.core.common.fcm;
 
+import com.google.api.core.ApiFuture;
 import com.google.firebase.messaging.AndroidConfig;
 import com.google.firebase.messaging.AndroidNotification;
 import com.google.firebase.messaging.ApnsConfig;
 import com.google.firebase.messaging.Aps;
-import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.MessagingErrorCode;
 import com.google.firebase.messaging.Notification;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -24,12 +28,16 @@ import org.springframework.stereotype.Component;
 public class FcmMessenger {
 
     private static final long ONE_WEEK = (long) 60 * 60 * 24 * 7;
-    private static final long EXPIRED_TIME_FOR_UNIX = new Date(
-        new Date().getTime() + ONE_WEEK).getTime();
+    private Executor callBackTaskExecutor = null;
 
     @Async
-    public void sendMessage(List<String> tokens, String title, String message, Map<String, String> putData)
+    public void sendMessage(List<String> tokens, String title, String message,
+        Map<String, String> putData)
         throws Exception {
+        if (this.callBackTaskExecutor == null) {
+            callBackTaskExecutor = this.callBackTaskExecutor();
+        }
+
         List<Message> messages = new ArrayList<>();
 
         if (tokens.isEmpty()) {
@@ -51,18 +59,39 @@ public class FcmMessenger {
                     AndroidNotification.builder().build()).build())
                 .setApnsConfig(ApnsConfig.builder()
                     .setAps(Aps.builder()
-                        .build()).putHeader("apns-expiration", Long.toString(EXPIRED_TIME_FOR_UNIX))
+                        .build()).putHeader("apns-expiration", String.valueOf(System.currentTimeMillis() / 1000 + ONE_WEEK))
                     .build())
                 .build());
         }
 
-        try {
-            BatchResponse response = FirebaseMessaging.getInstance().sendAll(messages);
-            log.info("[FCM] SEND {} : SUCCESS {}, FAILURE {}", title, response.getSuccessCount(),
-                response.getFailureCount());
-        } catch (FirebaseMessagingException e) {
-            log.error("[FCM] SEND {} : FAILURE {}", title, e.getMessage());
-        }
+        for (Message msg : messages) {
+            ApiFuture<String> apiFuture = FirebaseMessaging.getInstance().sendAsync(msg);
 
+            apiFuture.addListener(() -> {
+                try {
+                    String response = apiFuture.get();
+
+                    log.info("[FCM] SEND {} : SUCCESS", title);
+                    log.info("FCM Notification Sent Successfully. Message ID: [{}]", response);
+                    log.info("Current Call Back Thread Name: [{}]",
+                        Thread.currentThread().getName());
+                } catch (InterruptedException | ExecutionException e) {
+                    log.error("[FCM] SEND {} : FAILURE", title);
+                    log.error("FCM Notification Sent Failed. Error: [{}]", e.getMessage());
+                    log.error("Current Call Back Thread Name: [{}]",
+                        Thread.currentThread().getName());
+                }
+            }, this.callBackTaskExecutor());
+        }
+    }
+
+    private Executor callBackTaskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(3);
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setAwaitTerminationSeconds(60);
+        executor.setThreadNamePrefix("Fcm-Call-Back-Thread: ");
+        executor.initialize();
+        return executor;
     }
 }
