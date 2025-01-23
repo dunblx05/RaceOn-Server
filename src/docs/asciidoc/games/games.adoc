@@ -1,0 +1,7 @@
+=== 게임 진행 로직
+
+게임 진행 로직을 읽으시기 전 소켓 통신에 대해서 잘 모르신다면 위 <<SOCKET-COMMUNICATION-SECTION,소켓 통신에 관한 문서>>를 먼저 읽어주세요.
+
+image::./images/game_logic.png[]
+
+

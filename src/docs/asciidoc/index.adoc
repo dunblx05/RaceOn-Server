@@ -32,17 +32,19 @@ include::./friends/friend.adoc[]
 == 접속 상태
 include::./connection/update-connection-status.adoc[]
 
+== 소켓 통신 설명
+include::./socket/socket.adoc[]
+
 == Game
 include::./games/post-games.adoc[]
 
-include::./games/socket-games.adoc[]
+include::./games/games.adoc[]
 
 include::./games/start-games.adoc[]
 
 include::./games/process-games.adoc[]
 
 include::./games/stop-games.adoc[]
-'''
 
 == FCM Token
 include::./fcm/fcm.adoc[]

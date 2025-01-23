@@ -1,7 +1,12 @@
+[[GAME-INVITATION-SECTION]]
 === 게임 초대 요청
+
+게임 초대 요청시 상대방에게 <<FCM-SECTION,푸쉬 알림>>이 전송됩니다.
+
 include::{snippets}/game-controller-docs-test/request-game/http-request.adoc[]
 
 ==== Request
+
 include::{snippets}/game-controller-docs-test/request-game/request-body.adoc[]
 include::{snippets}/game-controller-docs-test/request-game/request-fields.adoc[]
 
@@ -10,7 +15,5 @@ include::{snippets}/game-controller-docs-test/request-game/request-fields.adoc[]
 include::{snippets}/game-controller-docs-test/request-game/response-body.adoc[]
 
 include::{snippets}/game-controller-docs-test/request-game/response-fields.adoc[]
-
-include::{snippets}/game-controller-docs-test/request-game/http-response.adoc[]
 
 '''

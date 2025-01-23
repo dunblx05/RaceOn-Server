@@ -1,0 +1,94 @@
+[[SOCKET-COMMUNICATION-SECTION]]
+=== 사용 프로토콜
+websocket + STOMP 프로토콜을 사용해 소켓 통신을 진행합니다.
+사용하는 프로토콜은 wss입니다.
+
+=== URL
+[source,json,options="nowrap"]
+----
+개발 서버: wss://api.runner-dev.shop/wss
+운영 서버: wss://api.runner-prod.shop/wss
+----
+
+=== 프로토콜 설명
+==== STOMP
+STOMP Protocol은 크게 4가지 영역으로 나뉜다.
+
+1. COMMAND
+
+2. HEADER
+
+3. BODY
+
+4. NULL
+
+===== COMMAND
+COMMAND는 CONNECT, SUBSCRIBE, SEND가 있다.
+
+CONNECT: 서버와의 소켓 연결
+
+SUBSCRIBE: 이벤트가 발생할 때 마다 응답을 받기위한 구독 요청
+
+SEND: 데이터 통신
+
+CONNECT -> SUBSCRIBE -> SEND(실제 통신)
+
+순으로 요청이 보내져야한다.
+
+===== HEADER
+http의 헤더와 같이 필요한 메타데이터를 전송하는 영역
+
+===== BODY
+데이터를 전송하는 영역
+
+image::./images/stomp_body_example.png[]
+앞으로 위와 같이 WebSocket에 대한 문서에서 Request Body라 하면 이 영역으로 이해해주길 바란다.
+
+===== NULL
+요청의 끝임을 알리는 알린다.
+
+NULL이 없으면 서버는 하나의 요청이 끝났음을 인지할 수 없으니 Postman을 통해 시연해볼 때 주의하자.
+
+=== 서버와의 통신
+Postman을 통한 시연 방법은 https://www.notion.so/heewonp/WebSocket-Postman-484d73f3f4964f8ca0117b7c689e1de3?pvs=4[노션]을 참고하길 바란다.
+
+====== CONNECT
+서버와 실제로 연결되는 단계입니다.
+
+[source,md,options="nowrap"]
+----
+CONNECT
+accept-version:1.1,1.0
+heart-beat:10000,10000
+
+----
+
+====== SUBSCRIBE
+CONNECT 성공하면 구독을 해줍니다.
+
+구독은 서버로부터 메세지를 받을 수 있도록 해줍니다.
+
+[source,md,options="nowrap"]
+----
+SUBSCRIBE
+id:sub-abcdefg123456 -> 예시입니다. uuid로 생성해서 sub-{uuid} 로 사용하시면 됩니다.
+destination:/topic/games/{gameId} 게임 요청 초대해서 받은 gameId를 통해 구독을 진행합니다.
+
+NULL
+----
+
+====== SEND
+구독도 완료했다면, SEND 요청을 통해 서버와 통신을 진행하시면 됩니다.
+게임 시작 요청, 진행중 기록 저장, 중단요청 등 webSocket을 통한 모든 실제 통신은 아래 포멧을 지켜야합니다.
+
+BODY의 command는 STOMP의 command가 아닌 서버에서 정의한 command임에 주의하자.
+
+[source,md,options="nowrap"]
+----
+SEND
+destination:/app/games/${gameId}/gamer/{memberId} 유저가 가지고있는 memberId를 보내시면 됩니다.
+
+{"command":"START", "data": null}NULL
+----
+
+'''

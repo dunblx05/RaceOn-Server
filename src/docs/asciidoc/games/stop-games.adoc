@@ -4,9 +4,12 @@
 요청자는 해당 커맨드로 중단 요청을 보낼 수 있습니다.
 
 요청자가 보낸 중단 요청을 게임 참여자가 받으면 중단을 요청할 것인지 확인 알림을 띄워줍니다.
+
 게임 참여자가 중단을 수락하면 isAgree를 true로 보내 게임을 중단시킬 수 있습니다.
 
-==== Request
+image::./images/gmae_stop.png[]
+
+==== Request Body
 [source,json,options="nowrap"]
 ----
 {
@@ -43,8 +46,7 @@
 
 |===
 
-==== Response
-
+==== Response (중단 요청 알림)
 
 [source,json,options="nowrap"]
 ----
@@ -57,8 +59,46 @@
     "gameId": 1,
     "requestMemberId": 1,
     "curMemberId": 1,
-    "isInProgress": true,
-    "isAgree": false
+    "isInProgress": true, <- 확인
+    "isAgree": false <- 확인
+  }
+}
+----
+
+==== Response (중단 승락)
+
+[source,json,options="nowrap"]
+----
+{
+  "isSuccess": true,
+  "command": "STOP",
+  "statusCode": 200,
+  "code": "COOK01",
+  "data": {
+    "gameId": 1,
+    "requestMemberId": 1,
+    "curMemberId": 2,
+    "isInProgress": false, <- 확인
+    "isAgree": true <- 확인
+  }
+}
+----
+
+==== Response (중단 거절)
+
+[source,json,options="nowrap"]
+----
+{
+  "isSuccess": true,
+  "command": "STOP",
+  "statusCode": 200,
+  "code": "COOK01",
+  "data": {
+    "gameId": 1,
+    "requestMemberId": 1,
+    "curMemberId": 2,
+    "isInProgress": false, <- 확인
+    "isAgree": false <- 확인
   }
 }
 ----
