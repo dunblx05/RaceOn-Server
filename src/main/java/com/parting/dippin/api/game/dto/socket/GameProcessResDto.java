@@ -1,7 +1,5 @@
 package com.parting.dippin.api.game.dto.socket;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.parting.dippin.core.base.BaseSocketData;
 import lombok.Getter;
 

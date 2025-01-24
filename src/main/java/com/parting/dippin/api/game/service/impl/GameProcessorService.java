@@ -28,9 +28,7 @@ public class GameProcessorService implements GameSocketService {
 
     @Transactional
     @Override
-    public GameProcessResDto invoke(int gameId, int memberId, String data)
-        throws JsonProcessingException {
-
+    public GameProcessResDto invoke(int gameId, int memberId, String data) throws JsonProcessingException {
         GameProcessReqDto reqDto = this.objectMapper.readValue(data, GameProcessReqDto.class);
 
         GameProcessor gameProcessor = new GameProcessor(gameId, memberId, reqDto);

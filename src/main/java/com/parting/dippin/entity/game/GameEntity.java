@@ -1,7 +1,6 @@
 package com.parting.dippin.entity.game;
 
 import com.parting.dippin.core.base.BaseEntity;
-import com.parting.dippin.entity.game.enums.PlayerStatus;
 import com.parting.dippin.entity.game.enums.ProgressStatus;
 import com.parting.dippin.entity.game.enums.Type;
 import com.parting.dippin.entity.game.player.GamePlayerEntity;
@@ -91,5 +90,13 @@ public class GameEntity extends BaseEntity {
 
     public void stop() {
         this.progressStatus = ProgressStatus.STOPPED;
+    }
+
+    public boolean isNotMatching() {
+        return !this.progressStatus.equals(ProgressStatus.MATCHING);
+    }
+
+    public void failMatching() {
+        this.progressStatus = ProgressStatus.FAILED_MATCHING;
     }
 }

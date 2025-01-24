@@ -27,7 +27,6 @@ public class GameStarterService implements GameSocketService {
     @Transactional
     @Override
     public GameStartResDto invoke(int gameId, int participantId, String data) {
-
         GameStarter gameStarter = new GameStarter(gameId, participantId);
 
         return gameStarter.start(gameReader, gameStatusChangerService);

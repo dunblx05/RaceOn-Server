@@ -5,6 +5,9 @@
 
 image::./images/game_start.png[]
 
+Reject Response의 경우
+<<GAME-REJECT-INVITATION-SECTION, 게임 초대 거절>> 문서를 참고하라.
+
 ==== Request Body
 [source,json,options="nowrap"]
 ----
@@ -49,8 +52,6 @@ Response2응답이 올 때 까지 대기해야 합니다.
 }
 ----
 
-
-
 ==== Response2
 
 [source,json,options="nowrap"]
@@ -67,9 +68,6 @@ Response2응답이 올 때 까지 대기해야 합니다.
   }
 }
 ----
-
-==== Reject Resposne
-작성 중
 
 |===
 |Path|Type|Value|Description

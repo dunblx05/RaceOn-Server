@@ -5,7 +5,6 @@ import com.parting.dippin.api.game.service.GameSocketService;
 import com.parting.dippin.core.base.BaseSocketData;
 import com.parting.dippin.core.base.BaseSocketRequest;
 import com.parting.dippin.core.base.BaseSocketResponse;
-import com.parting.dippin.core.exception.BusinessException;
 import com.parting.dippin.core.exception.CommonCodeAndMessage;
 import com.parting.dippin.core.exception.CommonException;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +23,13 @@ public class GameSocketController {
 
     @MessageMapping("/games/{gameId}/gamer/{memberId}")
     @SendTo("/topic/games/{gameId}")
-    public BaseSocketResponse<BaseSocketData> process(@DestinationVariable int gameId,
-        @DestinationVariable int memberId,
-        BaseSocketRequest message) {
-
+    public BaseSocketResponse<BaseSocketData> process(
+            @DestinationVariable int gameId,
+            @DestinationVariable int memberId,
+            BaseSocketRequest message
+    ) {
         try {
-            GameSocketService gameSocketService = this.gameSocketHandler.handle(
-                message.getCommand());
+            GameSocketService gameSocketService = this.gameSocketHandler.handle(message.getCommand());
 
             if (gameSocketService == null) {
                 throw CommonException.from(CommonCodeAndMessage.BAD_REQUEST);
@@ -42,8 +41,7 @@ public class GameSocketController {
         } catch (CommonException e) {
             return BaseSocketResponse.error(e.getCodeAndMessage(), message.getCommand());
         } catch (Exception e) {
-            return BaseSocketResponse.error(CommonCodeAndMessage.INTERNAL_SERVER_ERROR,
-                message.getCommand());
+            return BaseSocketResponse.error(CommonCodeAndMessage.INTERNAL_SERVER_ERROR, message.getCommand());
         }
     }
 }

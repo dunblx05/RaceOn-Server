@@ -6,6 +6,7 @@ public enum GameCodeAndMessage implements CodeAndMessage {
     NOT_AVAILABLE_GAME(false, 400, "GABR01", "진행 가능한 게임이 아닙니다."),
     NOT_COMPLETED_GAME(false, 400, "GABR02", "아직 완주하지 않았습니다."),
     NOT_ONGOING_GAME(false, 400, "GABR03", "진행 중인 게임이 아닙니다."),
+    NOT_MATCHING_GAME(false, 400, "GABR04", "매칭 중인 게임이 아닙니다."),
     NOT_GAME_MEMBER(false, 403, "GAFB01", "해당 게임의 구성원이 아닙니다."),
     GAME_NOT_FOUND(false, 404, "GANF01", "게임 정보를 찾을 수 없습니다."),
     ALREADY_PARTICIPANT_MEMBER(false, 409, "GACF01", "이미 참여 중인 게임입니다."),
@@ -19,10 +20,10 @@ public enum GameCodeAndMessage implements CodeAndMessage {
     private final String message;
 
     GameCodeAndMessage(
-        boolean success,
-        final int httpStatusCode,
-        final String code,
-        final String message
+            boolean success,
+            final int httpStatusCode,
+            final String code,
+            final String message
     ) {
         this.success = success;
         this.httpStatusCode = httpStatusCode;

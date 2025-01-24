@@ -8,6 +8,7 @@ import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.GAME_N
 import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.NOT_AVAILABLE_GAME;
 import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.NOT_COMPLETED_GAME;
 import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.NOT_GAME_MEMBER;
+import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.NOT_MATCHING_GAME;
 import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.NOT_ONGOING_GAME;
 
 import com.parting.dippin.core.exception.BusinessException;
@@ -33,10 +34,10 @@ public sealed class GameTypeException extends BusinessException {
         exceptionMap.put(GAME_NOT_FOUND, new GameNotFoundException());
         exceptionMap.put(NOT_COMPLETED_GAME, new NotCompletedGameException());
         exceptionMap.put(NOT_ONGOING_GAME, new NotOngoingGameException());
+        exceptionMap.put(NOT_MATCHING_GAME, new NotMatchingGameException());
     }
 
     public static GameTypeException from(final GameCodeAndMessage codeAndMessage) {
-
         GameTypeException exception = exceptionMap.get(codeAndMessage);
 
         return exception;
@@ -102,6 +103,12 @@ public sealed class GameTypeException extends BusinessException {
 
         public NotOngoingGameException() {
             super(NOT_ONGOING_GAME);
+        }
+    }
+
+    private static final class NotMatchingGameException extends GameTypeException {
+        public NotMatchingGameException() {
+            super(NOT_MATCHING_GAME);
         }
     }
 }

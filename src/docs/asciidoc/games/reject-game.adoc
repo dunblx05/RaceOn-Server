@@ -1,0 +1,89 @@
+[[GAME-REJECT-INVITATION-SECTION]]
+=== 게임 초대 거절[SOCKET]
+게임 초대를 거절하는 요청이다.
+
+==== Request Body
+[source,json,options="nowrap"]
+----
+{
+  "command": "REJECT INVITATION",
+  "data": null
+}
+----
+
+|===
+|Path|Type|Value|Description
+
+|`+command+`
+|`+String+`
+|START
+|게임 시작 요청 커맨드
+
+|`+data+`
+|`+JSON+`
+|null
+|START 요청시에는 null 값으로 보내줍니다.
+
+|===
+
+==== Response
+게임 초대를 거절했을 때 반환되는 응답 값.
+
+[source,json,options="nowrap"]
+----
+{
+  "isSuccess": true,
+  "command": "REJECT INVITATION",
+  "statusCode": 200,
+  "code": "COOK01",
+  "data": {
+    "gameId": 1,
+    "failMatching": true
+  }
+}
+----
+
+
+|===
+|Path|Type|Value|Description
+
+|`+isSuccess+`
+|`+Boolean+`
+|true
+|요청 성공 여부
+
+|`+command+`
+|`+String+`
+|REJECT INVITATION
+|게임 초대 거절 커맨드
+
+|`+statusCode+`
+|`+Number+`
+|200
+|statusCode
+
+|`+code+`
+|`+String+`
+|COOK01
+|요청 결과 코드
+
+|`+data+`
+|`+JSON+`
+|
+|결과값
+
+|data.gameId
+|Number
+|1
+|게임번호
+
+|data.failMatching
+|Boolean
+|true
+|매칭에 실패했음을 나타내며 항상 true가 반환된다.
+|===
+
+
+'''
+
+

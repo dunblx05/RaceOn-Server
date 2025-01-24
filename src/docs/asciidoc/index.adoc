@@ -42,6 +42,8 @@ include::./games/games.adoc[]
 
 include::./games/start-games.adoc[]
 
+include::./games/reject-game.adoc[]
+
 include::./games/process-games.adoc[]
 
 include::./games/stop-games.adoc[]

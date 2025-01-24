@@ -31,8 +31,7 @@ public class GameReader {
 
     public GamePlayerEntity getPlayer(int gameId, int memberId) {
         return this.gamePlayerRepository.findByGameIdAndMemberId(gameId, memberId)
-            .orElseThrow(() -> GameTypeException.from(
-                GameCodeAndMessage.NOT_GAME_MEMBER));
+            .orElseThrow(() -> GameTypeException.from(GameCodeAndMessage.NOT_GAME_MEMBER));
     }
 
     public String getMaxTime(int gameId, int memberId) {

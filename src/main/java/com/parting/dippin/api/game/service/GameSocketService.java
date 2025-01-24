@@ -5,6 +5,6 @@ import com.parting.dippin.core.base.BaseSocketData;
 
 public interface GameSocketService {
 
-    public BaseSocketData invoke(int gameId, int memberId, String data)
+    BaseSocketData invoke(int gameId, int memberId, String data)
         throws JsonProcessingException;
 }
