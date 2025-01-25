@@ -11,7 +11,7 @@ public enum GameCodeAndMessage implements CodeAndMessage {
     GAME_NOT_FOUND(false, 404, "GANF01", "게임 정보를 찾을 수 없습니다."),
     ALREADY_PARTICIPANT_MEMBER(false, 409, "GACF01", "이미 참여 중인 게임입니다."),
     ALREADY_ONGOING_GAME(false, 409, "GACF02", "이미 진행 중인 게임입니다."),
-    ALREADY_MATCHING_MEMBER(false, 409, "GACF03", "이미 매칭 진행 중인 멤버가 있습니다."),
+    ALREADY_MATCHING_OR_GAMING_MEMBER(false, 409, "GACF03", "이미 게임중인 멤버입니다."),
     ALREADY_FINISHED_GAME(false, 410, "GAGO01", "이미 종료된 게임입니다.");
 
     private final boolean success;

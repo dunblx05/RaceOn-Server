@@ -163,4 +163,12 @@ image::./images/game_process.png[]
 
 |===
 
+==== Error Response
+include::{snippets}/game-process-error-response-docs-test/error-code-response-test/common-error-code-response-fields-beneath-errorCodes.adoc[]
+
+- BAD_REQUEST
+
+1. 거리 데이터가 잘못 되었을 경우(거리가 오히려 줄어들었을 때)
+2. 올바른 COMMAND가 아닌 다른 COMMAND가 전송되었을 경우
+
 '''

@@ -83,6 +83,12 @@
 |매칭에 실패했음을 나타내며 항상 true가 반환된다.
 |===
 
+==== Error Response
+include::{snippets}/game-reject-invitation-error-response-docs-test/error-code-response-test/common-error-code-response-fields-beneath-errorCodes.adoc[]
+
+- BAD_REQUEST
+
+1. 잘못된 COMMAND가 전송된 경우
 
 '''
 

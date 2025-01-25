@@ -1,7 +1,7 @@
 package com.parting.dippin.domain.game.exception;
 
 import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.ALREADY_FINISHED_GAME;
-import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.ALREADY_MATCHING_MEMBER;
+import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.ALREADY_MATCHING_OR_GAMING_MEMBER;
 import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.ALREADY_ONGOING_GAME;
 import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.ALREADY_PARTICIPANT_MEMBER;
 import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.GAME_NOT_FOUND;
@@ -13,6 +13,10 @@ import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.NOT_ON
 
 import com.parting.dippin.core.exception.BusinessException;
 import com.parting.dippin.core.exception.CodeAndMessage;
+import com.parting.dippin.domain.game.exception.docs.GameProcessException;
+import com.parting.dippin.domain.game.exception.docs.GameRejectInvitationException;
+import com.parting.dippin.domain.game.exception.docs.GameStartException;
+import com.parting.dippin.domain.game.exception.docs.GameStopException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +34,7 @@ public sealed class GameTypeException extends BusinessException {
         exceptionMap.put(NOT_AVAILABLE_GAME, new NotAvailableGameException());
         exceptionMap.put(ALREADY_ONGOING_GAME, new AlreadyOngoingGameException());
         exceptionMap.put(ALREADY_FINISHED_GAME, new AlreadyFinishedGameException());
-        exceptionMap.put(ALREADY_MATCHING_MEMBER, new AlreadyMatchingMemberException());
+        exceptionMap.put(ALREADY_MATCHING_OR_GAMING_MEMBER, new AlreadyMatchingMemberException());
         exceptionMap.put(GAME_NOT_FOUND, new GameNotFoundException());
         exceptionMap.put(NOT_COMPLETED_GAME, new NotCompletedGameException());
         exceptionMap.put(NOT_ONGOING_GAME, new NotOngoingGameException());
@@ -43,35 +47,40 @@ public sealed class GameTypeException extends BusinessException {
         return exception;
     }
 
-    private static final class AlreadyParticipantMemberException extends GameTypeException {
+    private static final class AlreadyParticipantMemberException extends GameTypeException
+            implements GameStartException {
 
         public AlreadyParticipantMemberException() {
             super(ALREADY_PARTICIPANT_MEMBER);
         }
     }
 
-    private static final class NotGameMemberException extends GameTypeException {
+    private static final class NotGameMemberException extends GameTypeException implements
+            GameRejectInvitationException, GameStartException, GameStopException {
 
         public NotGameMemberException() {
             super(NOT_GAME_MEMBER);
         }
     }
 
-    private static final class NotAvailableGameException extends GameTypeException {
+    private static final class NotAvailableGameException extends GameTypeException
+            implements GameStartException, GameStopException {
 
         public NotAvailableGameException() {
             super(NOT_AVAILABLE_GAME);
         }
     }
 
-    private static final class AlreadyOngoingGameException extends GameTypeException {
+    private static final class AlreadyOngoingGameException extends GameTypeException
+            implements GameStartException {
 
         public AlreadyOngoingGameException() {
             super(ALREADY_ONGOING_GAME);
         }
     }
 
-    private static final class AlreadyFinishedGameException extends GameTypeException {
+    private static final class AlreadyFinishedGameException extends GameTypeException
+            implements GameStartException {
 
         public AlreadyFinishedGameException() {
             super(ALREADY_FINISHED_GAME);
@@ -81,11 +90,12 @@ public sealed class GameTypeException extends BusinessException {
     private static final class AlreadyMatchingMemberException extends GameTypeException {
 
         public AlreadyMatchingMemberException() {
-            super(ALREADY_MATCHING_MEMBER);
+            super(ALREADY_MATCHING_OR_GAMING_MEMBER);
         }
     }
 
-    private static final class GameNotFoundException extends GameTypeException {
+    private static final class GameNotFoundException extends GameTypeException implements
+            GameRejectInvitationException, GameStartException, GameProcessException, GameStopException {
 
         public GameNotFoundException() {
             super(GAME_NOT_FOUND);
@@ -99,14 +109,17 @@ public sealed class GameTypeException extends BusinessException {
         }
     }
 
-    private static final class NotOngoingGameException extends GameTypeException {
+    private static final class NotOngoingGameException extends GameTypeException
+            implements GameProcessException, GameStopException {
 
         public NotOngoingGameException() {
             super(NOT_ONGOING_GAME);
         }
     }
 
-    private static final class NotMatchingGameException extends GameTypeException {
+    private static final class NotMatchingGameException extends GameTypeException implements
+            GameRejectInvitationException {
+
         public NotMatchingGameException() {
             super(NOT_MATCHING_GAME);
         }

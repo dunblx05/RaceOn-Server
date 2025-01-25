@@ -157,3 +157,10 @@ image::./images/gmae_stop.png[]
 |curMemberId의 동의여부입니다. 중단 요청자가 보낸 응답일 경우 false 입니다.
 
 |===
+
+==== Error Response
+include::{snippets}/game-stop-error-response-docs-test/error-code-response-test/common-error-code-response-fields-beneath-errorCodes.adoc[]
+
+- BAD_REQUEST
+
+1. 잘못된 COMMAND가 전송된 경우

@@ -2,7 +2,8 @@ package com.parting.dippin.domain.game;
 
 import com.parting.dippin.api.game.dto.GameGeneratedInfoDto;
 import com.parting.dippin.api.game.dto.PostGameReqDto;
-import com.parting.dippin.api.game.exception.UnlinkedFriendException;
+import com.parting.dippin.domain.friend.exception.FriendCodeAndMessage;
+import com.parting.dippin.domain.friend.exception.FriendTypeException;
 import com.parting.dippin.domain.friend.service.FriendValidationService;
 import com.parting.dippin.domain.game.exception.GameCodeAndMessage;
 import com.parting.dippin.domain.game.exception.GameTypeException;
@@ -36,13 +37,13 @@ public class GameRegister {
         boolean isAlreadyMatching = this.isAlreadyMatching(gameValidationService);
 
         if (isAlreadyMatching) {
-            throw GameTypeException.from(GameCodeAndMessage.ALREADY_MATCHING_MEMBER);
+            throw GameTypeException.from(GameCodeAndMessage.ALREADY_MATCHING_OR_GAMING_MEMBER);
         }
 
         boolean isLinkedFriend = this.isLinkedFriend(friendValidationService);
 
         if (!isLinkedFriend) {
-            throw new UnlinkedFriendException();
+            throw FriendTypeException.from(FriendCodeAndMessage.NOT_FRIENDS_EXCEPTION);
         }
 
         int gameId = gameGeneratorService.generate(distance, timeLimit, memberId, friendId);

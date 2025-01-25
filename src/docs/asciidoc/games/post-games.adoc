@@ -10,10 +10,22 @@ include::{snippets}/game-controller-docs-test/request-game/http-request.adoc[]
 include::{snippets}/game-controller-docs-test/request-game/request-body.adoc[]
 include::{snippets}/game-controller-docs-test/request-game/request-fields.adoc[]
 
-==== Response
+==== Success Response
 
 include::{snippets}/game-controller-docs-test/request-game/response-body.adoc[]
 
 include::{snippets}/game-controller-docs-test/request-game/response-fields.adoc[]
+
+==== Fail Response
+include::{snippets}/game-controller-docs-test/invite-game-with-gaming-member-then-return409/response-body.adoc[]
+- 상대방 유저가 매칭중이거나 게임중인 경우
+
+include::{snippets}/game-controller-docs-test/invite-game-with-not-friend-member-id-then-return400/response-body.adoc[]
+- 상대방 유저가 본인의 친구가 아닌 경우
+- 가능 시나리오:
+
+1. 유저1이 친구목록 불러옴
+2. 유저2가 유저1을 친구에서 삭제
+3. 유저1이 유저2를 초대
 
 '''

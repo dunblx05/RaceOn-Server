@@ -1,0 +1,6 @@
+include::./post-games.adoc[]
+include::./game-logic.adoc[]
+include::./start-games.adoc[]
+include::./reject-game.adoc[]
+include::./process-games.adoc[]
+include::./stop-games.adoc[]

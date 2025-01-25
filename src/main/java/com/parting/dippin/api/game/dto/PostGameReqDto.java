@@ -8,7 +8,6 @@ import lombok.Setter;
 public class PostGameReqDto {
 
     int friendId;
-
     double distance;
     int timeLimit;
 }

@@ -8,6 +8,8 @@ image::./images/game_start.png[]
 Reject Response의 경우
 <<GAME-REJECT-INVITATION-SECTION, 게임 초대 거절>> 문서를 참고하라.
 
+User2가 40초 동안 응답이 없을 경우 거절로 취급하고 소켓을 종료한다.
+
 ==== Request Body
 [source,json,options="nowrap"]
 ----
@@ -123,6 +125,18 @@ isMatched가 true : 시작시각
 isMatched가 true인 경우 매칭이 성사됐음을 의미합니다.
 
 게임이 곧 시작 되며 startTime에 맞춰 게임을 시작하면 됩니다.
+
+==== Error Response
+include::{snippets}/game-start-error-response-docs-test/error-code-response-test/common-error-code-response-fields-beneath-errorCodes.adoc[]
+
+- NOT_AVAILABLE_GAME
+
+ 1. 이미 한번 거절한 게임에 대해서 시작 요청을 보낼 경우
+ 2. 내가 아니라 다른 유저가 거절한 상태일 때도 에러 반환.
+
+- BAD_REQUEST
+
+1. 잘못된 COMMAND가 전송된 경우
 
 '''
 

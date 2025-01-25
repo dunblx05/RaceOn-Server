@@ -1,6 +1,8 @@
 package com.parting.dippin.docs.game;
 
 import static com.parting.dippin.core.exception.CommonCodeAndMessage.CREATED;
+import static com.parting.dippin.domain.friend.exception.FriendCodeAndMessage.NOT_FRIENDS_EXCEPTION;
+import static com.parting.dippin.domain.game.exception.GameCodeAndMessage.ALREADY_MATCHING_OR_GAMING_MEMBER;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -18,6 +20,8 @@ import com.parting.dippin.api.game.dto.PostGameReqDto;
 import com.parting.dippin.api.game.service.GameMessageService;
 import com.parting.dippin.api.game.service.GameService;
 import com.parting.dippin.docs.RestDocsExceptionSupport;
+import com.parting.dippin.domain.friend.exception.FriendTypeException;
+import com.parting.dippin.domain.game.exception.GameTypeException;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -112,5 +116,59 @@ class GameControllerDocsTest extends RestDocsExceptionSupport {
                                 )
                         )
                 );
+    }
+
+    @DisplayName("초대 대상이 이미 게임중이라면 409에러코드를 반환한다.")
+    @Test
+    void inviteGameWithGamingMemberThenReturn409() throws Exception {
+        // given
+        PostGameReqDto postGameReqDto = new PostGameReqDto();
+        postGameReqDto.setFriendId(2);
+        postGameReqDto.setDistance(3.0);
+        postGameReqDto.setTimeLimit(30);
+
+        given(gameService.requestGame(eq(1), any(PostGameReqDto.class)))
+                .willThrow(GameTypeException.from(ALREADY_MATCHING_OR_GAMING_MEMBER));
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders
+                        .post("/games")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(postGameReqDto))
+        );
+
+        // then
+        verifyResponse(result, ALREADY_MATCHING_OR_GAMING_MEMBER);
+        result
+                .andDo(print())
+                .andExpect(status().isConflict());
+    }
+
+    @DisplayName("초대 대상이 친구가 아니라면 400에러코드를 반환한다.")
+    @Test
+    void inviteGameWithNotFriendMemberIdThenReturn400() throws Exception {
+        // given
+        PostGameReqDto postGameReqDto = new PostGameReqDto();
+        postGameReqDto.setFriendId(2);
+        postGameReqDto.setDistance(3.0);
+        postGameReqDto.setTimeLimit(30);
+
+        given(gameService.requestGame(eq(1), any(PostGameReqDto.class)))
+                .willThrow(FriendTypeException.from(NOT_FRIENDS_EXCEPTION));
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                RestDocumentationRequestBuilders
+                        .post("/games")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(postGameReqDto))
+        );
+
+        // then
+        verifyResponse(result, NOT_FRIENDS_EXCEPTION);
+        result
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }

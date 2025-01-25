@@ -2,7 +2,6 @@ package com.parting.dippin.api.game.service;
 
 import com.parting.dippin.api.game.dto.GameGeneratedInfoDto;
 import com.parting.dippin.api.game.dto.PostGameReqDto;
-import com.parting.dippin.api.game.exception.UnlinkedFriendException;
 import com.parting.dippin.domain.friend.service.FriendValidationService;
 import com.parting.dippin.domain.game.GameRegister;
 import com.parting.dippin.domain.game.service.GameGeneratorService;
