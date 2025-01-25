@@ -68,3 +68,17 @@ apple:
     id: ${APPLE_KEY_ID}
     content: ${APPLE_KEY_CONTENT}
 
+logging:
+  config: classpath:logback-dev.xml
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql:
+              org.hibernate.type.descriptor.sql.BasicBinder: info
+      springframework:
+        transaction: debug
+        orm:
+          jpa: debug
