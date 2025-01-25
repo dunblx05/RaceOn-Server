@@ -1,0 +1,57 @@
+<configuration>
+  <!-- 스프링 프로파일에 따라 다른 설정을 사용할 수 있도록 지정 -->
+  <springProfile name="default">
+
+    <!-- 파일 로그 설정 -->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>../logs/info/info.log</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <!-- 로그 파일 이름 패턴 -->
+        <fileNamePattern>../logs/info/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+        <!-- 보관할 로그 파일 최대 개수 -->
+        <maxHistory>7</maxHistory>
+        <timeBasedFileNamingAndTriggeringPolicy
+          class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+          <maxFileSize>10MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>
+      </rollingPolicy>
+      <encoder>
+        <pattern>%d - [%level] - [%X{request_id}] - [%logger{5}] - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>../logs/error/error.log</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <!-- 로그 파일 이름 패턴 -->
+        <fileNamePattern>../logs/error/error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+        <!-- 보관할 로그 파일 최대 개수 -->
+        <maxHistory>7</maxHistory>
+        <timeBasedFileNamingAndTriggeringPolicy
+          class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+          <maxFileSize>10MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>
+      </rollingPolicy>
+      <encoder>
+        <pattern>%d - [%level] - [%X{request_id}] - [%logger{5}] - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <!-- 루트 로거 설정 -->
+    <root level="info">
+      <appender-ref ref="CONSOLE" />
+      <appender-ref ref="INFO_FILE" />
+    </root>
+
+    <!--    <root level="debug">-->
+    <!--      <appender-ref ref="CONSOLE" />-->
+    <!--      <appender-ref ref="INFO_FILE" />-->
+    <!--    </root>-->
+
+    <!-- ERROR 레벨 로그는 별도로 추가 -->
+    <root level="error">
+      <appender-ref ref="ERROR_FILE" />
+      <root-ref ref="CONSOLE" />
+    </root>
+  </springProfile>
+</configuration>
