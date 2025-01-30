@@ -5,6 +5,7 @@ import com.parting.dippin.api.game.service.GameSocketService;
 import com.parting.dippin.core.base.BaseSocketData;
 import com.parting.dippin.core.base.BaseSocketRequest;
 import com.parting.dippin.core.base.BaseSocketResponse;
+import com.parting.dippin.core.exception.BusinessException;
 import com.parting.dippin.core.exception.CommonCodeAndMessage;
 import com.parting.dippin.core.exception.CommonException;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,8 @@ public class GameSocketController {
 
             return BaseSocketResponse.ok(message.getCommand(), data);
         } catch (CommonException e) {
+            return BaseSocketResponse.error(e.getCodeAndMessage(), message.getCommand());
+        }catch (BusinessException e){
             return BaseSocketResponse.error(e.getCodeAndMessage(), message.getCommand());
         } catch (Exception e) {
             return BaseSocketResponse.error(CommonCodeAndMessage.INTERNAL_SERVER_ERROR, message.getCommand());
