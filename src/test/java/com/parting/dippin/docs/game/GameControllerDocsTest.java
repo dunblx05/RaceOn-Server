@@ -47,10 +47,11 @@ class GameControllerDocsTest extends RestDocsExceptionSupport {
     @Test
     void requestGame() throws Exception {
         // given
-        PostGameReqDto postGameReqDto = new PostGameReqDto();
-        postGameReqDto.setFriendId(2);
-        postGameReqDto.setDistance(3.0);
-        postGameReqDto.setTimeLimit(30);
+        PostGameReqDto postGameReqDto = PostGameReqDto.builder()
+                .friendId(2)
+                .distance(3.0)
+                .timeLimit(30)
+                .build();
 
         GameGeneratedInfoDto gameGeneratedInfoDto
                 = new GameGeneratedInfoDto(
@@ -122,10 +123,11 @@ class GameControllerDocsTest extends RestDocsExceptionSupport {
     @Test
     void inviteGameWithGamingMemberThenReturn409() throws Exception {
         // given
-        PostGameReqDto postGameReqDto = new PostGameReqDto();
-        postGameReqDto.setFriendId(2);
-        postGameReqDto.setDistance(3.0);
-        postGameReqDto.setTimeLimit(30);
+        PostGameReqDto postGameReqDto = PostGameReqDto.builder()
+                .friendId(2)
+                .distance(3.0)
+                .timeLimit(30)
+                .build();
 
         given(gameService.requestGame(eq(1), any(PostGameReqDto.class)))
                 .willThrow(GameTypeException.from(ALREADY_MATCHING_OR_GAMING_MEMBER));
@@ -149,10 +151,11 @@ class GameControllerDocsTest extends RestDocsExceptionSupport {
     @Test
     void inviteGameWithNotFriendMemberIdThenReturn400() throws Exception {
         // given
-        PostGameReqDto postGameReqDto = new PostGameReqDto();
-        postGameReqDto.setFriendId(2);
-        postGameReqDto.setDistance(3.0);
-        postGameReqDto.setTimeLimit(30);
+        PostGameReqDto postGameReqDto = PostGameReqDto.builder()
+                .friendId(2)
+                .distance(3.0)
+                .timeLimit(30)
+                .build();
 
         given(gameService.requestGame(eq(1), any(PostGameReqDto.class)))
                 .willThrow(FriendTypeException.from(NOT_FRIENDS_EXCEPTION));
