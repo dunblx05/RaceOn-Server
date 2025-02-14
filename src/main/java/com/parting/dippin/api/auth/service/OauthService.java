@@ -44,6 +44,24 @@ public abstract class OauthService {
             Optional<MemberEntity> member = memberReader.getMemberByOauthId(socialId, socialProvider());
 
             return member.map(m -> tokenProvider.createJwt(m.getMemberId()))
+                .orElseGet(signUp(socialProvider(), socialId));
+        } catch (JsonProcessingException exception) {
+            throw CommonException.from(CommonCodeAndMessage.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public GetJwtResDto callBack(String callbackToken, String accessToken) {
+        try {
+            String oauthApiToken = accessToken;
+
+            if (oauthApiToken == null) {
+                oauthApiToken = oauthApi.getToken(callbackToken);
+            }
+
+            String socialId = oauthApi.getUser(oauthApiToken);
+            Optional<MemberEntity> member = memberReader.getMemberByOauthId(socialId, socialProvider());
+
+            return member.map(m -> tokenProvider.createJwt(m.getMemberId()))
                     .orElseGet(signUp(socialProvider(), socialId));
         } catch (JsonProcessingException exception) {
             throw CommonException.from(CommonCodeAndMessage.INTERNAL_SERVER_ERROR);

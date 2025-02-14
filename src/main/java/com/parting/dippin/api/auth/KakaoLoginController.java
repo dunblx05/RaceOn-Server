@@ -18,13 +18,14 @@ public class KakaoLoginController {
     @GetMapping("/kakao/callback")
     public BaseResponse<GetJwtResDto> callBack(
             @RequestParam @Nullable String code,
+            @RequestParam @Nullable String accessToken,
             @RequestParam(name = "open_id") @Nullable String openId
     ) {
-        if (code == null) {
+        if (code == null && accessToken == null) {
             throw new RuntimeException();
         }
 
-        GetJwtResDto jwtResDto = kakaoOauthService.callBack(code);
+        GetJwtResDto jwtResDto = kakaoOauthService.callBack(code, accessToken);
 
         return BaseResponse.ok(jwtResDto);
     }
