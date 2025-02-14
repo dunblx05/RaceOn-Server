@@ -6,8 +6,8 @@ websocket + STOMP 프로토콜을 사용해 소켓 통신을 진행합니다.
 === URL
 [source,json,options="nowrap"]
 ----
-개발 서버: wss://api.runner-dev.shop/wss
-운영 서버: wss://api.runner-prod.shop/wss
+개발 서버: wss://api.runner-dev.shop/ws
+운영 서버: wss://api.runner-prod.shop/ws
 ----
 
 === 프로토콜 설명
