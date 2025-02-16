@@ -10,7 +10,6 @@ import com.parting.dippin.entity.game.enums.PlayerStatus;
 import com.parting.dippin.entity.game.enums.ProgressStatus;
 import com.parting.dippin.entity.game.player.GamePlayerEntity;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameStop {
 
@@ -30,8 +29,11 @@ public class GameStop {
         this.curMemberId = curMemberId;
     }
 
-    public GameStopResDto stopGame(GameReader gameReader,
-        GameStatusChangerService gameStatusChangerService, boolean isAgree) {
+    public GameStopResDto stopGame(
+            GameReader gameReader,
+            GameStatusChangerService gameStatusChangerService,
+            boolean isAgree
+    ) {
         game = gameReader.getGame(gameId);
         validateGame();
 
@@ -76,7 +78,7 @@ public class GameStop {
 
         int count = 0;
 
-        for(GamePlayerEntity gamePlayer: gamePlayers) {
+        for (GamePlayerEntity gamePlayer : gamePlayers) {
             if (gamePlayer.getPlayerStatus() != PlayerStatus.PARTICIPATION) {
                 gameStatusChangerService.changeGameWithAsync(gameId, gamePlayer.getPlayerStatus());
                 throw GameTypeException.from(GameCodeAndMessage.NOT_AVAILABLE_GAME);

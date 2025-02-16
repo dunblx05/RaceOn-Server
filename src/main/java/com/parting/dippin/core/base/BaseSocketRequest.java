@@ -1,14 +1,11 @@
 package com.parting.dippin.core.base;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-public class BaseSocketRequest {
+@NoArgsConstructor
+public class BaseSocketRequest<T> {
     String command;
-    String data;
-
-    @Override
-    public String toString() {
-        return "{'command':'" + this.command + ", 'data':'" + this.data + "'}";
-    }
+    T data;
 }

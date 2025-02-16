@@ -1,10 +1,7 @@
 package com.parting.dippin.api.game.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parting.dippin.api.game.dto.socket.GameStopReqDto;
 import com.parting.dippin.api.game.dto.socket.GameStopResDto;
-import com.parting.dippin.api.game.service.GameSocketService;
 import com.parting.dippin.domain.game.GameStop;
 import com.parting.dippin.domain.game.service.GameReader;
 import com.parting.dippin.domain.game.service.GameStatusChangerService;
@@ -20,21 +17,15 @@ import org.springframework.stereotype.Service;
  */
 @RequiredArgsConstructor
 @Service
-public class GameStopService implements GameSocketService {
+public class GameStopService {
 
-    private final ObjectMapper objectMapper;
     private final GameReader gameReader;
     private final GameStatusChangerService gameStatusChangerService;
 
     @Transactional
-    @Override
-    public GameStopResDto invoke(int gameId, int memberId, String data)
-        throws JsonProcessingException {
+    public GameStopResDto stop(int gameId, int memberId, GameStopReqDto dto) {
+        GameStop gameStop = new GameStop(gameId, dto.getRequestMemberId(), memberId);
 
-        GameStopReqDto reqDto = this.objectMapper.readValue(data, GameStopReqDto.class);
-
-        GameStop gameStop = new GameStop(gameId, reqDto.getRequestMemberId(), memberId);
-
-        return gameStop.stopGame(gameReader, gameStatusChangerService, reqDto.isAgree());
+        return gameStop.stopGame(gameReader, gameStatusChangerService, dto.isAgree());
     }
 }

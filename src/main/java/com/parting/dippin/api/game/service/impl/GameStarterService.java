@@ -1,6 +1,5 @@
 package com.parting.dippin.api.game.service.impl;
 
-import com.parting.dippin.api.game.service.GameSocketService;
 import com.parting.dippin.domain.game.GameStarter;
 import com.parting.dippin.api.game.dto.socket.GameStartResDto;
 import com.parting.dippin.domain.game.service.GameReader;
@@ -19,14 +18,13 @@ import org.springframework.stereotype.Service;
  */
 @RequiredArgsConstructor
 @Service
-public class GameStarterService implements GameSocketService {
+public class GameStarterService{
 
     private final GameReader gameReader;
     private final GameStatusChangerService gameStatusChangerService;
 
     @Transactional
-    @Override
-    public GameStartResDto invoke(int gameId, int participantId, String data) {
+    public GameStartResDto start(int gameId, int participantId) {
         GameStarter gameStarter = new GameStarter(gameId, participantId);
 
         return gameStarter.start(gameReader, gameStatusChangerService);

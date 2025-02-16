@@ -18,8 +18,7 @@ public class GameGeneratorService {
     private final GamePlayerRepository gamePlayerRepository;
 
     public int generate(double distance, int timeLimit, int requestMemberId, int receivedMemberId) {
-        GameEntity game = GameEntity
-            .generate(distance, timeLimit);
+        GameEntity game = GameEntity.generate(distance, timeLimit);
 
         int gameId = this.gameRepository.save(game).getGameId();
 

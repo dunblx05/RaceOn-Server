@@ -1,13 +1,14 @@
 package com.parting.dippin.api.game;
 
-import com.parting.dippin.api.game.handler.GameSocketHandler;
-import com.parting.dippin.api.game.service.GameSocketService;
+import com.parting.dippin.api.game.dto.socket.GameProcessReqDto;
+import com.parting.dippin.api.game.dto.socket.GameStopReqDto;
+import com.parting.dippin.api.game.service.impl.GameInvitationRejectService;
+import com.parting.dippin.api.game.service.impl.GameProcessorService;
+import com.parting.dippin.api.game.service.impl.GameStarterService;
+import com.parting.dippin.api.game.service.impl.GameStopService;
 import com.parting.dippin.core.base.BaseSocketData;
 import com.parting.dippin.core.base.BaseSocketRequest;
 import com.parting.dippin.core.base.BaseSocketResponse;
-import com.parting.dippin.core.exception.BusinessException;
-import com.parting.dippin.core.exception.CommonCodeAndMessage;
-import com.parting.dippin.core.exception.CommonException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -20,31 +21,56 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class GameSocketController {
 
-    private final GameSocketHandler gameSocketHandler;
+    private final GameProcessorService gameProcessorService;
+    private final GameStarterService gameStarterService;
+    private final GameStopService gameStopService;
+    private final GameInvitationRejectService gameInvitationRejectService;
 
-    @MessageMapping("/games/{gameId}/gamer/{memberId}")
+    @MessageMapping("/games/{gameId}/gamer/{memberId}/start")
+    @SendTo("/topic/games/{gameId}")
+    public BaseSocketResponse<BaseSocketData> start(
+            @DestinationVariable int gameId,
+            @DestinationVariable int memberId,
+            BaseSocketRequest<Void> message
+    ) {
+        BaseSocketData data = gameStarterService.start(gameId, memberId);
+
+        return BaseSocketResponse.ok(message.getCommand(), data);
+    }
+
+    @MessageMapping("/games/{gameId}/gamer/{memberId}/process")
     @SendTo("/topic/games/{gameId}")
     public BaseSocketResponse<BaseSocketData> process(
             @DestinationVariable int gameId,
             @DestinationVariable int memberId,
-            BaseSocketRequest message
+            BaseSocketRequest<GameProcessReqDto> message
     ) {
-        try {
-            GameSocketService gameSocketService = this.gameSocketHandler.handle(message.getCommand());
+        BaseSocketData data = gameProcessorService.process(gameId, memberId, message.getData());
 
-            if (gameSocketService == null) {
-                throw CommonException.from(CommonCodeAndMessage.BAD_REQUEST);
-            }
+        return BaseSocketResponse.ok(message.getCommand(), data);
+    }
 
-            BaseSocketData data = gameSocketService.invoke(gameId, memberId, message.getData());
+    @MessageMapping("/games/{gameId}/gamer/{memberId}/reject")
+    @SendTo("/topic/games/{gameId}")
+    public BaseSocketResponse<BaseSocketData> reject(
+            @DestinationVariable int gameId,
+            @DestinationVariable int memberId,
+            BaseSocketRequest<Void> message
+    ) {
+        BaseSocketData data = gameInvitationRejectService.reject(gameId, memberId);
 
-            return BaseSocketResponse.ok(message.getCommand(), data);
-        } catch (CommonException e) {
-            return BaseSocketResponse.error(e.getCodeAndMessage(), message.getCommand());
-        }catch (BusinessException e){
-            return BaseSocketResponse.error(e.getCodeAndMessage(), message.getCommand());
-        } catch (Exception e) {
-            return BaseSocketResponse.error(CommonCodeAndMessage.INTERNAL_SERVER_ERROR, message.getCommand());
-        }
+        return BaseSocketResponse.ok(message.getCommand(), data);
+    }
+
+    @MessageMapping("/games/{gameId}/gamer/{memberId}/stop")
+    @SendTo("/topic/games/{gameId}")
+    public BaseSocketResponse<BaseSocketData> stop(
+            @DestinationVariable int gameId,
+            @DestinationVariable int memberId,
+            BaseSocketRequest<GameStopReqDto> message
+    ) {
+        BaseSocketData data = gameStopService.stop(gameId, memberId, message.getData());
+
+        return BaseSocketResponse.ok(message.getCommand(), data);
     }
 }

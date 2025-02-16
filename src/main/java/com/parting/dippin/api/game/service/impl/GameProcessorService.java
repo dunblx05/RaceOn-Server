@@ -1,8 +1,5 @@
 package com.parting.dippin.api.game.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parting.dippin.api.game.service.GameSocketService;
 import com.parting.dippin.domain.game.GameProcessor;
 import com.parting.dippin.api.game.dto.socket.GameProcessReqDto;
 import com.parting.dippin.api.game.dto.socket.GameProcessResDto;
@@ -20,18 +17,14 @@ import org.springframework.stereotype.Service;
  */
 @RequiredArgsConstructor
 @Service
-public class GameProcessorService implements GameSocketService {
+public class GameProcessorService {
 
-    private final ObjectMapper objectMapper;
     private final GameReader gameReader;
     private final GameRecorderService gameRecorderService;
 
     @Transactional
-    @Override
-    public GameProcessResDto invoke(int gameId, int memberId, String data) throws JsonProcessingException {
-        GameProcessReqDto reqDto = this.objectMapper.readValue(data, GameProcessReqDto.class);
-
-        GameProcessor gameProcessor = new GameProcessor(gameId, memberId, reqDto);
+    public GameProcessResDto process(int gameId, int memberId, GameProcessReqDto dto) {
+        GameProcessor gameProcessor = new GameProcessor(gameId, memberId, dto);
 
         return gameProcessor.process(gameReader, gameRecorderService);
     }
