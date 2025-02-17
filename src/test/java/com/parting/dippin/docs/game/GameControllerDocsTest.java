@@ -54,15 +54,15 @@ class GameControllerDocsTest extends RestDocsExceptionSupport {
                 .build();
 
         GameGeneratedInfoDto gameGeneratedInfoDto
-                = new GameGeneratedInfoDto(
-                1,
-                1,
-                "test",
-                2,
-                "test2",
-                3.0,
-                30
-        );
+                =GameGeneratedInfoDto.builder()
+                .gameId(1)
+                .requestMemberId(1)
+                .requestNickname("test")
+                .requestProfileImageUrl("https://profile1.url")
+                .receivedMemberId(2)
+                .receivedNickname("test2")
+                .receivedProfileImageUrl("https://profile2.url")
+                .build();
 
         given(gameService.requestGame(eq(1), any(PostGameReqDto.class)))
                 .willReturn(gameGeneratedInfoDto);
@@ -106,10 +106,14 @@ class GameControllerDocsTest extends RestDocsExceptionSupport {
                                                 .description("++ 게임 초대 요청한 멤버 아이디"),
                                         fieldWithPath("data.gameInfo.requestNickname").type(JsonFieldType.STRING)
                                                 .description("++ 게임 초대 요청한 멤버 닉네임"),
+                                        fieldWithPath("data.gameInfo.requestProfileImageUrl").type(JsonFieldType.STRING)
+                                                .description("++ 게임 초대 요청한 멤버 프로필 이미지"),
                                         fieldWithPath("data.gameInfo.receivedMemberId").type(JsonFieldType.NUMBER)
                                                 .description("++ 게임 초대 받은 멤버 아이디"),
                                         fieldWithPath("data.gameInfo.receivedNickname").type(JsonFieldType.STRING)
                                                 .description("++ 게임 초대 받은 멤버 닉네임"),
+                                        fieldWithPath("data.gameInfo.receivedProfileImageUrl").type(JsonFieldType.STRING)
+                                                .description("++ 게임 초대 받은 멤버 프로필 이미지"),
                                         fieldWithPath("data.gameInfo.distance").type(JsonFieldType.NUMBER)
                                                 .description("++ 게임 런닝 거리 (km) 소수점 3자리"),
                                         fieldWithPath("data.gameInfo.timeLimit").type(JsonFieldType.NUMBER)

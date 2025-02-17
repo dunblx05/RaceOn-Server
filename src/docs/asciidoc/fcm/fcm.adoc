@@ -56,6 +56,12 @@ FCM 관련 문서는 초기 작성 단계입니다.
 |유저1
 |초대 요청한 멤버 닉네임
 
+|`+requestProfileImageUrl+`
+|`+String+`
+|`+True+`
+|유저1
+|초대 요청한 멤버 프로필 이미지
+
 |`+receivedMemberId+`
 |`+Number+`
 |`+True+`
@@ -67,6 +73,12 @@ FCM 관련 문서는 초기 작성 단계입니다.
 |`+True+`
 |유저2
 |초대 요청받은 멤버 닉네임
+
+|`+receivedProfileImageUrl+`
+|`+String+`
+|`+True+`
+|유저1
+|초대 요청받은 멤버 프로필 이미지
 
 |`+distance+`
 |`+Number+`

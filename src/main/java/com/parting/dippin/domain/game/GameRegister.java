@@ -10,6 +10,7 @@ import com.parting.dippin.domain.game.exception.GameTypeException;
 import com.parting.dippin.domain.game.service.GameGeneratorService;
 import com.parting.dippin.domain.game.service.GameValidationService;
 import com.parting.dippin.domain.member.service.MemberReader;
+import com.parting.dippin.entity.member.MemberEntity;
 
 public class GameRegister {
 
@@ -35,28 +36,31 @@ public class GameRegister {
         this.distance = postGameReqDto.getDistance();
 
         boolean isAlreadyMatching = this.isAlreadyMatching(gameValidationService);
-
         if (isAlreadyMatching) {
             throw GameTypeException.from(GameCodeAndMessage.ALREADY_MATCHING_OR_GAMING_MEMBER);
         }
 
         boolean isLinkedFriend = this.isLinkedFriend(friendValidationService);
-
         if (!isLinkedFriend) {
             throw FriendTypeException.from(FriendCodeAndMessage.NOT_FRIENDS_EXCEPTION);
         }
 
         int gameId = gameGeneratorService.generate(distance, timeLimit, memberId, friendId);
 
-        String requestNickname = memberReader.getNickname(memberId);
-        String receivedNickname = memberReader.getNickname(friendId);
+        MemberEntity requestMember = memberReader.getMemberById(memberId);
+        MemberEntity receivedMember = memberReader.getMemberById(friendId);
 
-        return new GameGeneratedInfoDto(
-            gameId,
-            memberId, requestNickname,
-            friendId, receivedNickname,
-            distance, timeLimit
-        );
+        return GameGeneratedInfoDto.builder()
+                .gameId(gameId)
+                .requestMemberId(memberId)
+                .requestNickname(requestMember.getNickname())
+                .requestProfileImageUrl(requestMember.getProfileImageUrl())
+                .receivedMemberId(friendId)
+                .receivedNickname(receivedMember.getNickname())
+                .receivedProfileImageUrl(receivedMember.getProfileImageUrl())
+                .distance(distance)
+                .timeLimit(timeLimit)
+                .build();
     }
 
     /**

@@ -38,12 +38,6 @@ public class MemberReader {
         return member.getMemberCode();
     }
 
-    public String getNickname(int memberId) {
-        MemberEntity member = getMemberById(memberId);
-
-        return member.getNickname();
-    }
-
     public Optional<MemberEntity> getMemberByOauthId(String socialId, SocialProvider socialProvider) {
         return this.memberRepository.findMemberEntityBySocialIdAndSocialProvider(socialId, socialProvider);
     }
