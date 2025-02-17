@@ -19,4 +19,8 @@ public class GameStopResDto implements BaseSocketData {
         this.isInProgress = isInProgress;
         this.isAgree = isAgree;
     }
+
+    public boolean getIsAgree() {
+        return isAgree;
+    }
 }
