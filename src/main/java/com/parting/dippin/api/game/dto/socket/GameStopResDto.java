@@ -1,7 +1,9 @@
 package com.parting.dippin.api.game.dto.socket;
 
 import com.parting.dippin.core.base.BaseSocketData;
+import lombok.Getter;
 
+@Getter
 public class GameStopResDto implements BaseSocketData {
 
     int gameId;
