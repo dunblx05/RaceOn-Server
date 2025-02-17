@@ -16,9 +16,14 @@ public class AppleLoginController {
 
     @GetMapping("/apple/callback")
     public BaseResponse<GetJwtResDto> appleCallback(
-            @RequestParam(value = "code", required = false) String code
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "id_token", required = false) String idToken
     ) {
-        GetJwtResDto jwtResDto = appleOauthService.callBack(code);
+        if (code == null && idToken == null) {
+            throw new RuntimeException();
+        }
+
+        GetJwtResDto jwtResDto = appleOauthService.callBack(code, idToken);
 
         return BaseResponse.ok(jwtResDto);
     }

@@ -5,6 +5,7 @@ import com.parting.dippin.core.common.auth.JwtAuthenticationEntryPoint;
 import com.parting.dippin.core.common.auth.TokenProvider;
 import com.parting.dippin.entity.jwt.BlacklistRepository;
 import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +36,7 @@ public class SpringSecurityConfig {
             CorsConfiguration config = new CorsConfiguration();
             config.setAllowedHeaders(Collections.singletonList("*"));
             config.setAllowedMethods(Collections.singletonList("*"));
-            config.setAllowedOriginPatterns(Collections.singletonList("*"));
+            config.setAllowedOrigins(List.of("https://withdraw.runner-dev.shop", "https://appleid.apple.com", "http://localhost:5173"));
             config.setAllowCredentials(true);
             return config;
         };
