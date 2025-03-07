@@ -35,4 +35,8 @@ public class GameProcessResDto implements BaseSocketData {
         this.longitude = longitude;
         this.distance = distance;
     }
+
+    public boolean getIsFinished() {
+        return isFinished;
+    }
 }

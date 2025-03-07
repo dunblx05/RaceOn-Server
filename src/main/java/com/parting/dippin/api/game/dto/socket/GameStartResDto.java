@@ -16,4 +16,8 @@ public class GameStartResDto implements BaseSocketData {
         this.isMatched = isMatched;
         this.startTime = startTime;
     }
+
+    public boolean getIsMatched() {
+        return isMatched;
+    }
 }
