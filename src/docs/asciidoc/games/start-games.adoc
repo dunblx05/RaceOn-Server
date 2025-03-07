@@ -10,9 +10,12 @@ Reject Response의 경우
 
 User2가 40초 동안 응답이 없을 경우 거절로 취급하고 소켓을 종료한다.
 
-==== Request Body
-[source,json,options="nowrap"]
+==== Request Message
+[source,plain,options="nowrap"]
 ----
+SEND
+destination:/app/games/{gameId}/gamer/{memberId}/start
+
 {
   "command": "START",
   "data": null

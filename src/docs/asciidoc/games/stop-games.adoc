@@ -9,9 +9,12 @@
 
 image::./images/gmae_stop.png[]
 
-==== Request Body
-[source,json,options="nowrap"]
+==== Request Message
+[source,text,options="nowrap"]
 ----
+SEND
+destination:/app/games/{gameId}/gamer/{memberId}/stop
+
 {
   "command": "STOP",
   "data": {

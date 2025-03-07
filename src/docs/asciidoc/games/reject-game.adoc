@@ -2,9 +2,12 @@
 === 게임 초대 거절[SOCKET]
 게임 초대를 거절하는 요청이다.
 
-==== Request Body
-[source,json,options="nowrap"]
+==== Request Message
+[source,text,options="nowrap"]
 ----
+SEND
+destination:/app/games/{gameId}/gamer/{memberId}/reject
+
 {
   "command": "REJECT INVITATION",
   "data": null
