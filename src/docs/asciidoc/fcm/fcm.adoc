@@ -38,6 +38,18 @@ FCM 관련 문서는 초기 작성 단계입니다.
 |`+INVITE_GAME+`
 |알림 종류
 
+|`+title+`
+|`+string+`
+|`+true+`
+|`+게임 초대+`
+|제목
+
+|`+message+`
+|`+string+`
+|`+true+`
+|`+게임 초대 되었습니다.+`
+|메세지
+
 |`+gameId+`
 |`+Number+`
 |`+True+`

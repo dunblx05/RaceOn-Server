@@ -45,6 +45,9 @@ public class FcmMessenger {
             return;
         }
 
+        putData.put("title", title);
+        putData.put("message", message);
+
         for (String token : tokens) {
             messages.add(Message.builder()
                 .setToken(token)
