@@ -28,6 +28,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class GameEntity extends BaseEntity {
 
+    public static final long START_DELAY_SECONDS = 3;
+
     @Id
     @Column(name = "game_id", columnDefinition = "int(11)")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,8 +74,6 @@ public class GameEntity extends BaseEntity {
     }
 
     public LocalDateTime start() {
-        long START_DELAY_SECONDS = 3;
-
         this.progressStatus = ProgressStatus.ONGOING;
         this.startTime = LocalDateTime.now().plusSeconds(START_DELAY_SECONDS).withNano(0);
 
@@ -98,5 +98,17 @@ public class GameEntity extends BaseEntity {
 
     public void failMatching() {
         this.progressStatus = ProgressStatus.FAILED_MATCHING;
+    }
+
+    public void cancelGame() {
+        this.progressStatus = ProgressStatus.FAILED_MATCHING;
+    }
+
+    public boolean isExceedTimeLimit(LocalDateTime now) {
+        return this.startTime.plusMinutes(timeLimit).isBefore(now);
+    }
+
+    public void exceedTimeLimit() {
+        this.progressStatus = ProgressStatus.TIME_LIMIT_EXCEED;
     }
 }

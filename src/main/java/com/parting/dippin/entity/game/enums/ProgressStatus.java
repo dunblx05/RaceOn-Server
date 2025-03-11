@@ -6,4 +6,5 @@ public enum ProgressStatus {
     ONGOING,
     FINISHED,
     STOPPED,
+    TIME_LIMIT_EXCEED,
 }
