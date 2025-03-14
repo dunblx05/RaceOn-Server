@@ -5,7 +5,6 @@ import static com.parting.dippin.core.exception.CommonCodeAndMessage.INTERNAL_SE
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parting.dippin.core.base.BaseSocketRequest;
 import com.parting.dippin.core.base.BaseSocketResponse;
-import com.parting.dippin.core.common.CurrentTimeProvider;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -28,7 +27,6 @@ public class WebsocketExceptionHandler {
     public static final String STOMP_COMMAND = "stompCommand";
     public static final String SIMP_DESTINATION = "simpDestination";
     private final ObjectMapper objectMapper;
-    private final CurrentTimeProvider currentTimeProvider;
 
     private static final String ERROR_LOG_FORMAT =
             """
@@ -89,7 +87,7 @@ public class WebsocketExceptionHandler {
         final String code = codeAndMessage.code();
         final String message = codeAndMessage.message();
         final String detailMessage = exception.getMessage();
-        final LocalDateTime time = currentTimeProvider.now();
+        final LocalDateTime time = LocalDateTime.now();
         final String sessionId = (String) request.getHeaders().get(SIMP_SESSION_ID);
         final String command = Objects.requireNonNullElse(request.getHeaders().get(STOMP_COMMAND), "").toString();
         final String destination = (String) request.getHeaders().get(SIMP_DESTINATION);
