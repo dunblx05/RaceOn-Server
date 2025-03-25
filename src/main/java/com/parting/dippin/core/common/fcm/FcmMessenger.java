@@ -49,7 +49,15 @@ public class FcmMessenger {
         putData.put("message", message);
 
         for (String token : tokens) {
-            messages.add(Message.builder()
+
+            Message aosMessage = Message.builder()
+                    .setToken(token)
+                .putAllData(putData)
+                .setAndroidConfig(AndroidConfig.builder().setTtl(ONE_WEEK).setNotification(
+                    AndroidNotification.builder().build()).build())
+                    .build();
+
+            Message iosMessage = Message.builder()
                 .setToken(token)
                 .setNotification(
                     Notification.builder()
@@ -58,13 +66,14 @@ public class FcmMessenger {
                         .build()
                 )
                 .putAllData(putData)
-                .setAndroidConfig(AndroidConfig.builder().setTtl(ONE_WEEK).setNotification(
-                    AndroidNotification.builder().build()).build())
                 .setApnsConfig(ApnsConfig.builder()
                     .setAps(Aps.builder()
                         .build()).putHeader("apns-expiration", String.valueOf(System.currentTimeMillis() / 1000 + ONE_WEEK))
                     .build())
-                .build());
+                .build();
+
+            messages.add(aosMessage);
+            messages.add(iosMessage);
         }
 
         for (Message msg : messages) {
