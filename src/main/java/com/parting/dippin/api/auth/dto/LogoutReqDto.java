@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 public class LogoutReqDto {
     private String accessToken;
     private String refreshToken;
+    private String fcmToken;
 
     @Builder
-    private LogoutReqDto(String accessToken, String refreshToken) {
+    private LogoutReqDto(String accessToken, String refreshToken, String fcmToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.fcmToken = fcmToken;
     }
 }

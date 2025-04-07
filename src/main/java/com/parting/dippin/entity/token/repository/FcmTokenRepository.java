@@ -9,4 +9,6 @@ public interface FcmTokenRepository extends JpaRepository<FcmTokenEntity, FcmTok
     QFcmTokenRepository {
 
     Optional<FcmTokenEntity> findByToken(String token);
+
+    void deleteByToken(String token);
 }

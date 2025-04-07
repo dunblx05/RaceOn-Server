@@ -26,5 +26,4 @@ public class TokenRegisterService {
 
         this.fcmTokenRepository.save(newEntity);
     }
-
 }

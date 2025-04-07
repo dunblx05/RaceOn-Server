@@ -265,6 +265,7 @@ class AuthenticationControllerDocsTest extends RestDocsExceptionSupport {
         LogoutReqDto logoutReqDto = LogoutReqDto.builder()
                 .accessToken("accessToken")
                 .refreshToken("refreshToken")
+                .fcmToken("fcmToken")
                 .build();
 
         // When
@@ -286,7 +287,11 @@ class AuthenticationControllerDocsTest extends RestDocsExceptionSupport {
                                         .description("accessToken"),
                                 fieldWithPath("refreshToken")
                                         .type(JsonFieldType.STRING)
-                                        .description("refreshToken")
+                                        .description("refreshToken"),
+                                fieldWithPath("fcmToken")
+                                    .type(JsonFieldType.STRING)
+                                    .description("fcmToken")
+                                    .optional()
                         ),
                         defaultResponseFields()
                 ));

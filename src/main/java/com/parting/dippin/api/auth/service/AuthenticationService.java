@@ -11,6 +11,7 @@ import com.parting.dippin.core.common.auth.TokenProvider;
 import com.parting.dippin.domain.auth.TokenBlacklistRegister;
 import com.parting.dippin.domain.auth.service.TokenBlacklistService;
 import com.parting.dippin.domain.member.service.MemberReader;
+import com.parting.dippin.domain.token.service.TokenDeleteService;
 import com.parting.dippin.entity.member.MemberEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class AuthenticationService {
     private final TokenProvider tokenProvider;
     private final MemberReader memberReader;
     private final IdTokenParser idTokenParser;
+    private final TokenDeleteService fcmTokenDeleteService;
 
     public GetJwtResDto login(int memberId) {
         return tokenProvider.createJwt(memberId);
@@ -66,5 +68,9 @@ public class AuthenticationService {
                 logoutReqDto,
                 memberId
         );
+
+        if (logoutReqDto.getFcmToken() != null) {
+            fcmTokenDeleteService.delete(logoutReqDto.getFcmToken());
+        }
     }
 }
