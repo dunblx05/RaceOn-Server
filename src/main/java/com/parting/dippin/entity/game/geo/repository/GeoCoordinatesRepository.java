@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface GeoCoordinatesRepository extends
     JpaRepository<GeoCoordinatesEntity, GeoCoordinatesId>, QGeoCoordinatesRepository {
 
-    GeoCoordinatesEntity findOneByGameIdAndMemberIdOrderByTimeDesc(Integer gameId, Integer memberId);
+    GeoCoordinatesEntity findFirstByGameIdAndMemberIdOrderByTimeDesc(Integer gameId, Integer memberId);
 }

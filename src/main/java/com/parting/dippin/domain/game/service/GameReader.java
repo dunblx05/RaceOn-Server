@@ -35,8 +35,8 @@ public class GameReader {
     }
 
     public String getMaxTime(int gameId, int memberId) {
-        GeoCoordinatesEntity geoCoordinatesEntity = geoCoordinatesRepository.findOneByGameIdAndMemberIdOrderByTimeDesc(
-            gameId, memberId);
+        GeoCoordinatesEntity geoCoordinatesEntity
+                = geoCoordinatesRepository.findFirstByGameIdAndMemberIdOrderByTimeDesc(gameId, memberId);
 
         if (geoCoordinatesEntity == null) {
             return "00:00:00";
