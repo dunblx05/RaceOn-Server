@@ -1,6 +1,7 @@
 package com.parting.dippin.domain.member;
 
 import com.parting.dippin.core.auth.oauth.IdTokenParser;
+import com.parting.dippin.domain.game.service.MemberGameStatusRegister;
 import com.parting.dippin.domain.member.dto.MemberRegisterDto;
 import com.parting.dippin.domain.member.service.MemberCodeGeneratorService;
 import com.parting.dippin.domain.member.service.MemberRegisterService;
@@ -27,6 +28,7 @@ public class MemberRegister {
             NicknameGeneratorService nicknameGeneratorService,
             MemberCodeGeneratorService memberCodeGeneratorService,
             MemberRegistrationValidator memberRegistrationValidator,
+            MemberGameStatusRegister memberGameStatusRegister,
             IdTokenParser idTokenParser,
             MemberRegisterDto memberRegisterDto
     ) {
@@ -44,6 +46,7 @@ public class MemberRegister {
         memberRegistrationValidator.validateMemberDoesNotExist(socialId, socialProvider);
 
         memberId = memberRegisterService.register(this);
+        memberGameStatusRegister.save(memberId);
     }
 
     public void register(
@@ -51,6 +54,7 @@ public class MemberRegister {
             NicknameGeneratorService nicknameGeneratorService,
             MemberCodeGeneratorService memberCodeGeneratorService,
             MemberRegistrationValidator memberRegistrationValidator,
+            MemberGameStatusRegister memberGameStatusRegister,
             SocialProvider socialProvider,
             String socialId
     ) {
@@ -63,5 +67,6 @@ public class MemberRegister {
         memberRegistrationValidator.validateMemberDoesNotExist(socialId, socialProvider);
 
         memberId = memberRegisterService.register(this);
+        memberGameStatusRegister.save(memberId);
     }
 }

@@ -5,6 +5,13 @@ VALUES (1, "test",  "http://dippin.com/image/url",  "A12345", "ACTIVE", "KAKAO",
        (4, "4test",  "http://dippin.com/image/url",  "A12348", "ACTIVE", "APPLE", "apple4", "2024-09-07 23:13:12", "2024-09-07 23:13:12", null, null),
        (5, "test5",  "http://dippin.com/image/url",  "A12349", "ACTIVE", "KAKAO", "kakao5", "2024-09-07 23:13:12", "2024-09-07 23:13:12", null, null);
 
+INSERT INTO member_game_status(member_id, progress_status, version)
+VALUES (1,"INVITABLE",0),
+       (2,"INVITABLE",0),
+       (3,"INVITABLE",0),
+       (4,"INVITABLE",0),
+       (5,"INVITABLE",0);
+
 INSERT INTO friends(member_id, friend_id, created_at, deleted_at, updated_at)
 VALUES (1, 2, "2024-11-17 10:10:10", null, null),
        (1, 3, "2024-11-17 10:10:10", null, null),

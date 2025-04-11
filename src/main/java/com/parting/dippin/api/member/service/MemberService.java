@@ -3,6 +3,7 @@ package com.parting.dippin.api.member.service;
 import com.parting.dippin.api.auth.dto.GetJwtResDto;
 import com.parting.dippin.core.auth.oauth.IdTokenParser;
 import com.parting.dippin.core.common.auth.TokenProvider;
+import com.parting.dippin.domain.game.service.MemberGameStatusRegister;
 import com.parting.dippin.domain.member.MemberRegister;
 import com.parting.dippin.domain.member.dto.MemberRegisterDto;
 import com.parting.dippin.domain.member.service.MemberCodeGeneratorService;
@@ -12,6 +13,7 @@ import com.parting.dippin.domain.member.service.NicknameGeneratorService;
 import com.parting.dippin.entity.member.enums.SocialProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +25,9 @@ public class MemberService {
     private final MemberRegisterService memberRegisterService;
     private final NicknameGeneratorService nicknameGeneratorService;
     private final MemberCodeGeneratorService memberCodeGeneratorService;
+    private final MemberGameStatusRegister memberGameStatusRegister;
 
+    @Transactional
     public GetJwtResDto signUp(SocialProvider socialProvider, String socialId) {
         MemberRegister memberRegister = new MemberRegister();
         memberRegister.register(
@@ -31,6 +35,7 @@ public class MemberService {
                 nicknameGeneratorService,
                 memberCodeGeneratorService,
                 memberRegistrationValidator,
+                memberGameStatusRegister,
                 socialProvider,
                 socialId
         );
@@ -38,6 +43,7 @@ public class MemberService {
         return tokenProvider.createJwt(memberRegister.getMemberId());
     }
 
+    @Transactional
     public GetJwtResDto signUp(MemberRegisterDto memberRegisterDto) {
         MemberRegister memberRegister = new MemberRegister();
         memberRegister.register(
@@ -45,6 +51,7 @@ public class MemberService {
                 nicknameGeneratorService,
                 memberCodeGeneratorService,
                 memberRegistrationValidator,
+                memberGameStatusRegister,
                 idTokenParser,
                 memberRegisterDto
         );

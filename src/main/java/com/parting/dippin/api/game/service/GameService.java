@@ -5,7 +5,7 @@ import com.parting.dippin.api.game.dto.PostGameReqDto;
 import com.parting.dippin.domain.friend.service.FriendValidationService;
 import com.parting.dippin.domain.game.GameRegister;
 import com.parting.dippin.domain.game.service.GameGeneratorService;
-import com.parting.dippin.domain.game.service.GameValidationService;
+import com.parting.dippin.domain.game.service.GameStatusReader;
 import com.parting.dippin.domain.member.service.MemberReader;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,20 +17,21 @@ public class GameService {
 
     private final MemberReader memberReader;
     private final FriendValidationService friendValidationService;
-    private final GameValidationService gameValidationService;
+    private final GameStatusReader gameStatusReader;
     private final GameGeneratorService gameGeneratorService;
 
     @Transactional
     public GameGeneratedInfoDto requestGame(int memberId, PostGameReqDto postGameReqDto) {
-
-        GameRegister gameRegister = new GameRegister(memberId);
+        GameRegister gameRegister = new GameRegister(
+                memberId,
+                postGameReqDto
+        );
 
         return gameRegister.register(
-            gameValidationService,
-            friendValidationService,
-            memberReader,
-            gameGeneratorService,
-            postGameReqDto
+                gameStatusReader,
+                friendValidationService,
+                memberReader,
+                gameGeneratorService
         );
     }
 }

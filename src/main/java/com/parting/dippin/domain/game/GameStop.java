@@ -1,10 +1,13 @@
 package com.parting.dippin.domain.game;
 
+import static com.parting.dippin.entity.game.enums.MemberGameStatus.INVITABLE;
+
 import com.parting.dippin.api.game.dto.socket.GameStopResDto;
 import com.parting.dippin.domain.game.exception.GameCodeAndMessage;
 import com.parting.dippin.domain.game.exception.GameTypeException;
 import com.parting.dippin.domain.game.service.GameReader;
 import com.parting.dippin.domain.game.service.GameStatusChangerService;
+import com.parting.dippin.domain.game.service.GameStatusReader;
 import com.parting.dippin.entity.game.GameEntity;
 import com.parting.dippin.entity.game.enums.PlayerStatus;
 import com.parting.dippin.entity.game.enums.ProgressStatus;
@@ -16,9 +19,8 @@ public class GameStop {
     int gameId;
     int requestMemberId;
     int curMemberId;
-
-    boolean isInProgress = true;
-    boolean isAgree = false;
+    boolean isInProgress;
+    boolean isAgree;
 
     GameEntity game;
     List<GamePlayerEntity> gamePlayers;
@@ -27,11 +29,14 @@ public class GameStop {
         this.gameId = gameId;
         this.requestMemberId = requestMemberId;
         this.curMemberId = curMemberId;
+        this.isInProgress = true;
+        this.isAgree = false;
     }
 
     public GameStopResDto stopGame(
             GameReader gameReader,
             GameStatusChangerService gameStatusChangerService,
+            GameStatusReader gameStatusReader,
             boolean isAgree
     ) {
         game = gameReader.getGame(gameId);
@@ -45,7 +50,7 @@ public class GameStop {
             agree(isAgree);
 
             if (isAgree) {
-                stopGame(gameReader);
+                stopGame(gameReader, gameStatusReader);
             }
         }
 
@@ -97,7 +102,10 @@ public class GameStop {
     /**
      * 중단 동의 했을 경우 게임 중단 진행
      */
-    private void stopGame(GameReader gameReader) {
+    private void stopGame(
+            GameReader gameReader,
+            GameStatusReader gameStatusReader
+    ) {
         game.stop();
 
         gamePlayers.forEach(player -> {
@@ -109,5 +117,10 @@ public class GameStop {
                 player.win(finishedTime);
             }
         });
+
+        gamePlayers.stream()
+                .map(GamePlayerEntity::getMemberId)
+                .map(gameStatusReader::findByMemberId)
+                .forEach(status -> status.updateStatus(INVITABLE));
     }
 }

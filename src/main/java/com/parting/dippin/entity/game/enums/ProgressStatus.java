@@ -6,5 +6,9 @@ public enum ProgressStatus {
     ONGOING,
     FINISHED,
     STOPPED,
-    TIME_LIMIT_EXCEED,
+    TIME_LIMIT_EXCEED;
+
+    public boolean isInvitable() {
+        return this == FINISHED;
+    }
 }

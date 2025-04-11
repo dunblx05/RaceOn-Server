@@ -1,5 +1,7 @@
 package com.parting.dippin.domain.game;
 
+import static com.parting.dippin.entity.game.enums.MemberGameStatus.INVITABLE;
+
 import com.parting.dippin.core.exception.CommonCodeAndMessage;
 import com.parting.dippin.core.exception.CommonException;
 import com.parting.dippin.api.game.dto.socket.GameProcessReqDto;
@@ -8,6 +10,7 @@ import com.parting.dippin.domain.game.exception.GameCodeAndMessage;
 import com.parting.dippin.domain.game.exception.GameTypeException;
 import com.parting.dippin.domain.game.service.GameReader;
 import com.parting.dippin.domain.game.service.GameRecorderService;
+import com.parting.dippin.domain.game.service.GameStatusReader;
 import com.parting.dippin.entity.game.GameEntity;
 import com.parting.dippin.entity.game.enums.ProgressStatus;
 import com.parting.dippin.entity.game.player.GamePlayerEntity;
@@ -47,8 +50,11 @@ public class GameProcessor {
         this.curLongitude = reqDto.getLongitude();
     }
 
-    public GameProcessResDto process(GameReader gameReader,
-        GameRecorderService gameRecorderService) {
+    public GameProcessResDto process(
+            GameReader gameReader,
+            GameRecorderService gameRecorderService,
+            GameStatusReader gameStatusReader
+    ) {
         game = gameReader.getGame(gameId);
         validateGame();
 
@@ -61,16 +67,16 @@ public class GameProcessor {
         boolean isFullCompleted = isFullCompleted();
 
         if (isTimeoutExceeded || isFullCompleted) {
-            finishGame(gameReader);
+            finishGame(gameReader, gameStatusReader);
         }
 
         if (isFinished) {
             return new GameProcessResDto(gameId, memberId, time, curLatitude, curLongitude,
-                curDistance, winnerId);
+                    curDistance, winnerId);
         }
 
         return new GameProcessResDto(gameId, memberId, time, curLatitude, curLongitude,
-            curDistance);
+                curDistance);
     }
 
     /**
@@ -100,8 +106,8 @@ public class GameProcessor {
         LocalTime inputTime = LocalTime.parse(time);
 
         Duration inputDuration = Duration.ofHours(inputTime.getHour())
-            .plusMinutes(inputTime.getMinute())
-            .plusSeconds(inputTime.getSecond());
+                .plusMinutes(inputTime.getMinute())
+                .plusSeconds(inputTime.getSecond());
 
         return !inputDuration.minus(limitDuration).isNegative();
     }
@@ -109,14 +115,16 @@ public class GameProcessor {
     /**
      * 게임 종료 처리
      */
-    private void finishGame(GameReader gameReader) {
+    private void finishGame(
+            GameReader gameReader,
+            GameStatusReader gameStatusReader
+    ) {
         List<GamePlayerEntity> gamePlayers = gameReader.getPlayers(gameId);
 
         gamePlayers.sort(Comparator.comparingDouble(GamePlayerEntity::getDistance).reversed());
 
         GamePlayerEntity winner = gamePlayers.get(0);
         List<GamePlayerEntity> losers = gamePlayers.subList(1, gamePlayers.size());
-
 
         winner.win(time);
         losers.forEach(loser -> loser.lose(time));
@@ -125,6 +133,10 @@ public class GameProcessor {
         isFinished = true;
 
         game.finish();
+        gamePlayers.stream()
+                .map(GamePlayerEntity::getMemberId)
+                .map(gameStatusReader::findByMemberId)
+                .forEach(status -> status.updateStatus(INVITABLE));
     }
 
     /**
