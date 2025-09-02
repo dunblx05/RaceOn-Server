@@ -164,3 +164,5 @@ B ->> DB: 초대 가능 여부 변경(version1이 아님을 확인후 Rollback)
 
 
 <!-- Security scan triggered at 2025-09-02 02:18:43 -->
+
+<!-- Security scan triggered at 2025-09-02 15:04:04 -->
